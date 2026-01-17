@@ -1,0 +1,148 @@
+# {{ project_name }}
+
+A Dart backend API generated from UML diagrams.
+
+## Features
+
+- **Dart {{ dart_version }}** runtime
+- **Shelf** web server framework
+- **shelf_router** for routing
+- **Repository Pattern** for data access
+- **Service Layer** for business logic
+- **Clean Architecture** structure
+
+## Generated Models
+
+{% for class_name in classes %}
+- {{ class_name }}
+{% endfor %}
+
+## Project Structure
+
+```
+{{ project_name | snake_case }}/
+├── bin/
+│   └── server.dart          # Entry point
+├── lib/
+│   ├── app.dart              # Main app configuration
+│   └── src/
+│       ├── config/
+│       │   └── database_config.dart
+│       ├── models/
+{%- for class_name in classes %}
+│       │   └── {{ class_name | snake_case }}.dart
+{%- endfor %}
+│       ├── repositories/
+{%- for class_name in classes %}
+│       │   └── {{ class_name | snake_case }}_repository.dart
+{%- endfor %}
+│       ├── services/
+{%- for class_name in classes %}
+│       │   └── {{ class_name | snake_case }}_service.dart
+{%- endfor %}
+│       ├── controllers/
+{%- for class_name in classes %}
+│       │   └── {{ class_name | snake_case }}_controller.dart
+{%- endfor %}
+│       ├── routes/
+│       │   └── api_routes.dart
+│       ├── middleware/
+│       │   ├── cors_middleware.dart
+│       │   └── json_middleware.dart
+│       └── utils/
+│           └── response_utils.dart
+├── test/
+├── pubspec.yaml
+├── analysis_options.yaml
+├── .env
+├── .env.example
+├── .gitignore
+└── README.md
+```
+
+## Installation
+
+```bash
+# Get dependencies
+dart pub get
+```
+
+## Running the Server
+
+```bash
+# Development
+dart run bin/server.dart
+
+# Or using dart run
+dart run
+```
+
+The server will start on `http://localhost:8080`
+
+## API Endpoints
+
+### Health Check
+- `GET /` - Health check endpoint
+
+### API Routes
+{% for class_name in classes %}
+#### {{ class_name }}
+- `GET /api/{{ class_name | snake_case | plural }}` - List all {{ class_name | plural }}
+- `GET /api/{{ class_name | snake_case | plural }}/:id` - Get {{ class_name }} by ID
+- `POST /api/{{ class_name | snake_case | plural }}` - Create {{ class_name }}
+- `PUT /api/{{ class_name | snake_case | plural }}/:id` - Update {{ class_name }}
+- `PATCH /api/{{ class_name | snake_case | plural }}/:id` - Partial update {{ class_name }}
+- `DELETE /api/{{ class_name | snake_case | plural }}/:id` - Delete {{ class_name }}
+
+{% endfor %}
+
+## Configuration
+
+Environment variables can be set in `.env` file:
+
+```env
+HOST=localhost
+PORT=8080
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME={{ project_name | snake_case }}
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+```
+
+## Testing
+
+```bash
+dart test
+```
+
+## Building for Production
+
+```bash
+# Compile to native executable
+dart compile exe bin/server.dart -o build/server
+
+# Run the executable
+./build/server
+```
+
+## Docker
+
+```dockerfile
+FROM dart:stable AS build
+WORKDIR /app
+COPY pubspec.* ./
+RUN dart pub get
+COPY . .
+RUN dart compile exe bin/server.dart -o bin/server
+
+FROM scratch
+COPY --from=build /runtime/ /
+COPY --from=build /app/bin/server /app/bin/server
+EXPOSE 8080
+CMD ["/app/bin/server"]
+```
+
+## License
+
+MIT

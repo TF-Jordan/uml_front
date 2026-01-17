@@ -1,0 +1,59 @@
+import '../models/{{ file_name }}.dart';
+import '../repositories/{{ file_name }}_repository.dart';
+
+/// Service layer for {{ class_name }} business logic
+class {{ class_name }}Service {
+  final {{ class_name }}RepositoryInterface _repository;
+
+  {{ class_name }}Service(this._repository);
+
+  /// Get all {{ class_name | plural }}
+  Future<List<{{ class_name }}>> findAll() async {
+    return _repository.findAll();
+  }
+
+  /// Get {{ class_name }} by ID
+  /// Throws Exception if not found
+  Future<{{ class_name }}> findById(int id) async {
+    final entity = await _repository.findById(id);
+    if (entity == null) {
+      throw Exception('{{ class_name }} with id $id not found');
+    }
+    return entity;
+  }
+
+  /// Get {{ class_name }} by ID or null
+  Future<{{ class_name }}?> findByIdOrNull(int id) async {
+    return _repository.findById(id);
+  }
+
+  /// Create a new {{ class_name }}
+  Future<{{ class_name }}> create({{ class_name }} entity) async {
+    // Add business validation here
+    return _repository.create(entity);
+  }
+
+  /// Update an existing {{ class_name }}
+  /// Throws Exception if not found
+  Future<{{ class_name }}> update(int id, {{ class_name }} entity) async {
+    final updated = await _repository.update(id, entity);
+    if (updated == null) {
+      throw Exception('{{ class_name }} with id $id not found');
+    }
+    return updated;
+  }
+
+  /// Delete a {{ class_name }}
+  /// Throws Exception if not found
+  Future<void> delete(int id) async {
+    final deleted = await _repository.delete(id);
+    if (!deleted) {
+      throw Exception('{{ class_name }} with id $id not found');
+    }
+  }
+
+  /// Find {{ class_name | plural }} by field
+  Future<List<{{ class_name }}>> findBy(String field, dynamic value) async {
+    return _repository.findBy(field, value);
+  }
+}

@@ -1,0 +1,44 @@
+package {{ base_package }}.controller;
+
+import {{ base_package }}.entity.{{ class_name }};
+import {{ base_package }}.service.{{ class_name }}Service;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/{{ class_name | lower }}s")
+public class {{ class_name }}Controller {
+
+    private final {{ class_name }}Service service;
+
+    public {{ class_name }}Controller({{ class_name }}Service service) {
+        this.service = service;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<{{ class_name }}>> findAll() {
+        return ResponseEntity.ok(service.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<{{ class_name }}> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.findById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<{{ class_name }}> create(@RequestBody {{ class_name }} payload) {
+        return ResponseEntity.ok(service.create(payload));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<{{ class_name }}> update(@PathVariable Long id, @RequestBody {{ class_name }} payload) {
+        return ResponseEntity.ok(service.update(id, payload));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}

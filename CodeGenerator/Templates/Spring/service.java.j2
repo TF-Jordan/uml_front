@@ -1,0 +1,45 @@
+package {{ base_package }}.service;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import {{ base_package }}.entity.{{ class_name }};
+import {{ base_package }}.repository.{{ class_name }}Repository;
+import {{ base_package }}.exceptions.{{ class_name }}NotFoundException;
+
+@Service
+@Transactional
+public class {{ class_name }}Service {
+
+    private final {{ class_name }}Repository repository;
+
+    public {{ class_name }}Service({{ class_name }}Repository repository) {
+        this.repository = repository;
+    }
+
+    public List<{{ class_name }}> findAll() {
+        return repository.findAll();
+    }
+
+    public {{ class_name }} findById(Long id) {
+        return repository.findById(id).orElseThrow(() -> new {{ class_name }}NotFoundException(String.valueOf(id)));
+    }
+
+    public {{ class_name }} create({{ class_name }} entity) {
+        return repository.save(entity);
+    }
+
+    public {{ class_name }} update(Long id, {{ class_name }} entity) {
+        {{ class_name }} existing = findById(id);
+        {%- for attr in attributes %}
+        {%- if not attr.is_id and attr.relation not in ['one_to_many', 'many_to_many'] %}
+        existing.set{{ attr.attribute_name|capitalize }}(entity.get{{ attr.attribute_name|capitalize }}());
+        {%- endif %}
+        {%- endfor %}
+        return repository.save(existing);
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+}

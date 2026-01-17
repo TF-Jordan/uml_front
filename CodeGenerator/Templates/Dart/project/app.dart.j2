@@ -1,0 +1,43 @@
+import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart';
+
+import 'src/routes/api_routes.dart';
+import 'src/middleware/cors_middleware.dart';
+import 'src/middleware/json_middleware.dart';
+
+/// Main application class
+class App {
+  late final Handler _handler;
+
+  App() {
+    _handler = _buildHandler();
+  }
+
+  /// Returns the configured handler
+  Handler get handler => _handler;
+
+  /// Builds the request handler with middleware and routes
+  Handler _buildHandler() {
+    final router = Router();
+
+    // Health check endpoint
+    router.get('/', (Request request) {
+      return Response.ok(
+        '{"status": "ok", "message": "{{ project_name }} API is running"}',
+        headers: {'Content-Type': 'application/json'},
+      );
+    });
+
+    // Mount API routes
+    router.mount('/api', ApiRoutes().router.call);
+
+    // Build pipeline with middleware
+    final pipeline = Pipeline()
+        .addMiddleware(corsMiddleware())
+        .addMiddleware(jsonMiddleware())
+        .addMiddleware(logRequests())
+        .addHandler(router.call);
+
+    return pipeline;
+  }
+}

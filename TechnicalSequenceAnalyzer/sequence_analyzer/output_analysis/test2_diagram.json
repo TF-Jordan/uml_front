@@ -1,0 +1,161 @@
+{
+  "name": "Page-1",
+  "id": "test2",
+  "use_case": "Cas d'usage décrit dans le diagramme Page-1",
+  "complexity": "medium",
+  "participants": [
+    {
+      "name": "Enseignant",
+      "type": "entity",
+      "role": "Accès aux données",
+      "id": "2"
+    },
+    {
+      "name": "UI",
+      "type": "boundary",
+      "role": "Interface utilisateur",
+      "id": "4"
+    },
+    {
+      "name": "Controleur",
+      "type": "controller",
+      "role": "Orchestrateur de la logique métier",
+      "id": "7"
+    },
+    {
+      "name": "Table_Salle",
+      "type": "entity",
+      "role": "Accès aux données",
+      "id": "9"
+    },
+    {
+      "name": "Table_PC",
+      "type": "entity",
+      "role": "Accès aux données",
+      "id": "10"
+    },
+    {
+      "name": "Table_Projecteur",
+      "type": "entity",
+      "role": "Accès aux données",
+      "id": "11"
+    },
+    {
+      "name": "Utilisateur",
+      "type": "entity",
+      "role": "Accès aux données",
+      "id": "12"
+    },
+    {
+      "name": "Reservation",
+      "type": "entity",
+      "role": "Accès aux données",
+      "id": "108"
+    }
+  ],
+  "sequence_flow": [],
+  "fragments": [
+    {
+      "type": "REF",
+      "description": "Référence à un autre diagramme",
+      "nested": false,
+      "branches": [],
+      "interactions": []
+    },
+    {
+      "type": "ALT",
+      "description": "Condition alternative",
+      "nested": false,
+      "branches": [
+        {
+          "guard": "[condition1]",
+          "interactions": []
+        },
+        {
+          "guard": "[else]",
+          "interactions": []
+        }
+      ],
+      "interactions": []
+    },
+    {
+      "type": "PAR",
+      "condition": "</b>reponse<b>=ListeDesElementsDisponiblesParSection",
+      "description": "Exécution parallèle",
+      "nested": false,
+      "branches": [],
+      "interactions": []
+    },
+    {
+      "type": "LOOP",
+      "description": "Boucle itérative",
+      "nested": false,
+      "branches": [],
+      "interactions": []
+    },
+    {
+      "type": "OPT",
+      "condition": "<div>SalleSelectionnee=vrai&nbsp;<div>et</div><div>&nbsp;NombreDeSalle=1</div></div>",
+      "description": "Fragment optionnel",
+      "nested": false,
+      "branches": [],
+      "interactions": []
+    },
+    {
+      "type": "OPT",
+      "condition": "<div>SalleSelectionnee=vrai&nbsp;<div>et</div><div>&nbsp;NombreDeSalle=1</div></div>",
+      "description": "Fragment optionnel",
+      "nested": false,
+      "branches": [],
+      "interactions": []
+    },
+    {
+      "type": "ALT",
+      "description": "Condition alternative",
+      "nested": false,
+      "branches": [
+        {
+          "guard": "[condition1]",
+          "interactions": []
+        },
+        {
+          "guard": "[else]",
+          "interactions": []
+        }
+      ],
+      "interactions": []
+    },
+    {
+      "type": "ALT",
+      "description": "Condition alternative",
+      "nested": false,
+      "branches": [
+        {
+          "guard": "[condition1]",
+          "interactions": []
+        },
+        {
+          "guard": "[else]",
+          "interactions": []
+        }
+      ],
+      "interactions": []
+    },
+    {
+      "type": "ALT",
+      "description": "Condition alternative",
+      "nested": false,
+      "branches": [
+        {
+          "guard": "[condition1]",
+          "interactions": []
+        },
+        {
+          "guard": "[else]",
+          "interactions": []
+        }
+      ],
+      "interactions": []
+    }
+  ]
+}

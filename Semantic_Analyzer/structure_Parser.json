@@ -1,0 +1,42 @@
+{
+  "classes":{
+    "class_name":{
+      "type": "type of classe ( abstract, Interface or class )",
+
+      "attributes": [
+        {
+          "visibility": "the type of visibility ( public, private, protected )",
+          "attribute_name": "name of attribute",
+          "attribute_type" : " type of attribute"
+        }
+      ],
+
+      "methods": [
+        {
+          "method_name": "name of method",
+          "method_type" : "return type of the method",
+          "parameters": [
+            {
+              "nom_param": " name of parameter",
+              "param_type" : "type of parameter"
+            }
+          ],
+          "visibility": "the type of visibility ( public, private, protected )"
+        }
+      ],
+
+      "relationships": [
+        {
+          "id_relation": {
+            "type": "type of association ( inheritance, aggregation, composition, association, implementation )",
+            "source_name": "name of source",
+            "target_name": "name of target",
+            "source_cardinality": "cardinality of source",
+            "target_cardinality": "cardinaity of target",
+            "name": "name of relation"
+          }
+        }
+      ]
+    }
+  }
+}

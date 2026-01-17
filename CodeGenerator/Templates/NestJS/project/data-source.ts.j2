@@ -1,0 +1,25 @@
+import { DataSource } from 'typeorm';
+import { config } from 'dotenv';
+
+config();
+
+{%- for class_name in classes %}
+import { {{ class_name }} } from '../{{ class_name|kebab_case }}/entities/{{ class_name|kebab_case }}.entity';
+{%- endfor %}
+
+export const AppDataSource = new DataSource({
+  type: (process.env.DB_TYPE as 'postgres' | 'mysql' | 'sqlite') || 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  port: parseInt(process.env.DB_PORT, 10) || 5432,
+  username: process.env.DB_USERNAME || 'postgres',
+  password: process.env.DB_PASSWORD || 'postgres',
+  database: process.env.DB_DATABASE || 'nestjs_app',
+  entities: [
+{%- for class_name in classes %}
+    {{ class_name }},
+{%- endfor %}
+  ],
+  migrations: ['src/database/migrations/*.ts'],
+  synchronize: false,
+  logging: process.env.DB_LOGGING === 'true',
+});

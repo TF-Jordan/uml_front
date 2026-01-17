@@ -1,0 +1,23 @@
+import 'dart:io';
+
+import 'package:shelf/shelf_io.dart' as shelf_io;
+
+import 'package:{{ package_name }}/app.dart';
+
+/// Entry point for the {{ project_name }} server
+Future<void> main(List<String> args) async {
+  // Get port from environment or default to 8080
+  final port = int.parse(Platform.environment['PORT'] ?? '8080');
+  final host = Platform.environment['HOST'] ?? 'localhost';
+
+  // Create the application
+  final app = App();
+  final handler = app.handler;
+
+  // Start the server
+  final server = await shelf_io.serve(handler, host, port);
+
+  print('🚀 Server running on http://${server.address.host}:${server.port}');
+  print('📚 API endpoints available at http://${server.address.host}:${server.port}/api');
+  print('Press Ctrl+C to stop the server');
+}

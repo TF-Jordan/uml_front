@@ -1,0 +1,71 @@
+{
+  "name": "Page-1",
+  "id": "test3",
+  "use_case": "Cas d'usage décrit dans le diagramme Page-1",
+  "complexity": "medium",
+  "participants": [
+    {
+      "name": "Interface",
+      "type": "boundary",
+      "role": "Interface utilisateur",
+      "id": "2"
+    },
+    {
+      "name": "Controller",
+      "type": "controller",
+      "role": "Orchestrateur de la logique métier",
+      "id": "4"
+    },
+    {
+      "name": "SUPER<div>ADMIN</div>",
+      "type": "entity",
+      "role": "Accès aux données",
+      "id": "19"
+    },
+    {
+      "name": "Repository<div>NewsLetter</div>",
+      "type": "entity",
+      "role": "Accès aux données",
+      "id": "21"
+    },
+    {
+      "name": "LECTEUR",
+      "type": "entity",
+      "role": "Accès aux données",
+      "id": "36"
+    }
+  ],
+  "sequence_flow": [],
+  "fragments": [
+    {
+      "type": "REF",
+      "description": "Référence à un autre diagramme",
+      "nested": false,
+      "branches": [],
+      "interactions": []
+    },
+    {
+      "type": "ALT",
+      "description": "Condition alternative",
+      "nested": false,
+      "branches": [
+        {
+          "guard": "[condition1]",
+          "interactions": []
+        },
+        {
+          "guard": "[else]",
+          "interactions": []
+        }
+      ],
+      "interactions": []
+    },
+    {
+      "type": "PAR",
+      "description": "Exécution parallèle",
+      "nested": false,
+      "branches": [],
+      "interactions": []
+    }
+  ]
+}

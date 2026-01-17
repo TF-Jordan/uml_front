@@ -1,0 +1,22 @@
+sequenceDiagram
+    actor User
+    participant CLI
+    participant Pipeline
+    participant Loader as StructureLoader
+    participant Vis as VisibilityNormalizer
+    participant Norm as TypeNormalizer
+    participant Validator as SemanticValidator
+    participant Names as ClassNameNormalizer
+    participant Rel as RelationshipsTransformer
+
+    User->>CLI: run pipeline.py <structure_Parser.json>
+    CLI->>Pipeline: run_pipeline(path, language, known_types, project_type)
+    Pipeline->>Loader: load_structure_parser_file(path)
+    Pipeline->>Vis: normalize_visibility_payload(payload)
+    Pipeline->>Loader: normalize_structure_payload(payload, language, known_types, log)
+    Loader->>Validator: normalize_type(raw_type) per type
+    Pipeline->>Names: capitalize_class_names(payload)
+    Pipeline->>Rel: process_relationships(payload, log)
+    Rel->>Names: capitalize_class_names(payload)
+    Pipeline-->>CLI: return normalized payload
+    CLI-->>User: print JSON / save output

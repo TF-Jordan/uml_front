@@ -1,0 +1,40 @@
+package models
+
+import (
+    "time"
+{% if parent_class %}
+    "gorm.io/gorm"
+{% endif %}
+)
+
+type {{class_name}} struct {
+{% if parent_class %}
+    {{parent_class}}  // Embedded parent struct
+
+{% endif %}
+{% for attr in attributes %}
+{% if not attr.relation_kind %}
+    {{attr.go_name}} {{attr.type}} `json:"{{attr.json_tag}}" gorm:"{{attr.gorm_tag}}"`
+{% elif attr.relation_kind == "many_to_one" %}
+    {{attr.go_name}}ID *uint `json:"{{attr.json_tag}}_id" gorm:"{{attr.gorm_tag}}"`
+    {{attr.go_name}} *{{attr.type}} `json:"{{attr.json_tag}},omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+{% elif attr.relation_kind == "one_to_many" %}
+    {{attr.go_name}} []{{attr.type}} `json:"{{attr.json_tag}},omitempty" gorm:"{{attr.gorm_tag}}"`
+{% elif attr.relation_kind == "many_to_many" %}
+    {{attr.go_name}} {{attr.type}} `json:"{{attr.json_tag}},omitempty" gorm:"{{attr.gorm_tag}}"`
+{% endif %}
+{% endfor %}
+}
+
+func ({{class_name}}) TableName() string {
+    return "{{table_name}}"
+}
+
+{% for method in methods %}
+func (m *{{class_name}}) {{method.name}}({% for param in method.parameters %}{{param.param_name}} {% if TYPE_MAP %}{{TYPE_MAP.get(param.param_type.lower(), 'string')}}{% else %}string{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}) {% if method.method_type != "void" %}{% if TYPE_MAP %}{{TYPE_MAP.get(method.method_type.lower(), 'interface{}')}}{% else %}interface{}{% endif %}{% endif %} {
+    // TODO: Implement {{method.name}}
+{% if method.method_type != "void" %}
+    return nil
+{% endif %}
+}
+{% endfor %}

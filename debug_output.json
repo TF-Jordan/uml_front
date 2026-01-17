@@ -1,0 +1,164 @@
+{
+  "Testproject": {
+    "classes": {
+      "Reservation": {
+        "name": "Reservation",
+        "type": "class",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "dateDebut",
+            "attribute_type": "datetime.date"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "videoprojeteur$",
+            "attribute_type": "Videoprojeteur"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "effectuer",
+            "attribute_type": "Enseignant"
+          }
+        ],
+        "methods": [
+          {
+            "visibility": "public",
+            "method_name": "validerReservation",
+            "method_type": "int",
+            "parameters": [
+              {
+                "param_type": "int",
+                "param_name": "nbre"
+              },
+              {
+                "param_type": "str",
+                "param_name": "exo"
+              }
+            ],
+            "name": "validerReservation"
+          }
+        ]
+      },
+      "Equipement": {
+        "name": "Equipement",
+        "type": "abstractClass",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "marque",
+            "attribute_type": "str"
+          }
+        ],
+        "methods": []
+      },
+      "Ordinateur": {
+        "name": "Ordinateur",
+        "type": "class, extends Equipement",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "ram",
+            "attribute_type": "int"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "etre composer$",
+            "attribute_type": "Reservation"
+          }
+        ],
+        "methods": []
+      },
+      "Videoprojeteur": {
+        "name": "Videoprojeteur",
+        "type": "class, extends Equipement",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "resolution",
+            "attribute_type": "str"
+          }
+        ],
+        "methods": []
+      },
+      "Enseignant": {
+        "name": "Enseignant",
+        "type": "class, implements Teacheractions",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "nom",
+            "attribute_type": "str"
+          }
+        ],
+        "methods": [
+          {
+            "visibility": "public",
+            "method_name": "name",
+            "method_type": "Void",
+            "parameters": [],
+            "name": "name"
+          }
+        ]
+      },
+      "Salle": {
+        "name": "Salle",
+        "type": "class",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "nbrePlace",
+            "attribute_type": "int"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "reservation#",
+            "attribute_type": "Reservation"
+          }
+        ],
+        "methods": []
+      },
+      "Responsableformation": {
+        "name": "Responsableformation",
+        "type": "class, extends Enseignant",
+        "attributes": [],
+        "methods": [
+          {
+            "visibility": "public",
+            "method_name": "name",
+            "method_type": "Void",
+            "parameters": [],
+            "name": "name"
+          }
+        ]
+      },
+      "Formation": {
+        "name": "Formation",
+        "type": "class",
+        "attributes": [
+          {
+            "visibility": "private",
+            "attribute_name": "etre responsable",
+            "attribute_type": "Responsableformation"
+          }
+        ],
+        "methods": []
+      },
+      "Teacheractions": {
+        "name": "Teacheractions",
+        "type": "interface",
+        "attributes": [],
+        "methods": [
+          {
+            "visibility": "public",
+            "method_name": "name",
+            "method_type": "Void",
+            "parameters": [],
+            "name": "name"
+          }
+        ]
+      }
+    },
+    "project_type": "fastapi"
+  }
+}

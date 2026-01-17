@@ -1,0 +1,327 @@
+{
+  "diagram_metadata": {
+    "name": "Page-1",
+    "id": "test5",
+    "use_case": "Cas d'usage décrit dans le diagramme Page-1",
+    "complexity": "medium"
+  },
+  "participants": [
+    {
+      "name": "",
+      "type": "actor",
+      "role": "Utilisateur du système",
+      "stereotype": null,
+      "id": "2"
+    },
+    {
+      "name": "System",
+      "type": "controller",
+      "role": "Orchestrateur de la logique métier",
+      "stereotype": null,
+      "id": "4"
+    },
+    {
+      "name": "<span style=\"text-wrap-mode: nowrap;\">Account</span>",
+      "type": "entity",
+      "role": "Accès aux données",
+      "stereotype": null,
+      "id": "28"
+    }
+  ],
+  "sequence_flow": [
+    {
+      "step": 1,
+      "from_participant": "System",
+      "to_participant": "",
+      "method": "transfer failed : the account does not exist",
+      "parameters": [],
+      "return_type": null,
+      "type": "response",
+      "description": "System appelle transfer failed : the account does not exist sur ",
+      "sql_equivalent": null,
+      "is_async": false
+    }
+  ],
+  "fragments": [
+    {
+      "type": "ALT",
+      "line_number": null,
+      "condition": null,
+      "description": "Condition alternative",
+      "nested": false,
+      "branches": [
+        {
+          "guard": "[condition1]",
+          "label": null,
+          "interactions": []
+        },
+        {
+          "guard": "[else]",
+          "label": null,
+          "interactions": []
+        }
+      ],
+      "reference": null,
+      "interactions": []
+    },
+    {
+      "type": "PAR",
+      "line_number": null,
+      "condition": null,
+      "description": "Exécution parallèle",
+      "nested": false,
+      "branches": [],
+      "reference": null,
+      "interactions": []
+    },
+    {
+      "type": "ALT",
+      "line_number": null,
+      "condition": null,
+      "description": "Condition alternative",
+      "nested": false,
+      "branches": [
+        {
+          "guard": "[condition1]",
+          "label": null,
+          "interactions": []
+        },
+        {
+          "guard": "[else]",
+          "label": null,
+          "interactions": []
+        }
+      ],
+      "reference": null,
+      "interactions": []
+    },
+    {
+      "type": "REF",
+      "line_number": null,
+      "condition": null,
+      "description": "Référence à un autre diagramme",
+      "nested": false,
+      "branches": [],
+      "reference": null,
+      "interactions": []
+    },
+    {
+      "type": "REF",
+      "line_number": null,
+      "condition": null,
+      "description": "Référence à un autre diagramme",
+      "nested": false,
+      "branches": [],
+      "reference": null,
+      "interactions": []
+    }
+  ],
+  "spring_boot_mapping": {
+    "controllers": [],
+    "services": [
+      {
+        "name": "System",
+        "annotations": [
+          "@Service",
+          "@Transactional"
+        ],
+        "methods": [
+          {
+            "name": "transfer failed : the account does not exist",
+            "params": [],
+            "return_type": "void",
+            "logic": [
+              "// Appel repository: transfer failed : the account does not exist",
+              "// TODO: Implémenter la logique métier"
+            ],
+            "throws": [
+              "ResourceNotFoundException",
+              "ValidationException"
+            ],
+            "calls_repository": [
+              "repository.transfer failed : the account does not exist()"
+            ]
+          }
+        ]
+      }
+    ],
+    "repositories": [],
+    "entities": [],
+    "dtos": [],
+    "exceptions": [
+      {
+        "type": "ResourceNotFoundException",
+        "extends": "RuntimeException",
+        "when": "Ressource inexistante",
+        "http_status": "404 NOT_FOUND",
+        "message": "La ressource demandée n'existe pas"
+      },
+      {
+        "type": "ValidationException",
+        "extends": "RuntimeException",
+        "when": "Validation échouée",
+        "http_status": "400 BAD_REQUEST",
+        "message": "Les données fournies sont invalides"
+      }
+    ]
+  },
+  "existing_entities": {
+    "Reservation": {
+      "name": "Reservation",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "dateDebut",
+          "attribute_type": "datetime.date"
+        },
+        {
+          "visibility": "private",
+          "attribute_name": "videoprojeteur$",
+          "attribute_type": "Videoprojeteur"
+        },
+        {
+          "visibility": "private",
+          "attribute_name": "effectuer",
+          "attribute_type": "Enseignant"
+        }
+      ],
+      "methods": [
+        {
+          "visibility": "public",
+          "method_name": "validerReservation",
+          "method_type": "int",
+          "parameters": [
+            {
+              "param_type": "int",
+              "param_name": "nbre"
+            },
+            {
+              "param_type": "str",
+              "param_name": "exo"
+            }
+          ],
+          "name": "validerReservation"
+        }
+      ]
+    },
+    "Equipement": {
+      "name": "Equipement",
+      "type": "abstractClass",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "marque",
+          "attribute_type": "str"
+        }
+      ],
+      "methods": []
+    },
+    "Ordinateur": {
+      "name": "Ordinateur",
+      "type": "class, extends Equipement",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "ram",
+          "attribute_type": "int"
+        },
+        {
+          "visibility": "private",
+          "attribute_name": "etre composer$",
+          "attribute_type": "Reservation"
+        }
+      ],
+      "methods": []
+    },
+    "Videoprojeteur": {
+      "name": "Videoprojeteur",
+      "type": "class, extends Equipement",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "resolution",
+          "attribute_type": "str"
+        }
+      ],
+      "methods": []
+    },
+    "Enseignant": {
+      "name": "Enseignant",
+      "type": "class, implements Teacheractions",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "nom",
+          "attribute_type": "str"
+        }
+      ],
+      "methods": [
+        {
+          "visibility": "public",
+          "method_name": "name",
+          "method_type": "Void",
+          "parameters": [],
+          "name": "name"
+        }
+      ]
+    },
+    "Salle": {
+      "name": "Salle",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "nbrePlace",
+          "attribute_type": "int"
+        },
+        {
+          "visibility": "private",
+          "attribute_name": "reservation#",
+          "attribute_type": "Reservation"
+        }
+      ],
+      "methods": []
+    },
+    "Responsableformation": {
+      "name": "Responsableformation",
+      "type": "class, extends Enseignant",
+      "attributes": [],
+      "methods": [
+        {
+          "visibility": "public",
+          "method_name": "name",
+          "method_type": "Void",
+          "parameters": [],
+          "name": "name"
+        }
+      ]
+    },
+    "Formation": {
+      "name": "Formation",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "private",
+          "attribute_name": "etre responsable",
+          "attribute_type": "Responsableformation"
+        }
+      ],
+      "methods": []
+    },
+    "Teacheractions": {
+      "name": "Teacheractions",
+      "type": "interface",
+      "attributes": [],
+      "methods": [
+        {
+          "visibility": "public",
+          "method_name": "name",
+          "method_type": "Void",
+          "parameters": [],
+          "name": "name"
+        }
+      ]
+    }
+  }
+}

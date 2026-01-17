@@ -1,0 +1,68 @@
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+{%- for attr in attributes %}
+{%- if attr.relation_kind == 'many_to_one' %}
+  ManyToOne,
+  JoinColumn,
+{%- elif attr.relation_kind == 'one_to_many' %}
+  OneToMany,
+{%- elif attr.relation_kind == 'many_to_many' %}
+  ManyToMany,
+  JoinTable,
+{%- endif %}
+{%- endfor %}
+} from 'typeorm';
+{%- set imported_entities = [] %}
+{%- for attr in attributes %}
+{%- if attr.target_class and attr.target_class not in imported_entities %}
+{%- set _ = imported_entities.append(attr.target_class) %}
+import { {{ attr.target_class }} } from '../../{{ attr.target_class|kebab_case }}/entities/{{ attr.target_class|kebab_case }}.entity';
+{%- endif %}
+{%- endfor %}
+
+@Entity('{{ table_name }}')
+export class {{ class_name }} {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+{%- for attr in attributes %}
+{%- if not attr.is_primary %}
+{%- if attr.relation_kind == 'many_to_one' %}
+
+  @ManyToOne(() => {{ attr.target_class }}, ({{ attr.target_class|camel_case }}) => {{ attr.target_class|camel_case }}.{{ class_name|camel_case|plural }}{% if attr.cascade %}, { onDelete: 'CASCADE' }{% endif %})
+  @JoinColumn({ name: '{{ attr.foreign_key|snake_case }}' })
+  {{ attr.camel_name }}: {{ attr.target_class }};
+
+  @Column({ nullable: {{ attr.nullable|lower }} })
+  {{ attr.foreign_key }}: number;
+{%- elif attr.relation_kind == 'one_to_many' %}
+
+  @OneToMany(() => {{ attr.target_class }}, ({{ attr.target_class|camel_case }}) => {{ attr.target_class|camel_case }}.{{ class_name|camel_case }})
+  {{ attr.camel_name }}: {{ attr.target_class }}[];
+{%- elif attr.relation_kind == 'many_to_many' %}
+
+  @ManyToMany(() => {{ attr.target_class }})
+  @JoinTable({
+    name: '{{ attr.join_table }}',
+    joinColumn: { name: '{{ class_name|snake_case }}_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: '{{ attr.target_class|snake_case }}_id', referencedColumnName: 'id' },
+  })
+  {{ attr.camel_name }}: {{ attr.target_class }}[];
+{%- else %}
+
+  @Column({ type: '{{ attr.typeorm_type }}'{% if attr.nullable %}, nullable: true{% endif %} })
+  {{ attr.camel_name }}: {{ attr.type }};
+{%- endif %}
+{%- endif %}
+{%- endfor %}
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+}

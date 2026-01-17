@@ -1,0 +1,8 @@
+package {{ base_package }}.exceptions;
+
+public class {{ class_name }}NotFoundException extends RuntimeException {
+
+    public {{ class_name }}NotFoundException(String id) {
+        super("{{ class_name }} not found: " + id);
+    }
+}

@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UML2Code Config v1",
+  "type": "object",
+  "required": ["meta", "inputs", "pipeline"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["schema_version", "project_name", "stack"],
+      "properties": {
+        "schema_version": { "type": "string" },
+        "project_name": { "type": "string" },
+        "stack": {
+          "type": "string",
+          "enum": ["fastapi", "spring", "laravel", "dart", "nestjs", "fiber"]
+        },
+        "output_dir": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "inputs": {
+      "type": "object",
+      "required": ["class_diagram_path"],
+      "properties": {
+        "class_diagram_path": { "type": "string" },
+        "sequence_diagram_path": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "pipeline": {
+      "type": "object",
+      "required": ["mode"],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["class_only", "class_plus_sequence_ia"]
+        },
+        "retain_days": { "type": "integer" },
+        "overwrite_strategy": {
+          "type": "string",
+          "enum": ["none", "backup", "overwrite"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "ai": {
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "provider": { "type": "string", "enum": ["gemini", "claude"] },
+        "model": { "type": "string" },
+        "max_tokens": { "type": "integer" },
+        "timeout_seconds": { "type": "integer" },
+        "user_key_id": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "spring": {
+      "type": "object",
+      "properties": {
+        "spring_boot_version": {
+          "type": "string",
+          "enum": ["4.0.1", "3.5.9", "3.4.13", "3.3.13", "3.2.x"]
+        },
+        "java_version": { "type": "string", "enum": ["25", "24", "23", "21", "17"] },
+        "build_tool": { "type": "string", "enum": ["maven"] },
+        "group_id": { "type": "string" },
+        "db": { "type": "string", "enum": ["mysql", "postgres", "mariadb", "h2"] },
+        "tests": { "type": "string", "enum": ["junit"] },
+        "dependencies": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["lombok", "security", "actuator", "devtools"] }
+        },
+        "layers": { "type": "object" }
+      },
+      "additionalProperties": true
+    },
+    "fastapi": {
+      "type": "object",
+      "properties": {
+        "python_version": { "type": "string", "enum": ["3.12", "3.13", "3.14", "3.10", "3.9"] },
+        "fastapi_version": {
+          "type": "string",
+          "enum": ["0.128.0", "0.125.0", "0.124.4", "0.124.3", "0.124.2", "0.124.1"]
+        },
+        "package_name": { "type": "string" },
+        "orm": { "type": "string", "enum": ["sqlalchemy", "sqlmodel"] },
+        "db": { "type": "string", "enum": ["sqlite", "postgres", "mysql"] },
+        "migrations": { "type": "string", "enum": ["alembic", "none"] },
+        "auth": { "type": "string", "enum": ["none", "jwt", "oauth"] },
+        "deps": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["httpx", "pytest", "passlib", "python-jose", "celery", "redis"] }
+        },
+        "structure": { "type": "object" }
+      },
+      "additionalProperties": true
+    },
+    "laravel": {
+      "type": "object",
+      "properties": {
+        "php_version": { "type": "string", "enum": ["8.4", "8.3", "8.2", "8.1"] },
+        "laravel_version": {
+          "type": "string",
+          "enum": ["12.44.0", "12.43.0", "12.42.0", "12.41.0", "12.40.0"]
+        },
+        "package_name": { "type": "string" },
+        "db": { "type": "string", "enum": ["mysql", "pgsql", "sqlite"] },
+        "auth": { "type": "string", "enum": ["sanctum", "passport", "none"] },
+        "queue": { "type": "string", "enum": ["redis", "database", "none"] },
+        "cache": { "type": "string", "enum": ["redis", "file", "database"] },
+        "deps": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["laravel/pint"] }
+        },
+        "api_only": { "type": "boolean" }
+      },
+      "additionalProperties": true
+    },
+    "nestjs": {
+      "type": "object",
+      "properties": {
+        "node_version": { "type": "string", "enum": ["24.12.0", "24.11.0", "25.2.1", "22.21.0", "24.9.0"] },
+        "nest_version": {
+          "type": "string",
+          "enum": ["11.1.x", "11.0.x", "10.9.x", "10.8.x", "10.7.x"]
+        },
+        "package_name": { "type": "string" },
+        "package_manager": { "type": "string", "enum": ["npm"] },
+        "orm": { "type": "string", "enum": ["typeorm"] },
+        "db": { "type": "string", "enum": ["postgres", "mysql", "sqlite", "mongodb"] },
+        "auth": { "type": "string", "enum": ["none"] }
+      },
+      "additionalProperties": true
+    },
+    "dart": {
+      "type": "object",
+      "properties": {
+        "dart_version": {
+          "type": "string",
+          "enum": ["3.10.x", "3.9.x", "3.8.x", "3.7.x", "3.6.x"]
+        },
+        "package_name": { "type": "string" },
+        "framework": { "type": "string", "enum": ["shelf"] },
+        "db": { "type": "string", "enum": ["postgres"] }
+      },
+      "additionalProperties": true
+    },
+    "fiber": {
+      "type": "object",
+      "properties": {
+        "go_version": { "type": "string", "enum": ["1.21"] },
+        "fiber_version": {
+          "type": "string",
+          "enum": ["2.52.10", "2.52.9", "2.52.8", "2.52.6", "2.51.x"]
+        },
+        "package_name": { "type": "string" },
+        "db": { "type": "string", "enum": ["postgres"] },
+        "orm": { "type": "string", "enum": ["gorm"] }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

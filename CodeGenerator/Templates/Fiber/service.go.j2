@@ -1,0 +1,34 @@
+package services
+
+import (
+    "{{ module_path }}/models"
+    "{{ module_path }}/repositories"
+)
+
+type {{class_name}}Service struct {
+    repo *repositories.{{class_name}}Repository
+}
+
+func New{{class_name}}Service(repo *repositories.{{class_name}}Repository) *{{class_name}}Service {
+    return &{{class_name}}Service{repo: repo}
+}
+
+func (s *{{class_name}}Service) GetAll() ([]models.{{class_name}}, error) {
+    return s.repo.FindAll()
+}
+
+func (s *{{class_name}}Service) GetByID(id {{id_attr.type}}) (*models.{{class_name}}, error) {
+    return s.repo.FindByID(id)
+}
+
+func (s *{{class_name}}Service) Create(item *models.{{class_name}}) error {
+    return s.repo.Create(item)
+}
+
+func (s *{{class_name}}Service) Update(item *models.{{class_name}}) error {
+    return s.repo.Update(item)
+}
+
+func (s *{{class_name}}Service) Delete(id {{id_attr.type}}) error {
+    return s.repo.Delete(id)
+}

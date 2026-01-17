@@ -1,0 +1,83 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('{{ table_name }}', function (Blueprint $table) {
+{% for attr in attributes %}
+{% if attr.is_primary %}
+            $table->id();
+{% elif attr.relation_kind == 'many_to_one' %}
+            $table->foreignId('{{ attr.foreign_key }}')
+                ->constrained('{{ attr.target_table }}')
+{% if attr.cascade %}
+                ->onDelete('cascade');
+{% elif attr.nullable %}
+                ->nullable()
+                ->onDelete('set null');
+{% else %}
+                ->onDelete('restrict');
+{% endif %}
+{% elif not attr.relation_kind %}
+{% if attr.migration_type == 'string' %}
+            $table->string('{{ attr.snake_name }}'){% if attr.nullable %}->nullable(){% endif %};
+{% elif attr.migration_type == 'integer' %}
+            $table->integer('{{ attr.snake_name }}'){% if attr.nullable %}->nullable(){% endif %};
+{% elif attr.migration_type == 'float' %}
+            $table->float('{{ attr.snake_name }}'){% if attr.nullable %}->nullable(){% endif %};
+{% elif attr.migration_type == 'boolean' %}
+            $table->boolean('{{ attr.snake_name }}')->default(false);
+{% elif attr.migration_type == 'text' %}
+            $table->text('{{ attr.snake_name }}'){% if attr.nullable %}->nullable(){% endif %};
+{% elif attr.migration_type == 'date' %}
+            $table->date('{{ attr.snake_name }}'){% if attr.nullable %}->nullable(){% endif %};
+{% elif attr.migration_type == 'datetime' or attr.migration_type == 'timestamp' %}
+            $table->timestamp('{{ attr.snake_name }}'){% if attr.nullable %}->nullable(){% endif %};
+{% elif attr.migration_type == 'uuid' %}
+            $table->uuid('{{ attr.snake_name }}'){% if attr.nullable %}->nullable(){% endif %};
+{% else %}
+            $table->string('{{ attr.snake_name }}'){% if attr.nullable %}->nullable(){% endif %};
+{% endif %}
+{% endif %}
+{% endfor %}
+            $table->timestamps();
+        });
+{% set pivot_attrs = attributes | selectattr('relation_kind', 'equalto', 'many_to_many') | selectattr('is_pivot_owner') | list %}
+{% for attr in pivot_attrs %}
+
+        // Pivot table for {{ class_name }} <-> {{ attr.target_class }}
+        Schema::create('{{ attr.join_table }}', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('{{ class_name | snake_case }}_id')
+                ->constrained('{{ table_name }}')
+                ->onDelete('cascade');
+            $table->foreignId('{{ attr.target_class | snake_case }}_id')
+                ->constrained('{{ attr.target_table }}')
+                ->onDelete('cascade');
+            $table->timestamps();
+
+            $table->unique(['{{ class_name | snake_case }}_id', '{{ attr.target_class | snake_case }}_id']);
+        });
+{% endfor %}
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+{% set pivot_attrs = attributes | selectattr('relation_kind', 'equalto', 'many_to_many') | selectattr('is_pivot_owner') | list %}
+{% for attr in pivot_attrs %}
+        Schema::dropIfExists('{{ attr.join_table }}');
+{% endfor %}
+        Schema::dropIfExists('{{ table_name }}');
+    }
+};

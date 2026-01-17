@@ -1,0 +1,40 @@
+<?php
+
+namespace {{ base_namespace }}\Providers;
+
+use Illuminate\Support\ServiceProvider;
+
+// Repository Interfaces
+{% for class_name in classes %}
+use {{ base_namespace }}\Repositories\Interfaces\{{ class_name }}RepositoryInterface;
+{% endfor %}
+
+// Repository Implementations
+{% for class_name in classes %}
+use {{ base_namespace }}\Repositories\{{ class_name }}Repository;
+{% endfor %}
+
+class AppServiceProvider extends ServiceProvider
+{
+    /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        // Bind Repository Interfaces to Implementations
+{% for class_name in classes %}
+        $this->app->bind(
+            {{ class_name }}RepositoryInterface::class,
+            {{ class_name }}Repository::class
+        );
+{% endfor %}
+    }
+
+    /**
+     * Bootstrap any application services.
+     */
+    public function boot(): void
+    {
+        //
+    }
+}

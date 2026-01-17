@@ -1,0 +1,12 @@
+.git
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.zip
+*.log
+output/
+output_run/
+job_store/
+frontend/

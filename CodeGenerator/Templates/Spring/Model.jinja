@@ -1,0 +1,102 @@
+package {{ base_package }}.entity;
+
+{% if data.extends %}
+import {{ base_package }}.domain.models.{{ data.extends }};
+{% endif %}
+{% if data.implements %}
+{% for interface in data.implements %}
+import {{ base_package }}.domain.models.{{ interface }};
+{% endfor %}
+{% endif %}
+import lombok.*;
+import jakarta.persistence.*;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.math.BigDecimal;
+import java.util.*;
+
+/**
+ * {% if data.class_type == 'interface' %}Interface{% elif data.class_type == 'abstract' %}Abstract class{% else %}Model class{% endif %}: {{ data.name }}
+ * Original name: {{ data.original_name }}
+ * Generated from UML diagram
+ */
+{% if data.class_type != 'interface' %}
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "{{ data.name|lower }}")
+{% endif %}
+public {% if data.class_type == 'abstract' %}abstract {% endif %}{% if data.class_type == 'interface' %}interface{% else %}class{% endif %} {{ data.name }}
+{%- if data.extends %} extends {{ data.extends }}{% endif %}
+{%- if data.implements %} implements {% for interface in data.implements %}{{ interface }}{% if not loop.last %}, {% endif %}{% endfor %}{% endif %}
+{%- if data.class_type != 'interface' %} implements Serializable{% endif %} {
+
+    {% if data.class_type != 'interface' %}
+    private static final long serialVersionUID = 1L;
+    {% endif %}
+
+    {% for attr in data.attributes %}
+    {%- if data.class_type == 'interface' %}
+    {{ attr.attribute_type }} get{{ attr.attribute_name | capitalize }}();
+    void set{{ attr.attribute_name | capitalize }}({{ attr.attribute_type }} {{ attr.attribute_name }});
+    {%- else %}
+    {%- if attr.is_id %}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "{{ attr.attribute_name }}", nullable = false)
+    private {{ attr.attribute_type }} {{ attr.attribute_name }};
+    {%- elif attr.relation == 'many_to_one' %}
+    @ManyToOne(fetch = FetchType.LAZY{% if attr.cascade_all %}, cascade = CascadeType.ALL{% endif %})
+    @JoinColumn(name = "{{ attr.join_column }}"{% if attr.nullable is not none %}, nullable = {{ "true" if attr.nullable else "false" }}{% endif %})
+    private {{ attr.target_class }} {{ attr.attribute_name }};
+    {%- elif attr.relation == 'one_to_many' %}
+    @OneToMany(fetch = FetchType.LAZY{% if attr.cascade_all %}, cascade = CascadeType.ALL{% endif %})
+    @JoinColumn(name = "{{ data.name | lower }}_id")
+    private List<{{ attr.target_class }}> {{ attr.attribute_name }};
+    {%- elif attr.relation == 'many_to_many' %}
+    {%- set join_table = attr.join_table or (data.name | lower ~ '_' ~ attr.target_class | lower) %}
+    {%- set join_column = attr.join_column or (data.name | lower ~ '_id') %}
+    {%- set inverse_join_column = attr.inverse_join_column or (attr.target_class | lower ~ '_id') %}
+    @ManyToMany(fetch = FetchType.LAZY{% if attr.cascade_all %}, cascade = CascadeType.ALL{% endif %})
+    @JoinTable(
+        name = "{{ join_table }}",
+        joinColumns = @JoinColumn(name = "{{ join_column }}"),
+        inverseJoinColumns = @JoinColumn(name = "{{ inverse_join_column }}")
+    )
+    private Set<{{ attr.target_class }}> {{ attr.attribute_name }};
+    {%- else %}
+    @Column{% if attr.nullable is not none %}(nullable = {{ "true" if attr.nullable else "false" }}){% endif %}
+    private {{ attr.attribute_type }} {{ attr.attribute_name }};
+    {%- endif %}
+    {%- endif %}
+
+    {% endfor %}
+
+    {% for method in data.methods %}
+    {%- if method.visibility and method.method_name %}
+    {%- if data.class_type == 'interface' %}
+    {{ method.method_type }} {{ method.method_name }}(
+        {%- for param in method.parameters -%}
+        {{ param.param_type }} {{ param.param_name }}
+        {%- if not loop.last %}, {% endif -%}
+        {%- endfor -%}
+    );
+    {%- else %}
+    {{ method.visibility }} {{ method.method_type }} {{ method.method_name }}(
+        {%- for param in method.parameters -%}
+        {{ param.param_type }} {{ param.param_name }}
+        {%- if not loop.last %}, {% endif -%}
+        {%- endfor -%}
+    ) {
+        // TODO: Implement method logic
+        {% if method.method_type != 'void' %}return null;{% endif %}
+    }
+    {%- endif %}
+    {%- endif %}
+
+    {% endfor %}
+}

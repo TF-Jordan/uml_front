@@ -1,0 +1,126 @@
+<?php
+
+namespace {{ base_namespace }}\Http\Controllers;
+
+use {{ base_namespace }}\Models\{{ class_name }};
+use {{ base_namespace }}\Services\{{ class_name }}Service;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+
+class {{ class_name }}Controller extends Controller
+{
+    /**
+     * The {{ class_name | lower }} service instance.
+     */
+    protected {{ class_name }}Service ${{ class_name | lower }}Service;
+
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct({{ class_name }}Service ${{ class_name | lower }}Service)
+    {
+        $this->{{ class_name | lower }}Service = ${{ class_name | lower }}Service;
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(): JsonResponse
+    {
+        ${{ class_name | lower }}s = $this->{{ class_name | lower }}Service->getAll();
+
+        return response()->json([
+            'success' => true,
+            'data' => ${{ class_name | lower }}s,
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request): JsonResponse
+    {
+        $validated = $request->validate($this->validationRules());
+
+        ${{ class_name | lower }} = $this->{{ class_name | lower }}Service->create($validated);
+
+        return response()->json([
+            'success' => true,
+            'message' => '{{ class_name }} created successfully.',
+            'data' => ${{ class_name | lower }},
+        ], 201);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(int $id): JsonResponse
+    {
+        ${{ class_name | lower }} = $this->{{ class_name | lower }}Service->getById($id);
+
+        if (!${{ class_name | lower }}) {
+            return response()->json([
+                'success' => false,
+                'message' => '{{ class_name }} not found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => ${{ class_name | lower }},
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, int $id): JsonResponse
+    {
+        $validated = $request->validate($this->validationRules());
+
+        ${{ class_name | lower }} = $this->{{ class_name | lower }}Service->update($id, $validated);
+
+        if (!${{ class_name | lower }}) {
+            return response()->json([
+                'success' => false,
+                'message' => '{{ class_name }} not found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => '{{ class_name }} updated successfully.',
+            'data' => ${{ class_name | lower }},
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(int $id): JsonResponse
+    {
+        $deleted = $this->{{ class_name | lower }}Service->delete($id);
+
+        if (!$deleted) {
+            return response()->json([
+                'success' => false,
+                'message' => '{{ class_name }} not found.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => '{{ class_name }} deleted successfully.',
+        ]);
+    }
+
+    /**
+     * Get validation rules for the resource.
+     */
+    protected function validationRules(): array
+    {
+        return [
+            // Add your validation rules here
+        ];
+    }
+}

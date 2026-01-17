@@ -1,0 +1,118 @@
+/// {{ class_name }} model
+/// Generated from UML diagram
+{%- set imported_models = [] %}
+{%- for attr in attributes %}
+{%- if attr.target_class and attr.target_class not in imported_models %}
+{%- set _ = imported_models.append(attr.target_class) %}
+import '{{ attr.target_class | snake_case }}.dart';
+{%- endif %}
+{%- endfor %}
+
+class {{ class_name }} {
+{%- for attr in attributes %}
+{%- if attr.relation_kind == 'one_to_many' or attr.relation_kind == 'many_to_many' %}
+  final List<{{ attr.target_class }}>{% if attr.nullable %}?{% endif %} {{ attr.camel_name }};
+{%- elif attr.relation_kind == 'many_to_one' %}
+  final {{ attr.target_class }}{% if attr.nullable %}?{% endif %} {{ attr.camel_name }};
+  final int{% if attr.nullable %}?{% endif %} {{ attr.camel_name }}Id;
+{%- else %}
+  final {{ attr.type }}{% if attr.nullable %}?{% endif %} {{ attr.camel_name }};
+{%- endif %}
+{%- endfor %}
+
+  const {{ class_name }}({
+{%- for attr in attributes %}
+{%- if attr.relation_kind == 'one_to_many' or attr.relation_kind == 'many_to_many' %}
+    {% if not attr.nullable %}required {% endif %}this.{{ attr.camel_name }},
+{%- elif attr.relation_kind == 'many_to_one' %}
+    this.{{ attr.camel_name }},
+    {% if not attr.nullable %}required {% endif %}this.{{ attr.camel_name }}Id,
+{%- else %}
+    {% if not attr.nullable %}required {% endif %}this.{{ attr.camel_name }},
+{%- endif %}
+{%- endfor %}
+  });
+
+  /// Creates a {{ class_name }} from JSON map
+  factory {{ class_name }}.fromJson(Map<String, dynamic> json) {
+    return {{ class_name }}(
+{%- for attr in attributes %}
+{%- if attr.relation_kind == 'one_to_many' or attr.relation_kind == 'many_to_many' %}
+      {{ attr.camel_name }}: json['{{ attr.snake_name }}'] != null
+          ? (json['{{ attr.snake_name }}'] as List)
+              .map((e) => {{ attr.target_class }}.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : {% if attr.nullable %}null{% else %}[]{% endif %},
+{%- elif attr.relation_kind == 'many_to_one' %}
+      {{ attr.camel_name }}: json['{{ attr.snake_name }}'] != null
+          ? {{ attr.target_class }}.fromJson(json['{{ attr.snake_name }}'] as Map<String, dynamic>)
+          : null,
+      {{ attr.camel_name }}Id: json['{{ attr.snake_name }}_id'] as int{% if attr.nullable %}?{% endif %},
+{%- elif attr.is_date %}
+      {{ attr.camel_name }}: json['{{ attr.snake_name }}'] != null
+          ? DateTime.parse(json['{{ attr.snake_name }}'] as String)
+          : {% if attr.nullable %}null{% else %}DateTime.now(){% endif %},
+{%- else %}
+      {{ attr.camel_name }}: json['{{ attr.snake_name }}'] as {{ attr.type }}{% if attr.nullable %}?{% endif %},
+{%- endif %}
+{%- endfor %}
+    );
+  }
+
+  /// Converts {{ class_name }} to JSON map
+  Map<String, dynamic> toJson() {
+    return {
+{%- for attr in attributes %}
+{%- if attr.relation_kind == 'one_to_many' or attr.relation_kind == 'many_to_many' %}
+      '{{ attr.snake_name }}': {{ attr.camel_name }}{% if attr.nullable %}?{% endif %}.map((e) => e.toJson()).toList(),
+{%- elif attr.relation_kind == 'many_to_one' %}
+      '{{ attr.snake_name }}': {{ attr.camel_name }}?.toJson(),
+      '{{ attr.snake_name }}_id': {{ attr.camel_name }}Id,
+{%- elif attr.is_date %}
+      '{{ attr.snake_name }}': {{ attr.camel_name }}{% if attr.nullable %}?{% endif %}.toIso8601String(),
+{%- else %}
+      '{{ attr.snake_name }}': {{ attr.camel_name }},
+{%- endif %}
+{%- endfor %}
+    };
+  }
+
+  /// Creates a copy with updated fields
+  {{ class_name }} copyWith({
+{%- for attr in attributes %}
+{%- if attr.relation_kind == 'one_to_many' or attr.relation_kind == 'many_to_many' %}
+    List<{{ attr.target_class }}>? {{ attr.camel_name }},
+{%- elif attr.relation_kind == 'many_to_one' %}
+    {{ attr.target_class }}? {{ attr.camel_name }},
+    int? {{ attr.camel_name }}Id,
+{%- else %}
+    {{ attr.type }}? {{ attr.camel_name }},
+{%- endif %}
+{%- endfor %}
+  }) {
+    return {{ class_name }}(
+{%- for attr in attributes %}
+{%- if attr.relation_kind == 'many_to_one' %}
+      {{ attr.camel_name }}: {{ attr.camel_name }} ?? this.{{ attr.camel_name }},
+      {{ attr.camel_name }}Id: {{ attr.camel_name }}Id ?? this.{{ attr.camel_name }}Id,
+{%- else %}
+      {{ attr.camel_name }}: {{ attr.camel_name }} ?? this.{{ attr.camel_name }},
+{%- endif %}
+{%- endfor %}
+    );
+  }
+
+  @override
+  String toString() {
+    return '{{ class_name }}({% for attr in attributes %}{% if not attr.relation_kind %}{{ attr.camel_name }}: ${{ attr.camel_name }}{% if not loop.last %}, {% endif %}{% endif %}{% endfor %})';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is {{ class_name }} && other.id == id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
+}

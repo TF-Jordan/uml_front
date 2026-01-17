@@ -1,0 +1,386 @@
+{
+  "Testproject": {
+    "classes": {
+      "User": {
+        "type": "classe",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "id",
+            "attribute_type": "Uuid"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "email",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "passwordHash",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "createdAt",
+            "attribute_type": "LocalDateTime"
+          }
+        ],
+        "methods": [
+          {
+            "name": "activate",
+            "method_type": "void",
+            "visibility": "public",
+            "parameters": []
+          },
+          {
+            "name": "changePassword",
+            "method_type": "void",
+            "visibility": "public",
+            "parameters": [
+              {
+                "param_name": "newPassword",
+                "param_type": "String"
+              }
+            ]
+          }
+        ]
+      },
+      "Admin_user": {
+        "type": "classe, extends User",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "isSuperAdmin",
+            "attribute_type": "Boolean"
+          }
+        ],
+        "methods": []
+      },
+      "Role": {
+        "type": "classe",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "code",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "label",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "userRoles",
+            "attribute_type": "User"
+          }
+        ],
+        "methods": []
+      },
+      "Permission": {
+        "type": "classe",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "name",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "description",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "rolePermissions",
+            "attribute_type": "Role"
+          }
+        ],
+        "methods": []
+      },
+      "Address": {
+        "type": "classe",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "line1",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "city",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "postalCode",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "country",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "userAddresses#",
+            "attribute_type": "User"
+          }
+        ],
+        "methods": []
+      },
+      "Product": {
+        "type": "classe",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "sku",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "label",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "unitPrice",
+            "attribute_type": "BigDecimal"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "stockQuantity",
+            "attribute_type": "Integer"
+          }
+        ],
+        "methods": []
+      },
+      "Category": {
+        "type": "classe",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "name",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "parentId",
+            "attribute_type": "Uuid"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "productCategory$",
+            "attribute_type": "Product"
+          }
+        ],
+        "methods": []
+      },
+      "Order": {
+        "type": "classe",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "number",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "status",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "totalAmount",
+            "attribute_type": "BigDecimal"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "placedAt",
+            "attribute_type": "LocalDateTime"
+          }
+        ],
+        "methods": [
+          {
+            "name": "cancel",
+            "method_type": "void",
+            "visibility": "public",
+            "parameters": []
+          }
+        ]
+      },
+      "Order_item": {
+        "type": "classe",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "quantity",
+            "attribute_type": "Integer"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "unitPrice",
+            "attribute_type": "BigDecimal"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "orderItems#",
+            "attribute_type": "Order"
+          }
+        ],
+        "methods": []
+      },
+      "Payment": {
+        "type": "classe",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "reference",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "method",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "paidAt",
+            "attribute_type": "LocalDateTime"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "amount",
+            "attribute_type": "BigDecimal"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "orderPayment",
+            "attribute_type": "Order"
+          }
+        ],
+        "methods": []
+      },
+      "Shipment": {
+        "type": "classe",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "carrier",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "trackingNumber",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "shippedAt",
+            "attribute_type": "LocalDateTime"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "estimatedDelivery",
+            "attribute_type": "LocalDate"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "orderShipment",
+            "attribute_type": "Order"
+          }
+        ],
+        "methods": []
+      },
+      "Invoice": {
+        "type": "classe, implements InvoiceNote, InvoiceNote",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "invoiceNumber",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "issuedAt",
+            "attribute_type": "LocalDateTime"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "dueDate",
+            "attribute_type": "LocalDate"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "amount",
+            "attribute_type": "BigDecimal"
+          },
+          {
+            "visibility": "private",
+            "attribute_name": "orderInvoice",
+            "attribute_type": "Order"
+          }
+        ],
+        "methods": [
+          {
+            "name": "markAsPaid",
+            "method_type": "void",
+            "visibility": "public",
+            "parameters": []
+          },
+          {
+            "name": "Paid",
+            "method_type": "void",
+            "visibility": "public",
+            "parameters": []
+          },
+          {
+            "name": "PrePaid",
+            "method_type": "void",
+            "visibility": "public",
+            "parameters": []
+          }
+        ]
+      },
+      "InvoiceNote": {
+        "type": "implementation",
+        "attributes": [
+          {
+            "visibility": "public",
+            "attribute_name": "invoiceNumber",
+            "attribute_type": "String"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "issuedAt",
+            "attribute_type": "LocalDateTime"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "dueDate",
+            "attribute_type": "LocalDate"
+          },
+          {
+            "visibility": "public",
+            "attribute_name": "amount",
+            "attribute_type": "BigDecimal"
+          }
+        ],
+        "methods": [
+          {
+            "name": "Paid",
+            "method_type": "void",
+            "visibility": "public",
+            "parameters": []
+          },
+          {
+            "name": "PrePaid",
+            "method_type": "void",
+            "visibility": "public",
+            "parameters": []
+          }
+        ]
+      }
+    }
+  }
+}

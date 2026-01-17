@@ -1,0 +1,19 @@
+from fastapi import FastAPI
+from {{ base_module }}.db import init_db
+from {{ base_module }}.routers import register_routers
+
+
+def create_app() -> FastAPI:
+    app = FastAPI(title="{{ project_name }} API")
+    init_db()
+    register_routers(app)
+    return app
+
+
+app = create_app()
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("{{ base_module }}.main:app", host="0.0.0.0", port=8000, reload=True)

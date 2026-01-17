@@ -1,0 +1,44 @@
+import { {{ class_name }} } from '../entities/{{ class_name|kebab_case }}.entity';
+import { Create{{ class_name }}Dto } from '../dto/create-{{ class_name|kebab_case }}.dto';
+import { Update{{ class_name }}Dto } from '../dto/update-{{ class_name|kebab_case }}.dto';
+
+export interface I{{ class_name }}Repository {
+  /**
+   * Find all {{ class_name|plural }}
+   */
+  findAll(): Promise<{{ class_name }}[]>;
+
+  /**
+   * Find a {{ class_name }} by ID
+   * @param id - The {{ class_name }} ID
+   */
+  findById(id: number): Promise<{{ class_name }} | null>;
+
+  /**
+   * Create a new {{ class_name }}
+   * @param data - The creation data
+   */
+  create(data: Create{{ class_name }}Dto): Promise<{{ class_name }}>;
+
+  /**
+   * Update an existing {{ class_name }}
+   * @param id - The {{ class_name }} ID
+   * @param data - The update data
+   */
+  update(id: number, data: Update{{ class_name }}Dto): Promise<{{ class_name }} | null>;
+
+  /**
+   * Delete a {{ class_name }}
+   * @param id - The {{ class_name }} ID
+   */
+  delete(id: number): Promise<boolean>;
+
+  /**
+   * Find {{ class_name|plural }} by a specific field
+   * @param field - The field name
+   * @param value - The field value
+   */
+  findBy(field: keyof {{ class_name }}, value: any): Promise<{{ class_name }}[]>;
+}
+
+export const {{ class_name|upper }}_REPOSITORY = Symbol('I{{ class_name }}Repository');

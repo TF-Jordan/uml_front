@@ -1,0 +1,186 @@
+<mxfile host="drawio-plugin" modified="2025-11-22T16:59:47.145Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="AlFQa0ixkMeAuuChlCtJ" version="22.1.22" type="embed">
+  <diagram id="0Z84icbRt1tpYFJAEWo5" name="Page-1">
+    <mxGraphModel dx="2641" dy="691" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Interface" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="200.32" y="60" width="100" height="750" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="2" vertex="1">
+          <mxGeometry x="44" y="220" width="10" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Controller" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="500.32" y="60" width="100" height="750" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="4" vertex="1">
+          <mxGeometry x="45" y="230" width="10" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="ouvrir ()" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-48.680000000000064" y="150" as="sourcePoint" />
+            <mxPoint x="250.81999999999994" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7" value="ref" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;" parent="1" vertex="1">
+          <mxGeometry x="-102.68" y="160" width="400" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="&lt;font style=&quot;font-size: 21px;&quot;&gt;Charger NewsLetter&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="-6.394884621840902e-14" y="182" width="210" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;verifierNewsletter(idNewsLetter)&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;entryX=0.497;entryY=0.351;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-50.680000000000064" y="279" as="sourcePoint" />
+            <mxPoint x="252.01999999999998" y="278.81999999999994" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="10" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;validerNewsLetter(id NewsLetter)&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-49.680000000000064" y="484" as="sourcePoint" />
+            <mxPoint x="250" y="484" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="11" value="alt" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;" parent="1" vertex="1">
+          <mxGeometry x="-450" y="449" width="1370" height="381" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="[correct]" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="-430.00000000000006" y="483" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="NewsLetter publié" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="549.5" y="543" as="sourcePoint" />
+            <mxPoint x="249.99999999999994" y="543" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="14" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;NewsLetter&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250.81999999999994" y="371" as="sourcePoint" />
+            <mxPoint x="-48.680000000000064" y="371" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="15" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-450" y="572" as="sourcePoint" />
+            <mxPoint x="920" y="572" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="16" value="[else]" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="-430.00000000000006" y="580" width="50" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;rejeterNewsLetter(id NewsLetter)&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="-47.680000000000064" y="594" as="sourcePoint" />
+            <mxPoint x="249.81999999999994" y="594" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="18" value="NewsLetter rejeté" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="248.81999999999994" y="656" as="sourcePoint" />
+            <mxPoint x="-50.680000000000064" y="656" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="19" value="SUPER&lt;div&gt;ADMIN&lt;/div&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="-101" y="67" width="100" height="753" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;chargerNewsLetters(&lt;span style=&quot;font-size: 15px;&quot;&gt;idNewsLetter&lt;/span&gt;)&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="254.32000000000016" y="289" as="sourcePoint" />
+            <mxPoint x="549.8200000000002" y="289" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="21" value="Repository&lt;div&gt;NewsLetter&lt;/div&gt;" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="801" y="54" width="100" height="726" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="21" vertex="1">
+          <mxGeometry x="45" y="248" width="10" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;trouverNewsLetter(&lt;span style=&quot;text-align: center;&quot;&gt;idNewsLetter&lt;/span&gt;)&lt;/font&gt;" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;" parent="21" target="22" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="54" y="256" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="84" y="256" />
+              <mxPoint x="84" y="306" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="24" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="21" vertex="1">
+          <mxGeometry x="45" y="437" width="10" height="51" as="geometry" />
+        </mxCell>
+        <mxCell id="25" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;changerStatusNewsletter&lt;/font&gt;&lt;span style=&quot;font-size: 15px; background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;(idNews)&lt;/span&gt;" style="html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;edgeStyle=orthogonalEdgeStyle;curved=0;rounded=0;exitX=0;exitY=0;exitDx=0;exitDy=5;exitPerimeter=0;" parent="21" source="24" target="24" edge="1">
+          <mxGeometry x="-0.0394" y="-130" relative="1" as="geometry">
+            <mxPoint x="308" y="387" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="45" y="448" />
+              <mxPoint x="-1" y="448" />
+              <mxPoint x="-1" y="478" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="26" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;trouverNewsLetter(idNewsLetter)&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="550" y="300" as="sourcePoint" />
+            <mxPoint x="849.5" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="27" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;NewsLetter&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="849.4999999999999" y="370" as="sourcePoint" />
+            <mxPoint x="549.9999999999999" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="28" value="&lt;font style=&quot;font-size: 15px;&quot;&gt;NewsLetter&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="549.4999999999999" y="370" as="sourcePoint" />
+            <mxPoint x="249.9999999999999" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="29" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;validerNewsLetter(id NewsLetter)&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="249.99999999999994" y="490" as="sourcePoint" />
+            <mxPoint x="549.6800000000001" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="30" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;validerNewsLetter(id NewsLetter)&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="80" relative="1" as="geometry">
+            <mxPoint x="550" y="490" as="sourcePoint" />
+            <mxPoint x="849.6800000000001" y="490" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="31" value="NewsLetter publié" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="849.5" y="543" as="sourcePoint" />
+            <mxPoint x="550" y="543" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="32" value="NewsLetter publié" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="249.07" y="544" as="sourcePoint" />
+            <mxPoint x="-50.430000000000064" y="544" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="33" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="244" y="483" width="10" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="34" value="" style="html=1;points=[[0,0,0,0,5],[0,1,0,0,-5],[1,0,0,0,5],[1,1,0,0,-5]];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="545.32" y="492" width="10" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="35" value="NewsLetter rejeté" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-53.50000000000006" y="741" as="sourcePoint" />
+            <mxPoint x="-353.00000000000006" y="741" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="36" value="LECTEUR" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;curved&quot;:0,&quot;rounded&quot;:0};" parent="1" vertex="1">
+          <mxGeometry x="-401.68" y="65" width="100" height="765" as="geometry" />
+        </mxCell>
+        <mxCell id="37" value="par" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;recursiveResize=0;container=1;collapsible=0;width=170;" parent="1" vertex="1">
+          <mxGeometry x="-430" y="630" width="720" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="38" value="" style="line;strokeWidth=1;dashed=1;labelPosition=center;verticalLabelPosition=bottom;align=left;verticalAlign=top;spacingLeft=20;spacingTop=15;html=1;whiteSpace=wrap;" parent="37" vertex="1">
+          <mxGeometry y="61" width="720" height="10" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

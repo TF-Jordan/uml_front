@@ -1,0 +1,32 @@
+import 'dart:io';
+
+/// Database configuration
+class DatabaseConfig {
+  /// Database host
+  static String get host =>
+      Platform.environment['DB_HOST'] ?? 'localhost';
+
+  /// Database port
+  static int get port =>
+      int.parse(Platform.environment['DB_PORT'] ?? '5432');
+
+  /// Database name
+  static String get database =>
+      Platform.environment['DB_NAME'] ?? 'dart_app';
+
+  /// Database username
+  static String get username =>
+      Platform.environment['DB_USERNAME'] ?? 'postgres';
+
+  /// Database password
+  static String get password =>
+      Platform.environment['DB_PASSWORD'] ?? 'postgres';
+
+  /// Connection string
+  static String get connectionString =>
+      'postgres://$username:$password@$host:$port/$database';
+
+  /// Maximum pool size
+  static int get maxPoolSize =>
+      int.parse(Platform.environment['DB_POOL_SIZE'] ?? '10');
+}

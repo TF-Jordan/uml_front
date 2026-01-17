@@ -1,0 +1,476 @@
+{
+  "classes": {
+    "reservation": {
+      "name": "reservation",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "+",
+          "attribute_name": "dateDebut",
+          "attribute_type": "date"
+        }
+      ],
+      "methods": [
+        {
+          "visibility": "+",
+          "method_name": "validerReservation",
+          "method_type": "int",
+          "parameters": [
+            {
+              "param_type": "int",
+              "param_name": "nbre"
+            },
+            {
+              "param_type": "string",
+              "param_name": "exo"
+            }
+          ]
+        }
+      ],
+      "relationships": [
+        {
+          "name": "1",
+          "source_name": "videoprojeteur",
+          "target_name": "reservation",
+          "edge": "1",
+          "style": {
+            "endArrow": "open",
+            "endFill": "",
+            "dashed": "",
+            "startArrow": "diamondThin",
+            "startFill": "0"
+          },
+          "type": "agregation",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        },
+        {
+          "name": "1",
+          "source_name": "videoprojeteur",
+          "target_name": "reservation",
+          "edge": "1",
+          "style": {
+            "endArrow": "open",
+            "endFill": "",
+            "dashed": "",
+            "startArrow": "diamondThin",
+            "startFill": "0"
+          },
+          "type": "agregation",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        },
+        {
+          "name": "effectuer",
+          "source_name": "enseignant",
+          "target_name": "reservation",
+          "edge": "1",
+          "style": {
+            "endArrow": "classic",
+            "endFill": "",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "association",
+          "source_cardinality": "1",
+          "target_cardinality": "0..*"
+        },
+        {
+          "name": "effectuer",
+          "source_name": "enseignant",
+          "target_name": "reservation",
+          "edge": "1",
+          "style": {
+            "endArrow": "classic",
+            "endFill": "",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "association",
+          "source_cardinality": "1",
+          "target_cardinality": "0..*"
+        }
+      ]
+    },
+    "Equipement": {
+      "name": "Equipement",
+      "type": "abstractClass",
+      "attributes": [
+        {
+          "visibility": "+",
+          "attribute_name": "marque",
+          "attribute_type": "string"
+        },
+        {
+          "visibility": "+",
+          "attribute_name": "name",
+          "attribute_type": "void"
+        }
+      ],
+      "methods": [],
+      "relationships": [
+        {
+          "name": "",
+          "source_name": "ordinateur",
+          "target_name": "Equipement",
+          "edge": "1",
+          "style": {
+            "endArrow": "block",
+            "endFill": "0",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "inheritance",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        },
+        {
+          "name": "",
+          "source_name": "ordinateur",
+          "target_name": "Equipement",
+          "edge": "1",
+          "style": {
+            "endArrow": "block",
+            "endFill": "0",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "inheritance",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        },
+        {
+          "name": "",
+          "source_name": "videoprojeteur",
+          "target_name": "Equipement",
+          "edge": "1",
+          "style": {
+            "endArrow": "block",
+            "endFill": "0",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "inheritance",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        },
+        {
+          "name": "",
+          "source_name": "videoprojeteur",
+          "target_name": "Equipement",
+          "edge": "1",
+          "style": {
+            "endArrow": "block",
+            "endFill": "0",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "inheritance",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        }
+      ]
+    },
+    "ordinateur": {
+      "name": "ordinateur",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "+",
+          "attribute_name": "ram",
+          "attribute_type": "int"
+        },
+        {
+          "visibility": "+",
+          "attribute_name": "name",
+          "attribute_type": "void"
+        }
+      ],
+      "methods": [],
+      "relationships": [
+        {
+          "name": "etre composer",
+          "source_name": "reservation",
+          "target_name": "ordinateur",
+          "edge": "1",
+          "style": {
+            "endArrow": "open",
+            "endFill": "",
+            "dashed": "",
+            "startArrow": "diamondThin",
+            "startFill": "0"
+          },
+          "type": "agregation",
+          "source_cardinality": "0..n",
+          "target_cardinality": "0..n"
+        },
+        {
+          "name": "etre composer",
+          "source_name": "reservation",
+          "target_name": "ordinateur",
+          "edge": "1",
+          "style": {
+            "endArrow": "open",
+            "endFill": "",
+            "dashed": "",
+            "startArrow": "diamondThin",
+            "startFill": "0"
+          },
+          "type": "agregation",
+          "source_cardinality": "0..n",
+          "target_cardinality": "0..n"
+        }
+      ]
+    },
+    "videoprojeteur": {
+      "name": "videoprojeteur",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "+",
+          "attribute_name": "resolution",
+          "attribute_type": "string"
+        },
+        {
+          "visibility": "+",
+          "attribute_name": "name",
+          "attribute_type": "void"
+        }
+      ],
+      "methods": [],
+      "relationships": []
+    },
+    "enseignant": {
+      "name": "enseignant",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "+",
+          "attribute_name": "nom",
+          "attribute_type": "string"
+        },
+        {
+          "visibility": "+",
+          "attribute_name": "name",
+          "attribute_type": "void"
+        }
+      ],
+      "methods": [],
+      "relationships": [
+        {
+          "name": "",
+          "source_name": "responsableformation",
+          "target_name": "enseignant",
+          "edge": "1",
+          "style": {
+            "endArrow": "block",
+            "endFill": "0",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "inheritance",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        },
+        {
+          "name": "",
+          "source_name": "responsableformation",
+          "target_name": "enseignant",
+          "edge": "1",
+          "style": {
+            "endArrow": "block",
+            "endFill": "0",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "inheritance",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        }
+      ]
+    },
+    "Salle": {
+      "name": "Salle",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "+",
+          "attribute_name": "nbrePlace",
+          "attribute_type": "int"
+        },
+        {
+          "visibility": "+",
+          "attribute_name": "name",
+          "attribute_type": "void"
+        }
+      ],
+      "methods": [],
+      "relationships": [
+        {
+          "name": "",
+          "source_name": "reservation",
+          "target_name": "Salle",
+          "edge": "1",
+          "style": {
+            "endArrow": "diamondThin",
+            "endFill": "1",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "composition",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        },
+        {
+          "name": "",
+          "source_name": "reservation",
+          "target_name": "Salle",
+          "edge": "1",
+          "style": {
+            "endArrow": "diamondThin",
+            "endFill": "1",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "composition",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        }
+      ]
+    },
+    "responsableformation": {
+      "name": "responsableformation",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "+",
+          "attribute_name": "name",
+          "attribute_type": "void"
+        }
+      ],
+      "methods": [
+        {
+          "visibility": "+",
+          "method_name": "name",
+          "method_type": "void",
+          "parameters": []
+        }
+      ],
+      "relationships": []
+    },
+    "formation": {
+      "name": "formation",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "+",
+          "attribute_name": "name",
+          "attribute_type": "void"
+        },
+        {
+          "visibility": "+",
+          "attribute_name": "name",
+          "attribute_type": "void"
+        }
+      ],
+      "methods": [],
+      "relationships": [
+        {
+          "name": "etre responsable",
+          "source_name": "responsableformation",
+          "target_name": "formation",
+          "edge": "1",
+          "style": {
+            "endArrow": "classic",
+            "endFill": "",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "association",
+          "source_cardinality": "1",
+          "target_cardinality": "0..*"
+        },
+        {
+          "name": "etre responsable",
+          "source_name": "responsableformation",
+          "target_name": "formation",
+          "edge": "1",
+          "style": {
+            "endArrow": "classic",
+            "endFill": "",
+            "dashed": "",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "association",
+          "source_cardinality": "1",
+          "target_cardinality": "0..*"
+        }
+      ]
+    },
+    "Teacheractions": {
+      "name": "Teacheractions",
+      "type": "interface",
+      "attributes": [
+        {
+          "visibility": "+",
+          "attribute_name": "name",
+          "attribute_type": "void"
+        }
+      ],
+      "methods": [
+        {
+          "visibility": "+",
+          "method_name": "name",
+          "method_type": "void",
+          "parameters": []
+        }
+      ],
+      "relationships": [
+        {
+          "name": "",
+          "source_name": "enseignant",
+          "target_name": "Teacheractions",
+          "edge": "1",
+          "style": {
+            "endArrow": "block",
+            "endFill": "0",
+            "dashed": "1",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "implementation",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        },
+        {
+          "name": "",
+          "source_name": "enseignant",
+          "target_name": "Teacheractions",
+          "edge": "1",
+          "style": {
+            "endArrow": "block",
+            "endFill": "0",
+            "dashed": "1",
+            "startArrow": "",
+            "startFill": ""
+          },
+          "type": "implementation",
+          "source_cardinality": "",
+          "target_cardinality": ""
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,62 @@
+from typing import List
+
+from fastapi import APIRouter, Depends, HTTPException
+{% if orm == "sqlmodel" %}
+from sqlmodel import Session, select
+{% else %}
+from sqlalchemy.orm import Session
+{% endif %}
+
+from {{ base_module }}.schemas.{{ schema_module }} import {{ class_name }}Create, {{ class_name }}Read
+from {{ base_module }}.models.{{ schema_module }} import {{ class_name }}
+from {{ base_module }}.db import get_db
+
+router = APIRouter(prefix="/{{ route }}", tags=["{{ class_name }}"])
+
+
+@router.get("/", response_model=List[{{ class_name }}Read])
+def list_{{ route }}(db: Session = Depends(get_db)) -> List[{{ class_name }}Read]:
+    {% if orm == "sqlmodel" %}
+    return db.exec(select({{ class_name }})).all()
+    {% else %}
+    return db.query({{ class_name }}).all()
+    {% endif %}
+
+
+@router.post("/", response_model={{ class_name }}Read)
+def create_{{ route_singular }}(payload: {{ class_name }}Create, db: Session = Depends(get_db)) -> {{ class_name }}Read:
+    instance = {{ class_name }}(**payload.model_dump())
+    db.add(instance)
+    db.commit()
+    db.refresh(instance)
+    return instance
+
+
+@router.get("/{item_id}", response_model={{ class_name }}Read)
+def get_{{ route_singular }}(item_id: int, db: Session = Depends(get_db)) -> {{ class_name }}Read:
+    instance = db.get({{ class_name }}, item_id)
+    if not instance:
+        raise HTTPException(status_code=404, detail="Not found")
+    return instance
+
+
+@router.put("/{item_id}", response_model={{ class_name }}Read)
+def update_{{ route_singular }}(item_id: int, payload: {{ class_name }}Create, db: Session = Depends(get_db)) -> {{ class_name }}Read:
+    instance = db.get({{ class_name }}, item_id)
+    if not instance:
+        raise HTTPException(status_code=404, detail="Not found")
+    for field, value in payload.model_dump().items():
+        setattr(instance, field, value)
+    db.commit()
+    db.refresh(instance)
+    return instance
+
+
+@router.delete("/{item_id}")
+def delete_{{ route_singular }}(item_id: int, db: Session = Depends(get_db)) -> dict:
+    instance = db.get({{ class_name }}, item_id)
+    if not instance:
+        raise HTTPException(status_code=404, detail="Not found")
+    db.delete(instance)
+    db.commit()
+    return {"deleted": item_id}

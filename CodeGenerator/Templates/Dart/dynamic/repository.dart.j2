@@ -1,0 +1,76 @@
+import '../models/{{ file_name }}.dart';
+
+/// Repository interface for {{ class_name }}
+abstract class {{ class_name }}RepositoryInterface {
+  /// Find all {{ class_name | plural }}
+  Future<List<{{ class_name }}>> findAll();
+
+  /// Find {{ class_name }} by ID
+  Future<{{ class_name }}?> findById(int id);
+
+  /// Create a new {{ class_name }}
+  Future<{{ class_name }}> create({{ class_name }} entity);
+
+  /// Update an existing {{ class_name }}
+  Future<{{ class_name }}?> update(int id, {{ class_name }} entity);
+
+  /// Delete a {{ class_name }}
+  Future<bool> delete(int id);
+
+  /// Find {{ class_name | plural }} by field
+  Future<List<{{ class_name }}>> findBy(String field, dynamic value);
+}
+
+/// In-memory implementation of {{ class_name }}Repository
+/// Replace with actual database implementation
+class {{ class_name }}Repository implements {{ class_name }}RepositoryInterface {
+  final Map<int, {{ class_name }}> _storage = {};
+  int _nextId = 1;
+
+  @override
+  Future<List<{{ class_name }}>> findAll() async {
+    return _storage.values.toList();
+  }
+
+  @override
+  Future<{{ class_name }}?> findById(int id) async {
+    return _storage[id];
+  }
+
+  @override
+  Future<{{ class_name }}> create({{ class_name }} entity) async {
+    final id = _nextId++;
+    final newEntity = entity.copyWith(id: id);
+    _storage[id] = newEntity;
+    return newEntity;
+  }
+
+  @override
+  Future<{{ class_name }}?> update(int id, {{ class_name }} entity) async {
+    if (!_storage.containsKey(id)) {
+      return null;
+    }
+    final updatedEntity = entity.copyWith(id: id);
+    _storage[id] = updatedEntity;
+    return updatedEntity;
+  }
+
+  @override
+  Future<bool> delete(int id) async {
+    if (!_storage.containsKey(id)) {
+      return false;
+    }
+    _storage.remove(id);
+    return true;
+  }
+
+  @override
+  Future<List<{{ class_name }}>> findBy(String field, dynamic value) async {
+    // Simple in-memory filtering
+    // Replace with actual query implementation
+    return _storage.values.where((entity) {
+      final json = entity.toJson();
+      return json[field] == value;
+    }).toList();
+  }
+}

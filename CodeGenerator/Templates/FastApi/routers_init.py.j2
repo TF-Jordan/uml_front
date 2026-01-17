@@ -1,0 +1,11 @@
+from fastapi import FastAPI
+
+{%- for module_name in router_modules %}
+from {{ base_module }}.routers import {{ module_name }}
+{%- endfor %}
+
+
+def register_routers(app: FastAPI) -> None:
+    {%- for module_name in router_modules %}
+    app.include_router({{ module_name }}.router)
+    {%- endfor %}

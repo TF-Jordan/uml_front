@@ -1,0 +1,61 @@
+classDiagram
+    class Main {
+        +main()
+    }
+    class DrawIOParser {
+        +parse()
+        +parse_all()
+    }
+    class ParticipantExtractor {
+        +extract()
+    }
+    class MessageExtractor {
+        +extract()
+    }
+    class FragmentExtractor {
+        +extract()
+    }
+    class XMLHelper {
+        +parse_drawio_file(path)
+        +get_diagram_elements(root)
+        +get_mx_graph_model(diagram)
+        +get_all_cells(mx_model)
+    }
+    class SequenceDiagram {
+        +name
+        +id
+        +use_case
+        +participants
+        +sequence_flow
+        +fragments
+    }
+    class EntityMatcher {
+        +get_all_entities()
+    }
+    class SpringBootMapper {
+        +map()
+    }
+    class JSONGenerator {
+        +generate_diagram_json(diagram)
+        +generate_spring_boot_json(mapping, diagram_id, stack)
+        +generate_complete_analysis(diagram, mapping, entities, stack)
+    }
+    class PromptGenerator {
+        +render_prompt(diagram, mapping, entities, stack)
+        +generate_prompt(diagram, mapping, entities, stack)
+    }
+
+    Main --> DrawIOParser
+    Main --> EntityMatcher
+    Main --> SpringBootMapper
+    Main --> JSONGenerator
+    Main --> PromptGenerator
+
+    DrawIOParser --> XMLHelper
+    DrawIOParser --> ParticipantExtractor
+    DrawIOParser --> MessageExtractor
+    DrawIOParser --> FragmentExtractor
+    DrawIOParser --> SequenceDiagram
+
+    SpringBootMapper --> SequenceDiagram
+    SpringBootMapper --> EntityMatcher

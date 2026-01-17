@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+    background-color: #faf7f2; /* blanc cassé */
+    color: #333;
+}
+
+/* Toggle button */
+#menu-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+    font-size: 24px;
+    background: #f57c00;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+#menu-toggle:hover {
+    background: #ef6c00;
+}
+
+/* Sidebar */
+#sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    background: linear-gradient(180deg, #f57c00, #ef6c00);
+    color: white;
+    padding: 25px;
+    transform: translateX(-100%);
+    transition: transform 0.35s ease;
+    z-index: 1000;
+}
+
+#sidebar.active {
+    transform: translateX(0);
+}
+
+#sidebar h2 {
+    margin-bottom: 25px;
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+
+#sidebar ul {
+    list-style: none;
+}
+
+#sidebar ul li {
+    margin: 18px 0;
+}
+
+#sidebar ul li a {
+    color: #fff3e0;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+#sidebar ul li a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Content */
+#content {
+    padding: 70px 60px;
+}
+
+/* Sections */
+.section {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin-bottom: 110px;
+}
+
+.section.reverse {
+    flex-direction: row-reverse;
+}
+
+.section-image img {
+    width: 360px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(245,124,0,0.25);
+    border: 4px solid #fff;
+}
+
+/* Texte */
+.section-text {
+    max-width: 620px;
+}
+
+.section-text h1 {
+    margin-bottom: 18px;
+    color: #f57c00;
+    font-size: 32px;
+}
+
+.section-text p {
+    line-height: 1.7;
+    font-size: 16px;
+    color: #555;
+}
+
+/* Effet carte */
+.section-text {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    #content {
+        padding: 80px 25px;
+    }
+
+    .section,
+    .section.reverse {
+        flex-direction: column;
+    }
+
+    .section-image img {
+        width: 100%;
+    }
+}

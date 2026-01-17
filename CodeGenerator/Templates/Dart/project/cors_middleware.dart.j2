@@ -1,0 +1,24 @@
+import 'package:shelf/shelf.dart';
+
+/// CORS middleware for handling cross-origin requests
+Middleware corsMiddleware() {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Origin, Content-Type, Accept, Authorization',
+    'Access-Control-Max-Age': '86400',
+  };
+
+  return (Handler innerHandler) {
+    return (Request request) async {
+      // Handle preflight requests
+      if (request.method == 'OPTIONS') {
+        return Response.ok('', headers: corsHeaders);
+      }
+
+      // Add CORS headers to response
+      final response = await innerHandler(request);
+      return response.change(headers: {...response.headers, ...corsHeaders});
+    };
+  };
+}

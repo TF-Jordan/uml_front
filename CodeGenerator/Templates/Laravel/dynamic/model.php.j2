@@ -1,0 +1,93 @@
+<?php
+
+namespace {{ base_namespace }}\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+{% set has_relations = attributes | selectattr('relation_kind') | list | length > 0 %}
+{% set has_belongs_to = attributes | selectattr('relation_kind', 'equalto', 'many_to_one') | list | length > 0 %}
+{% set has_has_many = attributes | selectattr('relation_kind', 'equalto', 'one_to_many') | list | length > 0 %}
+{% set has_belongs_to_many = attributes | selectattr('relation_kind', 'equalto', 'many_to_many') | list | length > 0 %}
+{% if has_belongs_to %}
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+{% endif %}
+{% if has_has_many %}
+use Illuminate\Database\Eloquent\Relations\HasMany;
+{% endif %}
+{% if has_belongs_to_many %}
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+{% endif %}
+
+class {{ class_name }} extends Model
+{
+    use HasFactory;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = '{{ table_name }}';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+{% for attr in attributes %}
+{% if not attr.is_primary and not attr.relation_kind %}
+        '{{ attr.snake_name }}',
+{% elif attr.relation_kind == 'many_to_one' %}
+        '{{ attr.foreign_key }}',
+{% endif %}
+{% endfor %}
+    ];
+
+{% set casted_attrs = attributes | selectattr('cast_type') | rejectattr('is_primary') | list %}
+{% if casted_attrs | length > 0 %}
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+{% for attr in casted_attrs %}
+{% if not attr.relation_kind %}
+        '{{ attr.snake_name }}' => '{{ attr.cast_type }}',
+{% endif %}
+{% endfor %}
+    ];
+{% endif %}
+
+{% for attr in attributes %}
+{% if attr.relation_kind == 'many_to_one' %}
+    /**
+     * Get the {{ attr.method_name }} that owns the {{ class_name }}.
+     */
+    public function {{ attr.method_name }}(): BelongsTo
+    {
+        return $this->belongsTo({{ attr.target_class }}::class, '{{ attr.foreign_key }}');
+    }
+
+{% elif attr.relation_kind == 'one_to_many' %}
+    /**
+     * Get the {{ attr.method_name }} for the {{ class_name }}.
+     */
+    public function {{ attr.method_name }}(): HasMany
+    {
+        return $this->hasMany({{ attr.target_class }}::class);
+    }
+
+{% elif attr.relation_kind == 'many_to_many' %}
+    /**
+     * The {{ attr.method_name }} that belong to the {{ class_name }}.
+     */
+    public function {{ attr.method_name }}(): BelongsToMany
+    {
+        return $this->belongsToMany({{ attr.target_class }}::class, '{{ attr.join_table }}');
+    }
+
+{% endif %}
+{% endfor %}
+}

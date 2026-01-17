@@ -1,0 +1,88 @@
+le generateur a un probleme et les templates ici par exemple pour le module {{project_name}} dans mes fichiers je suis censer retrouver par exemples {{project_name}}/models mais apres generation j'ai plutot : "category/models" pour le fichier category_repository.go comment modifier les templates et le generateur de code pour corriger ce probleme?Voici le generateur de code et un exemple de template que tu as fourni et son resultat :package repositories
+
+import (
+    "gorm.io/gorm"
+
+    "{{snake_name}}/models"
+)
+
+type {{class_name}}Repository struct {
+    db *gorm.DB
+}
+
+func New{{class_name}}Repository(db *gorm.DB) *{{class_name}}Repository {
+    return &{{class_name}}Repository{db: db}
+}
+
+func (r *{{class_name}}Repository) FindAll() ([]models.{{class_name}}, error) {
+    var items []models.{{class_name}}
+    result := r.db.Find(&items)
+    return items, result.Error
+}
+
+func (r *{{class_name}}Repository) FindByID(id uint) (*models.{{class_name}}, error) {
+    var item models.{{class_name}}
+    result := r.db.First(&item, id)
+    if result.Error != nil {
+        return nil, result.Error
+    }
+    return &item, nil
+}
+
+func (r *{{class_name}}Repository) Create(item *models.{{class_name}}) error {
+    return r.db.Create(item).Error
+}
+
+func (r *{{class_name}}Repository) Update(item *models.{{class_name}}) error {
+    return r.db.Save(item).Error }  func (r *{{class_name}}Repository) Delete(id uint) error {     return r.db.Delete(&models.{{class_name}}{}, id).Error } resultat : package repositories
+
+import (
+    "gorm.io/gorm"
+
+    "category/models"
+)
+
+type categoryRepository struct {
+    db *gorm.DB
+}
+
+func NewcategoryRepository(db *gorm.DB) *categoryRepository {
+    return &categoryRepository{db: db}
+}
+
+func (r *categoryRepository) FindAll() ([]models.category, error) {
+    var items []models.category
+    result := r.db.Find(&items)
+    return items, result.Error
+}
+
+func (r *categoryRepository) FindByID(id uint) (*models.category, error) {
+    var item models.category
+    result := r.db.First(&item, id)
+    if result.Error != nil {
+        return nil, result.Error
+    }
+    return &item, nil
+}
+ comme  address commence par une minuscule, il n’est pas exporté en dehors du package model .
+
+•   Du coup, quand je l’appelles dans repositories , Go ne le trouve pas .est ce vrai?
+
+func (r *categoryRepository) Create(item *models.category) error {
+    return r.db.Create(item).Error
+}
+
+func (r *categoryRepository) Update(item *models.category) error {
+    return r.db.Save(item).Error
+}
+
+func (r *categoryRepository) Delete(id uint) error {
+    return r.db.Delete(&models.category{}, id).Error
+}
+
+
+///////////////////
+
+ comme  address commence par une minuscule, il n’est pas exporté en dehors du package model .
+
+• 	Du coup, quand je l’appelles dans repositories , Go ne le trouve pas .est ce vrai?

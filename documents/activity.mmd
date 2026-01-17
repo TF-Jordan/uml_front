@@ -1,0 +1,11 @@
+flowchart TD
+    A([Start]) --> B[Load structure_Parser.json]
+    B --> C[Normalize visibility]
+    C --> D[Normalize types]
+    D --> E[Capitalize class names]
+    E --> F[Transform relationships]
+    F --> G{Log entries?}
+    G -->|Yes| H[Write /tmp/normalization_log.txt]
+    G -->|No| I[Skip log write]
+    H --> J([End])
+    I --> J([End])

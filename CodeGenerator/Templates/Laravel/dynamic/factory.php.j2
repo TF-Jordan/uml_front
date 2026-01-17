@@ -1,0 +1,51 @@
+<?php
+
+namespace Database\Factories;
+
+use {{ base_namespace }}\Models\{{ class_name }};
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\{{ base_namespace }}\Models\{{ class_name }}>
+ */
+class {{ class_name }}Factory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var class-string<\Illuminate\Database\Eloquent\Model>
+     */
+    protected $model = {{ class_name }}::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+{% for attr in attributes %}
+{% if not attr.is_primary and not attr.relation_kind %}
+{% if attr.type == 'string' %}
+            '{{ attr.snake_name }}' => fake()->word(),
+{% elif attr.type == 'int' %}
+            '{{ attr.snake_name }}' => fake()->randomNumber(),
+{% elif attr.type == 'float' %}
+            '{{ attr.snake_name }}' => fake()->randomFloat(2, 0, 1000),
+{% elif attr.type == 'bool' %}
+            '{{ attr.snake_name }}' => fake()->boolean(),
+{% elif attr.type == 'Carbon' or attr.cast_type == 'datetime' %}
+            '{{ attr.snake_name }}' => fake()->dateTime(),
+{% elif attr.cast_type == 'date' %}
+            '{{ attr.snake_name }}' => fake()->date(),
+{% else %}
+            '{{ attr.snake_name }}' => fake()->word(),
+{% endif %}
+{% elif attr.relation_kind == 'many_to_one' %}
+            '{{ attr.foreign_key }}' => \{{ base_namespace }}\Models\{{ attr.target_class }}::factory(),
+{% endif %}
+{% endfor %}
+        ];
+    }
+}

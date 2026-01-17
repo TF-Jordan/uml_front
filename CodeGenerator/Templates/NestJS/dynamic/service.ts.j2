@@ -1,0 +1,44 @@
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { {{ class_name|upper }}_REPOSITORY, I{{ class_name }}Repository } from './repositories/{{ module_name }}.repository.interface';
+import { Create{{ class_name }}Dto } from './dto/create-{{ module_name }}.dto';
+import { Update{{ class_name }}Dto } from './dto/update-{{ module_name }}.dto';
+import { {{ class_name }} } from './entities/{{ module_name }}.entity';
+
+@Injectable()
+export class {{ class_name }}Service {
+  constructor(
+    @Inject({{ class_name|upper }}_REPOSITORY)
+    private readonly {{ class_name|camel_case }}Repository: I{{ class_name }}Repository,
+  ) {}
+
+  async findAll(): Promise<{{ class_name }}[]> {
+    return this.{{ class_name|camel_case }}Repository.findAll();
+  }
+
+  async findOne(id: number): Promise<{{ class_name }}> {
+    const entity = await this.{{ class_name|camel_case }}Repository.findById(id);
+    if (!entity) {
+      throw new NotFoundException(`{{ class_name }} with ID ${id} not found`);
+    }
+    return entity;
+  }
+
+  async create(create{{ class_name }}Dto: Create{{ class_name }}Dto): Promise<{{ class_name }}> {
+    return this.{{ class_name|camel_case }}Repository.create(create{{ class_name }}Dto);
+  }
+
+  async update(id: number, update{{ class_name }}Dto: Update{{ class_name }}Dto): Promise<{{ class_name }}> {
+    const entity = await this.{{ class_name|camel_case }}Repository.update(id, update{{ class_name }}Dto);
+    if (!entity) {
+      throw new NotFoundException(`{{ class_name }} with ID ${id} not found`);
+    }
+    return entity;
+  }
+
+  async remove(id: number): Promise<void> {
+    const deleted = await this.{{ class_name|camel_case }}Repository.delete(id);
+    if (!deleted) {
+      throw new NotFoundException(`{{ class_name }} with ID ${id} not found`);
+    }
+  }
+}

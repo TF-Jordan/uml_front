@@ -1,0 +1,77 @@
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseIntPipe,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiBody,
+} from '@nestjs/swagger';
+import { {{ class_name }}Service } from './{{ module_name }}.service';
+import { Create{{ class_name }}Dto } from './dto/create-{{ module_name }}.dto';
+import { Update{{ class_name }}Dto } from './dto/update-{{ module_name }}.dto';
+import { {{ class_name }} } from './entities/{{ module_name }}.entity';
+
+@ApiTags('{{ class_name|plural }}')
+@Controller('{{ module_name|plural }}')
+export class {{ class_name }}Controller {
+  constructor(private readonly {{ class_name|camel_case }}Service: {{ class_name }}Service) {}
+
+  @Post()
+  @ApiOperation({ summary: 'Create a new {{ class_name }}' })
+  @ApiBody({ type: Create{{ class_name }}Dto })
+  @ApiResponse({ status: 201, description: '{{ class_name }} created successfully', type: {{ class_name }} })
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  create(@Body() create{{ class_name }}Dto: Create{{ class_name }}Dto): Promise<{{ class_name }}> {
+    return this.{{ class_name|camel_case }}Service.create(create{{ class_name }}Dto);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Get all {{ class_name|plural }}' })
+  @ApiResponse({ status: 200, description: 'List of {{ class_name|plural }}', type: [{{ class_name }}] })
+  findAll(): Promise<{{ class_name }}[]> {
+    return this.{{ class_name|camel_case }}Service.findAll();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Get a {{ class_name }} by ID' })
+  @ApiParam({ name: 'id', description: '{{ class_name }} ID', type: Number })
+  @ApiResponse({ status: 200, description: '{{ class_name }} found', type: {{ class_name }} })
+  @ApiResponse({ status: 404, description: '{{ class_name }} not found' })
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<{{ class_name }}> {
+    return this.{{ class_name|camel_case }}Service.findOne(id);
+  }
+
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update a {{ class_name }}' })
+  @ApiParam({ name: 'id', description: '{{ class_name }} ID', type: Number })
+  @ApiBody({ type: Update{{ class_name }}Dto })
+  @ApiResponse({ status: 200, description: '{{ class_name }} updated successfully', type: {{ class_name }} })
+  @ApiResponse({ status: 404, description: '{{ class_name }} not found' })
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() update{{ class_name }}Dto: Update{{ class_name }}Dto,
+  ): Promise<{{ class_name }}> {
+    return this.{{ class_name|camel_case }}Service.update(id, update{{ class_name }}Dto);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete a {{ class_name }}' })
+  @ApiParam({ name: 'id', description: '{{ class_name }} ID', type: Number })
+  @ApiResponse({ status: 204, description: '{{ class_name }} deleted successfully' })
+  @ApiResponse({ status: 404, description: '{{ class_name }} not found' })
+  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.{{ class_name|camel_case }}Service.remove(id);
+  }
+}

@@ -1,0 +1,35 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import {
+  IsString,
+  IsNumber,
+  IsBoolean,
+  IsDate,
+  IsOptional,
+  IsNotEmpty,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+
+export class Create{{ class_name }}Dto {
+{%- for attr in attributes %}
+{%- if not attr.is_primary and attr.relation_kind != 'one_to_many' and attr.relation_kind != 'many_to_many' %}
+{%- if attr.relation_kind == 'many_to_one' %}
+  {% if attr.nullable %}@ApiPropertyOptional({ description: '{{ attr.target_class }} ID' })
+  @IsOptional(){% else %}@ApiProperty({ description: '{{ attr.target_class }} ID' })
+  @IsNotEmpty(){% endif %}
+  @IsNumber()
+  {{ attr.foreign_key }}: number;
+{% else %}
+  {% if attr.nullable %}@ApiPropertyOptional({ description: '{{ attr.name }}' })
+  @IsOptional(){% else %}@ApiProperty({ description: '{{ attr.name }}' })
+  @IsNotEmpty(){% endif %}
+{%- if attr.validator %}
+  @{{ attr.validator }}()
+{%- endif %}
+{%- if attr.type == 'Date' %}
+  @Type(() => Date)
+{%- endif %}
+  {{ attr.camel_name }}: {{ attr.type }};
+{% endif %}
+{%- endif %}
+{%- endfor %}
+}

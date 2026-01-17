@@ -1,0 +1,1726 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import '../constantes/modern_palette.dart';
+import '../services/docs_launcher.dart';
+import 'page1.dart';
+
+class OverviewPage extends StatefulWidget {
+  const OverviewPage({Key? key}) : super(key: key);
+
+  @override
+  State<OverviewPage> createState() => _OverviewPageState();
+}
+
+class _OverviewPageState extends State<OverviewPage>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final isCompact = size.width < 1024;
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  ModernPalette.sand,
+                  ModernPalette.cloud,
+                  ModernPalette.sandDeep,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
+          const Positioned.fill(child: _GridOverlay()),
+          Positioned(
+            left: -120,
+            top: 120,
+            child: Transform.rotate(
+              angle: -0.3,
+              child: _GradientRibbon(
+                width: 360,
+                height: 90,
+                colors: [
+                  ModernPalette.accent.withOpacity(0.3),
+                  Colors.transparent,
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            right: -100,
+            top: -120,
+            child: _GlowingOrb(
+              size: 240,
+              color: ModernPalette.accentGlow.withOpacity(0.3),
+            ),
+          ),
+          Positioned(
+            left: -60,
+            bottom: 120,
+            child: _GlowingOrb(
+              size: 190,
+              color: ModernPalette.teal.withOpacity(0.2),
+            ),
+          ),
+          Positioned(
+            right: 120,
+            bottom: -100,
+            child: _GlowingOrb(
+              size: 200,
+              color: ModernPalette.sun.withOpacity(0.25),
+            ),
+          ),
+          SafeArea(
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  padding: EdgeInsets.fromLTRB(
+                    isCompact ? 20 : 52,
+                    isCompact ? 120 : 132,
+                    isCompact ? 20 : 52,
+                    120,
+                  ),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1200),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildReveal(
+                            start: 0.08,
+                            end: 0.4,
+                            child: _HeroSection(
+                              isCompact: isCompact,
+                              onAction: _showMessage,
+                            ),
+                          ),
+                          const SizedBox(height: 56),
+                          _buildReveal(
+                            start: 0.2,
+                            end: 0.52,
+                            child: _HighlightsRow(
+                              isCompact: isCompact,
+                              onStart: () => _goToUpload(context),
+                              onDocumentation: () => DocsLauncher.open(context),
+                            ),
+                          ),
+                          const SizedBox(height: 64),
+                          _buildReveal(
+                            start: 0.32,
+                            end: 0.6,
+                            child: _LanguageShowcase(isCompact: isCompact),
+                          ),
+                          const SizedBox(height: 64),
+                          _buildReveal(
+                            start: 0.44,
+                            end: 0.72,
+                            child: _StepsSection(isCompact: isCompact),
+                          ),
+                          const SizedBox(height: 64),
+                          _buildReveal(
+                            start: 0.58,
+                            end: 0.88,
+                            child: _CliSnapshotSection(isCompact: isCompact),
+                          ),
+                          const SizedBox(height: 32),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      isCompact ? 20 : 52,
+                      12,
+                      isCompact ? 20 : 52,
+                      0,
+                    ),
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 1200),
+                        child: _TopNav(
+                          isCompact: isCompact,
+                          onDocumentation: () => DocsLauncher.open(context),
+                          onStart: () => _goToUpload(context),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReveal({
+    required double start,
+    required double end,
+    required Widget child,
+  }) {
+    final curve = CurvedAnimation(
+      parent: _controller,
+      curve: Interval(start, end, curve: Curves.easeOutCubic),
+    );
+    final offset = Tween<Offset>(
+      begin: const Offset(0, 0.08),
+      end: Offset.zero,
+    ).animate(curve);
+
+    return FadeTransition(
+      opacity: curve,
+      child: SlideTransition(position: offset, child: child),
+    );
+  }
+
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: ModernPalette.ink,
+      ),
+    );
+  }
+
+  void _goToUpload(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const UploadPage()),
+    );
+  }
+}
+
+class _GridOverlay extends StatelessWidget {
+  const _GridOverlay();
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: _GridPainter(),
+    );
+  }
+}
+
+class _GridPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = ModernPalette.grid.withOpacity(0.35)
+      ..strokeWidth = 1;
+
+    const step = 140.0;
+    for (double x = 0; x <= size.width; x += step) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), paint);
+    }
+    for (double y = 0; y <= size.height; y += step) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
+
+class _GradientRibbon extends StatelessWidget {
+  const _GradientRibbon({
+    required this.width,
+    required this.height,
+    required this.colors,
+  });
+
+  final double width;
+  final double height;
+  final List<Color> colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(60),
+        gradient: LinearGradient(colors: colors),
+      ),
+    );
+  }
+}
+
+class _GlowingOrb extends StatelessWidget {
+  const _GlowingOrb({required this.size, required this.color});
+
+  final double size;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(0.35),
+            blurRadius: 100,
+            spreadRadius: 24,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TopNav extends StatelessWidget {
+  const _TopNav({
+    required this.isCompact,
+    required this.onDocumentation,
+    required this.onStart,
+  });
+
+  final bool isCompact;
+  final VoidCallback onDocumentation;
+  final VoidCallback onStart;
+
+  @override
+  Widget build(BuildContext context) {
+    return _GlassPanel(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: Row(
+        children: [
+          _BrandMark(),
+          const Spacer(),
+          OutlinedButton(
+            onPressed: onDocumentation,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: ModernPalette.ink,
+              side: const BorderSide(color: ModernPalette.inkSoft),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
+            child: const Text('Documentation'),
+          ),
+          const SizedBox(width: 12),
+          ElevatedButton(
+            onPressed: onStart,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: ModernPalette.accent,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text('Commencer'),
+                SizedBox(width: 8),
+                Icon(Icons.arrow_forward),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _BrandMark extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            color: Colors.white.withOpacity(0.7),
+            boxShadow: [
+              BoxShadow(
+                color: ModernPalette.accent.withOpacity(0.2),
+                blurRadius: 18,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.asset(
+              'assets/pics/logo.png',
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) =>
+                  const Icon(Icons.auto_awesome, color: ModernPalette.accent),
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'UML2Code',
+              style: GoogleFonts.spaceGrotesk(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: ModernPalette.ink,
+              ),
+            ),
+            Text(
+              'Suite de bureau',
+              style: GoogleFonts.spaceGrotesk(
+                fontSize: 12,
+                color: ModernPalette.inkMuted,
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _HeroSection extends StatelessWidget {
+  const _HeroSection({required this.isCompact, required this.onAction});
+
+  final bool isCompact;
+  final void Function(String) onAction;
+
+  @override
+  Widget build(BuildContext context) {
+    final headlineSize = isCompact ? 34.0 : 46.0;
+
+    final textBlock = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const _Tag(label: 'Simple et clair'),
+        const SizedBox(height: 18),
+        Text.rich(
+          TextSpan(
+            text: 'Transformez vos',
+            style: GoogleFonts.spaceGrotesk(
+              fontSize: headlineSize,
+              fontWeight: FontWeight.w700,
+              color: ModernPalette.ink,
+              height: 1.05,
+            ),
+            children: const [
+              TextSpan(
+                text: ' diagrammes \nUML ',
+                style: TextStyle(color: ModernPalette.accent),
+              ),
+              TextSpan(text: ' en un projet prêt à l\'emploi.'),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'Importez vos diagrammes, mettez-les en ordre et obtenez une base de '
+          'projet propre. Tout se fait sur votre ordinateur, avec une partie '
+          'en ligne optionnelle selon le resultat attendu',
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 16,
+            color: ModernPalette.inkSoft,
+            height: 1.5,
+          ),
+        ),
+        const SizedBox(height: 24),
+        // Wrap(
+        //   spacing: 12,
+        //   runSpacing: 12,
+        //   children: [
+        //     ElevatedButton(
+        //       onPressed: () => onAction('Lancer la préparation'),
+        //       style: ElevatedButton.styleFrom(
+        //         backgroundColor: ModernPalette.accent,
+        //         foregroundColor: Colors.white,
+        //         padding:
+        //             const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
+        //         shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.circular(14),
+        //         ),
+        //       ),
+        //       child: const Text('Lancer la préparation'),
+        //     ),
+        //     OutlinedButton(
+        //       onPressed: () => onAction('Voir les étapes'),
+        //       style: OutlinedButton.styleFrom(
+        //         foregroundColor: ModernPalette.ink,
+        //         side: const BorderSide(color: ModernPalette.inkSoft),
+        //         padding:
+        //             const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
+        //         shape: RoundedRectangleBorder(
+        //           borderRadius: BorderRadius.circular(14),
+        //         ),
+        //       ),
+        //       child: const Text('Voir les étapes'),
+        //     ),
+        //   ],
+        // ),
+        const SizedBox(height: 24),
+        Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          children: const [
+            _MetricChip(label: 'Tout reste local par défaut'),
+            _MetricChip(label: 'Résultat prévisible'),
+            _MetricChip(label: 'Fonctions en ligne optionnelles'),
+          ],
+        ),
+      ],
+    );
+
+    final commandPanel = _GlassPanel(
+      padding: const EdgeInsets.all(22),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          _CommandHeader(),
+          SizedBox(height: 18),
+          _CommandBlock(),
+          SizedBox(height: 18),
+          _CommandStats(),
+          SizedBox(height: 16),
+          _ProgressMeter(value: 0.78),
+        ],
+      ),
+    );
+
+    if (isCompact) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          textBlock,
+          const SizedBox(height: 32),
+          commandPanel,
+        ],
+      );
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(flex: 6, child: textBlock),
+        const SizedBox(width: 32),
+        Expanded(flex: 5, child: commandPanel),
+      ],
+    );
+  }
+}
+
+class _CommandHeader extends StatelessWidget {
+  const _CommandHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: ModernPalette.ink,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Text(
+            'Aperçu rapide',
+            style: GoogleFonts.spaceGrotesk(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+              letterSpacing: 0.6,
+            ),
+          ),
+        ),
+        const Spacer(),
+      ],
+    );
+  }
+}
+
+class _CommandBlock extends StatelessWidget {
+  const _CommandBlock();
+
+  @override
+  Widget build(BuildContext context) {
+    const command = r'''
+1. Choisir un fichier
+2. Sélectionner une technologie
+3. Générer le projet
+''';
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: ModernPalette.ink,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: SelectableText(
+        command,
+        style: GoogleFonts.ibmPlexMono(
+          color: Colors.white.withOpacity(0.92),
+          fontSize: 12.5,
+          height: 1.5,
+        ),
+      ),
+    );
+  }
+}
+
+class _CommandStats extends StatelessWidget {
+  const _CommandStats();
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      spacing: 12,
+      runSpacing: 12,
+      children: const [
+        _MiniStat(label: 'Parcours', value: 'standard'),
+        _MiniStat(label: 'Technologies', value: 'variées'),
+        _MiniStat(label: 'Version', value: 'à jour et stable'),
+      ],
+    );
+  }
+}
+
+class _MiniStat extends StatelessWidget {
+  const _MiniStat({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: ModernPalette.surface,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: ModernPalette.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.spaceGrotesk(
+              fontSize: 11,
+              color: ModernPalette.inkMuted,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: GoogleFonts.spaceGrotesk(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: ModernPalette.ink,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProgressMeter extends StatelessWidget {
+  const _ProgressMeter({required this.value});
+
+  final double value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Progression de génération',
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 12,
+            color: ModernPalette.inkMuted,
+          ),
+        ),
+        const SizedBox(height: 8),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Container(
+            height: 10,
+            color: ModernPalette.surfaceSoft,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: FractionallySizedBox(
+                widthFactor: value,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        ModernPalette.accent,
+                        ModernPalette.sun,
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _HighlightsRow extends StatelessWidget {
+  const _HighlightsRow({
+    required this.isCompact,
+    required this.onStart,
+    required this.onDocumentation,
+  });
+
+  final bool isCompact;
+  final VoidCallback onStart;
+  final VoidCallback onDocumentation;
+
+  @override
+  Widget build(BuildContext context) {
+    final spacing = isCompact ? 12.0 : 20.0;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final tileWidth =
+            (constraints.maxWidth < 360 ? constraints.maxWidth : 320).toDouble();
+        return SizedBox(
+          width: constraints.maxWidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  alignment: WrapAlignment.center,
+                  children: [
+                    OutlinedButton(
+                      onPressed: onDocumentation,
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: ModernPalette.ink,
+                        side: const BorderSide(color: ModernPalette.inkSoft),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 32, vertical: 20),
+                        minimumSize: const Size(210, 60),
+                        textStyle: GoogleFonts.spaceGrotesk(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 17,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      child: const Text('Documentation'),
+                    ),
+                    ElevatedButton(
+                      onPressed: onStart,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ModernPalette.accent,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 32, vertical: 20),
+                        minimumSize: const Size(210, 60),
+                        textStyle: GoogleFonts.spaceGrotesk(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 17,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Commencer'),
+                          SizedBox(width: 8),
+                          Icon(Icons.arrow_forward),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 22),
+              Wrap(
+                spacing: spacing,
+                runSpacing: spacing,
+                alignment: WrapAlignment.center,
+                children: [
+                  _HighlightCard(
+                    width: tileWidth,
+                    title: 'Tout reste local',
+                    body:
+                        'Le cœur du travail reste sur votre ordinateur.',
+                    icon: Icons.lock_outline,
+                  ),
+                  _HighlightCard(
+                    width: tileWidth,
+                    title: 'Historique clair',
+                    body:
+                        'Vos choix sont conservés pour garder une trace simple.',
+                    icon: Icons.data_object,
+                  ),
+                  _HighlightCard(
+                    width: tileWidth,
+                    title: 'Plusieurs choix',
+                    body:
+                        'Choisissez une technologie adaptée à votre projet.',
+                    icon: Icons.layers_outlined,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _HighlightCard extends StatelessWidget {
+  const _HighlightCard({
+    required this.width,
+    required this.title,
+    required this.body,
+    required this.icon,
+  });
+
+  final double width;
+  final String title;
+  final String body;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: ModernPalette.surface,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: ModernPalette.border),
+        boxShadow: [
+          BoxShadow(
+            color: ModernPalette.ink.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 12),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 42,
+            height: 42,
+            decoration: BoxDecoration(
+              color: ModernPalette.accent.withOpacity(0.12),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Icon(icon, color: ModernPalette.accent),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.spaceGrotesk(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: ModernPalette.ink,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  body,
+                  style: GoogleFonts.spaceGrotesk(
+                    fontSize: 13,
+                    color: ModernPalette.inkMuted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Tag extends StatelessWidget {
+  const _Tag({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      decoration: BoxDecoration(
+        color: ModernPalette.ink,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.spaceGrotesk(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: Colors.white,
+          letterSpacing: 0.6,
+        ),
+      ),
+    );
+  }
+}
+
+class _MetricChip extends StatelessWidget {
+  const _MetricChip({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: ModernPalette.border),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.spaceGrotesk(
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+          color: ModernPalette.ink,
+        ),
+      ),
+    );
+  }
+}
+
+class _StepsSection extends StatelessWidget {
+  const _StepsSection({required this.isCompact});
+
+  final bool isCompact;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const _SectionHeader(
+          title: 'Comment ça marche',
+          subtitle: 'Trois étapes simples et faciles à suivre.',
+          center: true,
+        ),
+        const SizedBox(height: 24),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final tileWidth =
+                (constraints.maxWidth < 360 ? constraints.maxWidth : 320)
+                    .toDouble();
+            return Align(
+              alignment: Alignment.center,
+              child: Wrap(
+                spacing: isCompact ? 12 : 20,
+                runSpacing: isCompact ? 12 : 20,
+                alignment: WrapAlignment.center,
+                children: [
+                  _StepCard(
+                    width: tileWidth,
+                    index: '01',
+                    title: 'Importer vos schémas',
+                    body:
+                        'Vos diagrammes deviennent une base claire et lisible.',
+                    icon: Icons.layers_outlined,
+                  ),
+                  _StepCard(
+                    width: tileWidth,
+                    index: '02',
+                    title: 'Mettre en ordre',
+                    body:
+                        'Les informations sont organisées pour éviter les erreurs.',
+                    icon: Icons.tune,
+                  ),
+                  _StepCard(
+                    width: tileWidth,
+                    index: '03',
+                    title: 'Créer le projet',
+                    body: 'Vous obtenez une base prête à personnaliser.',
+                    icon: Icons.folder_open,
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _StepCard extends StatelessWidget {
+  const _StepCard({
+    required this.width,
+    required this.index,
+    required this.title,
+    required this.body,
+    required this.icon,
+  });
+
+  final double width;
+  final String index;
+  final String title;
+  final String body;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: ModernPalette.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: BoxDecoration(
+                  color: ModernPalette.surfaceSoft,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Text(
+                  index,
+                  style: GoogleFonts.spaceGrotesk(
+                    fontWeight: FontWeight.w600,
+                    color: ModernPalette.ink,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              Icon(icon, color: ModernPalette.accent),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            title,
+            style: GoogleFonts.spaceGrotesk(
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              color: ModernPalette.ink,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            body,
+            style: GoogleFonts.spaceGrotesk(
+              fontSize: 13,
+              color: ModernPalette.inkMuted,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LanguageShowcase extends StatefulWidget {
+  const _LanguageShowcase({required this.isCompact});
+
+  final bool isCompact;
+
+  @override
+  State<_LanguageShowcase> createState() => _LanguageShowcaseState();
+}
+
+class _LanguageShowcaseState extends State<_LanguageShowcase> {
+  int? _hoveredIndex;
+
+  final List<_LanguageItem> _items = [
+    _LanguageItem(
+      name: 'Go',
+      color: const Color(0xFF00ADD8),
+      description:
+          'Go est apprécié pour sa rapidité et sa simplicité. '
+          'Il convient aux projets qui doivent répondre vite et rester légers. '
+          'Sa gestion de la concurrence aide quand beaucoup de tâches se passent '
+          'en même temps. On l\'utilise souvent pour des services rapides et stables '
+          'quand la performance et la fiabilité comptent. '
+          'Fiber est un framework web rapide et minimaliste construit en Go. '
+          'Il a été conçu pour offrir des performances extrêmes, tout en restant '
+          'simple à utiliser. Son API est volontairement inspirée de frameworks '
+          'modernes comme Express.js, ce qui facilite la prise en main pour les '
+          'développeurs venant de l’écosystème JavaScript. '
+          'Fiber repose sur un moteur HTTP très optimisé, ce qui lui permet de '
+          'traiter un grand nombre de requêtes avec une latence très faible et une '
+          'consommation mémoire réduite. Il est particulièrement adapté aux '
+          'applications nécessitant rapidité, scalabilité et efficacité.',
+      asset: 'assets/pics/go.png',
+      logoScale: 6,
+    ),
+    _LanguageItem(
+      name: 'Spring',
+      color: const Color(0xFF6DB33F),
+      description:
+          'Spring Boot est un framework Java robuste et mature, conçu pour '
+          'simplifier le développement d’applications backend professionnelles. '
+          'Il repose sur l’écosystème Spring et permet de créer rapidement des '
+          'applications autonomes, configurées par convention plutôt que par '
+          'configuration manuelle. '
+          'Spring Boot est particulièrement apprécié dans les environnements '
+          'industriels pour sa fiabilité, son intégration native avec les '
+          'architectures microservices, la sécurité avancée (Spring Security) et '
+          'la gestion efficace des bases de données. Il est largement utilisé '
+          'dans les systèmes bancaires, les plateformes d’entreprise et les '
+          'applications à forte criticité.',
+      asset: 'assets/pics/spring.png',
+      logoScale: 6,
+    ),
+    _LanguageItem(
+      name: 'FastAPI',
+      color: const Color(0xFF009688),
+      description:
+          'FastAPI est un framework web moderne basé sur Python, reconnu pour sa '
+          'vitesse élevée et sa simplicité. Il exploite les annotations de type '
+          'Python pour générer automatiquement une documentation API interactive '
+          'et garantir la validation des données. '
+          'Très populaire dans les projets data science, IA et microservices '
+          'légers, FastAPI permet de construire des API performantes avec peu de '
+          'code. Il est particulièrement adapté aux applications nécessitant un '
+          'prototypage rapide sans sacrifier la qualité ni les performances.',
+      asset: 'assets/pics/fastApi.png',
+      logoScale: 6,
+    ),
+    _LanguageItem(
+      name: 'Laravel',
+      color: const Color(0xFFFF2D20),
+      description:
+          'Laravel est un framework PHP élégant et expressif, conçu pour '
+          'faciliter le développement d’applications web complètes. Il offre une '
+          'syntaxe claire, une excellente organisation du code et de nombreux '
+          'outils intégrés : ORM (Eloquent), authentification, files d’attente, '
+          'tâches planifiées, etc. '
+          'Laravel est très apprécié pour le développement rapide de plateformes '
+          'web, API REST, backoffices et applications métier. Il combine '
+          'productivité, lisibilité et richesse fonctionnelle, ce qui en fait un '
+          'choix privilégié pour les startups et les projets académiques.',
+      asset: 'assets/pics/laravel.png',
+      logoScale: 8,
+    ),
+    _LanguageItem(
+      name: 'NestJS',
+      color: const Color(0xFFE0234E),
+      description:
+          'NestJS est un framework backend moderne basé sur Node.js et '
+          'TypeScript. Il adopte une architecture fortement inspirée de Spring, '
+          'avec une séparation claire des responsabilités (modules, '
+          'contrôleurs, services). '
+          'NestJS est idéal pour construire des API scalables, microservices, et '
+          'applications temps réel. Son intégration native avec TypeScript '
+          'améliore la maintenabilité et la robustesse du code, ce qui en fait un '
+          'excellent choix pour des projets complexes et de grande envergure.',
+      asset: 'assets/pics/NestJs.png',
+      logoScale: 6,
+    ),
+    _LanguageItem(
+      name: 'Dart',
+      color: const Color(0xFF0175C2),
+      description:
+          'Dart est un langage de programmation moderne, principalement connu '
+          'pour être le pilier du framework Flutter. Côté backend, Dart permet '
+          'de développer des serveurs performants, typés et multiplateformes. '
+          'Grâce à sa syntaxe claire et à son excellent support asynchrone, Dart '
+          'est utilisé pour créer des API, des services backend et des '
+          'applications full-stack cohérentes avec des clients mobiles Flutter. '
+          'Il favorise une forte cohésion entre frontend et backend.',
+      asset: 'assets/pics/dart.png',
+      logoScale: 6,
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final rowCount = (_items.length / 3).ceil();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const _SectionHeader(
+          title: 'Langages',
+          subtitle: 'Description de ce que nous avons préparé pour vous.',
+          center: true,
+        ),
+        const SizedBox(height: 24),
+        MouseRegion(
+          onExit: (_) => setState(() => _hoveredIndex = null),
+          child: Column(
+            children: List.generate(rowCount, (rowIndex) {
+              final start = rowIndex * 3;
+              final end =
+                  (start + 3) > _items.length ? _items.length : start + 3;
+              final rowItems = _items.sublist(start, end);
+              final count = rowItems.length;
+              return Padding(
+                padding: EdgeInsets.only(
+                  bottom: rowIndex == rowCount - 1 ? 0 : 18,
+                ),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final totalWidth = constraints.maxWidth;
+                    const gap = 16.0;
+                    final available = totalWidth - gap * (count - 1);
+                    final safeWidth = totalWidth - 4;
+                    final minWidth = 90.0;
+                    final needsScroll = available < minWidth * count;
+                    final layoutWidth = needsScroll
+                        ? minWidth * count + gap * (count - 1)
+                        : safeWidth;
+                    final layoutAvailable = layoutWidth - gap * (count - 1);
+                    final baseWidth = layoutAvailable / count;
+                    final hoveredInRow = _hoveredIndex != null &&
+                        _hoveredIndex! >= start &&
+                        _hoveredIndex! < end;
+
+                    double expandedWidth = baseWidth;
+                    double collapsedWidth = baseWidth;
+                    if (hoveredInRow && count > 1) {
+                      final totalUnits = count * 2;
+                      final expandedUnits = count + 1;
+                      expandedWidth =
+                          layoutAvailable * expandedUnits / totalUnits;
+                      collapsedWidth = layoutAvailable / totalUnits;
+                      if (collapsedWidth < minWidth) {
+                        collapsedWidth = minWidth;
+                        expandedWidth =
+                            layoutAvailable - collapsedWidth * (count - 1);
+                      }
+                    }
+
+                    final row = Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(count, (index) {
+                        final globalIndex = start + index;
+                        final isHovered = _hoveredIndex == globalIndex;
+                        final isDimmed =
+                            _hoveredIndex != null && !isHovered;
+                        final width = !hoveredInRow
+                            ? baseWidth
+                            : isHovered
+                                ? expandedWidth
+                                : collapsedWidth;
+                        return Padding(
+                          padding:
+                              EdgeInsets.only(right: index == count - 1 ? 0 : gap),
+                          child: _LanguageTile(
+                            item: rowItems[index],
+                            width: width,
+                            isHovered: isHovered,
+                            isDimmed: isDimmed,
+                            isCompact: widget.isCompact,
+                            onEnter: () =>
+                                setState(() => _hoveredIndex = globalIndex),
+                          ),
+                        );
+                      }),
+                    );
+
+                    final content = needsScroll
+                        ? SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: SizedBox(width: layoutWidth, child: row),
+                          )
+                        : row;
+
+                    return Align(
+                      alignment: Alignment.center,
+                      child: content,
+                    );
+                  },
+                ),
+              );
+            }),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _LanguageItem {
+  const _LanguageItem({
+    required this.name,
+    required this.color,
+    required this.description,
+    required this.asset,
+    this.logoScale = 1.0,
+    this.needsBadge = false,
+  });
+
+  final String name;
+  final Color color;
+  final String description;
+  final String asset;
+  final double logoScale;
+  final bool needsBadge;
+}
+
+class _LanguageTile extends StatelessWidget {
+  const _LanguageTile({
+    required this.item,
+    required this.width,
+    required this.isHovered,
+    required this.isDimmed,
+    required this.isCompact,
+    required this.onEnter,
+  });
+
+  final _LanguageItem item;
+  final double width;
+  final bool isHovered;
+  final bool isDimmed;
+  final bool isCompact;
+  final VoidCallback onEnter;
+
+  @override
+  Widget build(BuildContext context) {
+    final height = isCompact ? 300.0 : 340.0;
+    return MouseRegion(
+      onEnter: (_) => onEnter(),
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 220),
+        opacity: isDimmed ? 0.7 : 1,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 260),
+          curve: Curves.easeOutCubic,
+          width: width,
+          height: height,
+          padding: const EdgeInsets.all(16),
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+            color: ModernPalette.surface,
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(
+              color: isHovered ? ModernPalette.accent : ModernPalette.border,
+              width: isHovered ? 1.6 : 1,
+            ),
+            gradient: LinearGradient(
+              colors: [
+                Colors.white,
+                ModernPalette.surfaceSoft,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: ModernPalette.ink.withOpacity(isHovered ? 0.18 : 0.08),
+                blurRadius: isHovered ? 30 : 16,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final maxLogoSize =
+                  (constraints.maxWidth - 32) * (isHovered ? 0.6 : 0.72);
+              final scaleFactor = isHovered && item.logoScale > 1.18
+                  ? 1.18
+                  : item.logoScale;
+              double logoSize = (isHovered ? 108.0 : 88.0) * scaleFactor;
+              if (maxLogoSize < 48) {
+                logoSize = maxLogoSize;
+              } else if (logoSize > maxLogoSize) {
+                logoSize = maxLogoSize;
+              } else if (logoSize < 48) {
+                logoSize = 48;
+              }
+
+              return Stack(
+                children: [
+                  AnimatedAlign(
+                    duration: const Duration(milliseconds: 260),
+                    curve: Curves.easeOutCubic,
+                    alignment: isHovered ? Alignment.topLeft : Alignment.center,
+                  child: AnimatedScale(
+                    duration: const Duration(milliseconds: 260),
+                    scale: isHovered ? 1.06 : 1.0,
+                    child: _LanguageAsset(
+                      asset: item.asset,
+                      needsBadge: item.needsBadge,
+                      size: logoSize,
+                    ),
+                  ),
+                ),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 200),
+                      opacity: isHovered ? 1 : 0,
+                      child: AnimatedSlide(
+                        duration: const Duration(milliseconds: 220),
+                        offset: isHovered ? Offset.zero : const Offset(0, 0.15),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: height - 88,
+                          ),
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: item.color,
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.35),
+                              ),
+                            ),
+                            child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.name.toUpperCase(),
+                                    style: GoogleFonts.spaceGrotesk(
+                                      fontSize: 12.5,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white.withOpacity(0.9),
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Text(
+                                    item.description,
+                                    style: GoogleFonts.spaceGrotesk(
+                                      fontSize: 15.2,
+                                      color: Colors.white,
+                                      height: 1.5,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LanguageAsset extends StatelessWidget {
+  const _LanguageAsset({
+    required this.asset,
+    required this.needsBadge,
+    required this.size,
+  });
+
+  final String asset;
+  final bool needsBadge;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final isSvg = asset.toLowerCase().endsWith('.svg');
+
+    final content = isSvg
+        ? SvgPicture.asset(
+            asset,
+            height: size,
+            width: size,
+            fit: BoxFit.contain,
+          )
+        : Image.asset(
+            asset,
+            height: size,
+            width: size,
+            fit: BoxFit.contain,
+          );
+
+    if (!needsBadge) {
+      return content;
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: ModernPalette.surfaceSoft,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: ModernPalette.border.withOpacity(0.7)),
+      ),
+      child: content,
+    );
+  }
+}
+
+class _CliSnapshotSection extends StatelessWidget {
+  const _CliSnapshotSection({required this.isCompact});
+
+  final bool isCompact;
+
+  @override
+  Widget build(BuildContext context) {
+    const code = '''
+{
+  Projet : demo
+  Diagramme principal : mon_diagramme
+  Dossier de sortie : output
+  Parcours : standard
+}
+''';
+
+    final infoList = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Vos choix sont enregistrés pour relancer plus tard.',
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 14,
+            color: ModernPalette.inkSoft,
+          ),
+        ),
+        const SizedBox(height: 16),
+        const _BulletLine(text: 'Vos réglages restent disponibles'),
+        const _BulletLine(text: 'Le résultat reste sur cet ordinateur'),
+        const _BulletLine(text: 'Relancez quand vous voulez'),
+      ],
+    );
+
+    final codeCard = Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(22),
+      decoration: BoxDecoration(
+        color: ModernPalette.ink,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: ModernPalette.inkSoft),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Vos réglages',
+            style: GoogleFonts.spaceGrotesk(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.6,
+            ),
+          ),
+          const SizedBox(height: 16),
+          SelectableText(
+            code,
+            style: GoogleFonts.ibmPlexMono(
+              color: Colors.white.withOpacity(0.9),
+              fontSize: isCompact ? 11.5 : 12.5,
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const _SectionHeader(
+          title: 'Récapitulatif',
+          subtitle: 'Un aperçu clair de vos choix enregistrés.',
+          center: true,
+        ),
+        const SizedBox(height: 24),
+        if (isCompact)
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 620),
+                  child: codeCard,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Align(
+                alignment: Alignment.center,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 620),
+                  child: infoList,
+                ),
+              ),
+            ],
+          )
+        else
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 1100),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(flex: 6, child: codeCard),
+                  const SizedBox(width: 28),
+                  Expanded(flex: 4, child: infoList),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _BulletLine extends StatelessWidget {
+  const _BulletLine({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Row(
+        children: [
+          Container(
+            width: 8,
+            height: 8,
+            decoration: const BoxDecoration(
+              color: ModernPalette.accent,
+              shape: BoxShape.circle,
+            ),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              text,
+              style: GoogleFonts.spaceGrotesk(
+                fontSize: 13,
+                color: ModernPalette.inkSoft,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SectionHeader extends StatelessWidget {
+  const _SectionHeader({
+    required this.title,
+    required this.subtitle,
+    this.center = false,
+  });
+
+  final String title;
+  final String subtitle;
+  final bool center;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment:
+          center ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: ModernPalette.ink,
+          ),
+          textAlign: center ? TextAlign.center : TextAlign.start,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          subtitle,
+          style: GoogleFonts.spaceGrotesk(
+            fontSize: 14,
+            color: ModernPalette.inkSoft,
+          ),
+          textAlign: center ? TextAlign.center : TextAlign.start,
+        ),
+      ],
+    );
+  }
+}
+
+class _GlassPanel extends StatelessWidget {
+  const _GlassPanel({required this.child, this.padding});
+
+  final Widget child;
+  final EdgeInsets? padding;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(22),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+        child: Container(
+          padding: padding ?? const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: ModernPalette.glass,
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(color: ModernPalette.border),
+          ),
+          child: child,
+        ),
+      ),
+    );
+  }
+}

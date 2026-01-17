@@ -1,0 +1,40 @@
+import 'package:shelf_router/shelf_router.dart';
+
+{%- for class_name in classes %}
+import '../controllers/{{ class_name | snake_case }}_controller.dart';
+import '../services/{{ class_name | snake_case }}_service.dart';
+import '../repositories/{{ class_name | snake_case }}_repository.dart';
+{%- endfor %}
+
+/// API Routes configuration
+class ApiRoutes {
+  late final Router _router;
+
+  ApiRoutes() {
+    _router = _buildRouter();
+  }
+
+  Router get router => _router;
+
+  Router _buildRouter() {
+    final router = Router();
+
+    // Initialize repositories
+{%- for class_name in classes %}
+    final {{ class_name | lcfirst }}Repository = {{ class_name }}Repository();
+{%- endfor %}
+
+    // Initialize services
+{%- for class_name in classes %}
+    final {{ class_name | lcfirst }}Service = {{ class_name }}Service({{ class_name | lcfirst }}Repository);
+{%- endfor %}
+
+    // Initialize controllers and mount routes
+{%- for class_name in classes %}
+    final {{ class_name | lcfirst }}Controller = {{ class_name }}Controller({{ class_name | lcfirst }}Service);
+    router.mount('/{{ class_name | snake_case | plural }}', {{ class_name | lcfirst }}Controller.router.call);
+{%- endfor %}
+
+    return router;
+  }
+}

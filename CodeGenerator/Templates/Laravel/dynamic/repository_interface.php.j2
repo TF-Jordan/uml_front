@@ -1,0 +1,57 @@
+<?php
+
+namespace {{ base_namespace }}\Repositories\Interfaces;
+
+use {{ base_namespace }}\Models\{{ class_name }};
+use Illuminate\Database\Eloquent\Collection;
+
+interface {{ class_name }}RepositoryInterface
+{
+    /**
+     * Get all {{ class_name | lower }}s.
+     *
+     * @return Collection<int, {{ class_name }}>
+     */
+    public function all(): Collection;
+
+    /**
+     * Find a {{ class_name | lower }} by ID.
+     *
+     * @param int $id
+     * @return {{ class_name }}|null
+     */
+    public function find(int $id): ?{{ class_name }};
+
+    /**
+     * Create a new {{ class_name | lower }}.
+     *
+     * @param array<string, mixed> $data
+     * @return {{ class_name }}
+     */
+    public function create(array $data): {{ class_name }};
+
+    /**
+     * Update an existing {{ class_name | lower }}.
+     *
+     * @param int $id
+     * @param array<string, mixed> $data
+     * @return {{ class_name }}|null
+     */
+    public function update(int $id, array $data): ?{{ class_name }};
+
+    /**
+     * Delete a {{ class_name | lower }}.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool;
+
+    /**
+     * Find {{ class_name | lower }}s by criteria.
+     *
+     * @param array<string, mixed> $criteria
+     * @return Collection<int, {{ class_name }}>
+     */
+    public function findBy(array $criteria): Collection;
+}

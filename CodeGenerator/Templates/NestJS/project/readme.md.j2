@@ -1,0 +1,117 @@
+# {{ project_name }}
+
+A NestJS API generated from UML diagrams.
+
+## Features
+
+- **NestJS {{ nest_version }}** with TypeScript
+- **Node.js {{ node_version }}** runtime
+- **TypeORM** for database operations
+- **Repository Pattern** with interfaces for clean architecture
+- **DTOs** with class-validator for input validation
+- **Swagger/OpenAPI** documentation
+- **Module per entity** architecture
+
+## Generated Entities
+
+{% for class_name in classes %}
+- {{ class_name }}
+{% endfor %}
+
+## Installation
+
+```bash
+npm install
+```
+
+## Database Setup
+
+1. Create a PostgreSQL database (or configure another database in `.env`)
+2. Configure the database connection in `.env`:
+
+```env
+DB_TYPE={{ db_type }}
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+DB_DATABASE={{ project_name|lower|replace(' ', '_') }}
+DB_SYNCHRONIZE=true
+```
+
+## Running the Application
+
+```bash
+# Development mode
+npm run start:dev
+
+# Production mode
+npm run build
+npm run start:prod
+```
+
+## API Documentation
+
+Once the application is running, visit:
+- **Swagger UI**: http://localhost:3000/api/docs
+
+## Project Structure
+
+```
+src/
+├── common/                 # Shared utilities
+│   ├── decorators/
+│   ├── filters/
+│   ├── guards/
+│   ├── interceptors/
+│   └── pipes/
+├── config/                 # Configuration files
+│   └── database.config.ts
+├── database/               # Database configuration
+│   └── data-source.ts
+{% for class_name in classes %}
+├── {{ class_name|kebab_case }}/              # {{ class_name }} module
+│   ├── dto/
+│   │   ├── create-{{ class_name|kebab_case }}.dto.ts
+│   │   └── update-{{ class_name|kebab_case }}.dto.ts
+│   ├── entities/
+│   │   └── {{ class_name|kebab_case }}.entity.ts
+│   ├── repositories/
+│   │   ├── {{ class_name|kebab_case }}.repository.interface.ts
+│   │   └── {{ class_name|kebab_case }}.repository.ts
+│   ├── {{ class_name|kebab_case }}.controller.ts
+│   ├── {{ class_name|kebab_case }}.module.ts
+│   └── {{ class_name|kebab_case }}.service.ts
+{% endfor %}
+├── app.controller.ts
+├── app.module.ts
+├── app.service.ts
+└── main.ts
+```
+
+## Available Scripts
+
+- `npm run start:dev` - Start in development mode with hot reload
+- `npm run build` - Build for production
+- `npm run start:prod` - Start in production mode
+- `npm run test` - Run unit tests
+- `npm run test:e2e` - Run end-to-end tests
+- `npm run lint` - Lint the code
+- `npm run format` - Format code with Prettier
+
+## TypeORM Migrations
+
+```bash
+# Generate a migration
+npm run migration:generate -- src/database/migrations/MigrationName
+
+# Run migrations
+npm run migration:run
+
+# Revert last migration
+npm run migration:revert
+```
+
+## License
+
+MIT

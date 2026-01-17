@@ -1,0 +1,106 @@
+package handlers
+
+import (
+    "github.com/gofiber/fiber/v2"
+    "{{ module_path }}/models"
+    "{{ module_path }}/services"
+{% if id_attr.type != "string" %}
+    "strconv"
+{% endif %}
+)
+
+type {{class_name}}Handler struct {
+    service *services.{{class_name}}Service
+}
+
+func New{{class_name}}Handler(service *services.{{class_name}}Service) *{{class_name}}Handler {
+    return &{{class_name}}Handler{service: service}
+}
+
+// Get all
+func (h *{{class_name}}Handler) GetAll(c *fiber.Ctx) error {
+    items, err := h.service.GetAll()
+    if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+    }
+    return c.JSON(items)
+}
+
+// Get by ID
+func (h *{{class_name}}Handler) GetByID(c *fiber.Ctx) error {
+    idParam := c.Params("id")
+    var id {{id_attr.type}}
+{% if id_attr.type == "string" %}
+    id = idParam
+{% else %}
+    id64, err := strconv.ParseUint(idParam, 10, 64)
+    if err != nil {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+    }
+    id = {{id_attr.type}}(id64)
+{% endif %}
+
+    item, err := h.service.GetByID(id)
+    if err != nil {
+        return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "{{class_name}} not found"})
+    }
+    return c.JSON(item)
+}
+
+// Create
+func (h *{{class_name}}Handler) Create(c *fiber.Ctx) error {
+    var item models.{{class_name}}
+    if err := c.BodyParser(&item); err != nil {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request body"})
+    }
+    if err := h.service.Create(&item); err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+    }
+    return c.Status(fiber.StatusCreated).JSON(item)
+}
+
+// Update
+func (h *{{class_name}}Handler) Update(c *fiber.Ctx) error {
+    idParam := c.Params("id")
+    var id {{id_attr.type}}
+{% if id_attr.type == "string" %}
+    id = idParam
+{% else %}
+    id64, err := strconv.ParseUint(idParam, 10, 64)
+    if err != nil {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+    }
+    id = {{id_attr.type}}(id64)
+{% endif %}
+
+    var item models.{{class_name}}
+    if err := c.BodyParser(&item); err != nil {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request body"})
+    }
+    item.{{id_attr.go_name}} = id
+
+    if err := h.service.Update(&item); err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+    }
+    return c.JSON(item)
+}
+
+// Delete
+func (h *{{class_name}}Handler) Delete(c *fiber.Ctx) error {
+    idParam := c.Params("id")
+    var id {{id_attr.type}}
+{% if id_attr.type == "string" %}
+    id = idParam
+{% else %}
+    id64, err := strconv.ParseUint(idParam, 10, 64)
+    if err != nil {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid ID"})
+    }
+    id = {{id_attr.type}}(id64)
+{% endif %}
+
+    if err := h.service.Delete(id); err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+    }
+    return c.SendStatus(fiber.StatusNoContent)
+}

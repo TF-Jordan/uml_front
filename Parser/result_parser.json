@@ -1,0 +1,88 @@
+{
+    "classes": {
+        "BonjourYa": {
+            "name": "BonjourYa",
+            "type": "class",
+            "attributes": [
+                {
+                    "visibility": "+",
+                    "attribute_name": "field",
+                    "attribute_type": "int"
+                }
+            ],
+            "methods": [
+                {
+                    "visibility": "+",
+                    "method_name": "yrtew",
+                    "method_type": "type",
+                    "parameters": [
+                        {
+                            "param_type": "Object",
+                            "param_name": "type"
+                        }
+                    ]
+                }
+            ],
+            "relationships": {
+                "": {
+                    "name": "",
+                    "source_name": "BonjourYa",
+                    "target_name": "BonsoirYo",
+                    "edge": "1",
+                    "style": {
+                        "endArrow": "block",
+                        "endFill": "0",
+                        "dashed": "1",
+                        "startArrow": "",
+                        "startFill": ""
+                    },
+                    "type": "Implementation",
+                    "source_cardinality": "",
+                    "target_cardinality": ""
+                }
+            }
+        },
+        "BonsoirYo": {
+            "name": "BonsoirYo",
+            "type": "interface",
+            "attributes": [
+                {
+                    "visibility": "+",
+                    "attribute_name": "field",
+                    "attribute_type": "String"
+                }
+            ],
+            "methods": [
+                {
+                    "visibility": "+",
+                    "method_name": "method",
+                    "method_type": "type",
+                    "parameters": [
+                        {
+                            "param_type": "Object",
+                            "param_name": "type"
+                        }
+                    ]
+                }
+            ],
+            "relationships": {
+                "": {
+                    "name": "",
+                    "source_name": "BonjourYa",
+                    "target_name": "BonsoirYo",
+                    "edge": "1",
+                    "style": {
+                        "endArrow": "block",
+                        "endFill": "0",
+                        "dashed": "1",
+                        "startArrow": "",
+                        "startFill": ""
+                    },
+                    "type": "Implementation",
+                    "source_cardinality": "",
+                    "target_cardinality": ""
+                }
+            }
+        }
+    }
+}

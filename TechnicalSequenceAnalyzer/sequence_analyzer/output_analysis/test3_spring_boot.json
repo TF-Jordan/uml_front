@@ -1,0 +1,23 @@
+{
+  "controllers": [],
+  "services": [],
+  "repositories": [],
+  "entities": [],
+  "dtos": [],
+  "exceptions": [
+    {
+      "type": "ResourceNotFoundException",
+      "extends": "RuntimeException",
+      "when": "Ressource inexistante",
+      "http_status": "404 NOT_FOUND",
+      "message": "La ressource demandée n'existe pas"
+    },
+    {
+      "type": "ValidationException",
+      "extends": "RuntimeException",
+      "when": "Validation échouée",
+      "http_status": "400 BAD_REQUEST",
+      "message": "Les données fournies sont invalides"
+    }
+  ]
+}

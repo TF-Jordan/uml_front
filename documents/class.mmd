@@ -1,0 +1,30 @@
+classDiagram
+    class Pipeline {
+        +run_pipeline(path, language, known_types, project_type)
+    }
+    class StructureLoader {
+        +load_structure_parser_file(path)
+        +normalize_structure_payload(payload, language, known_types, log)
+    }
+    class VisibilityNormalizer {
+        +normalize_visibility_payload(payload)
+    }
+    class ClassNameNormalizer {
+        +capitalize_class_names(payload)
+    }
+    class RelationshipsTransformer {
+        +process_relationships(payload, log)
+        +append_inheritance(...)
+        +append_implementation(...)
+        +append_other_relationship(...)
+    }
+    class SemanticValidator {
+        +normalize_type(raw_type, known_types)
+    }
+
+    Pipeline --> StructureLoader : loads + normalizes
+    Pipeline --> VisibilityNormalizer : normalizes visibility
+    Pipeline --> ClassNameNormalizer : normalizes class names
+    Pipeline --> RelationshipsTransformer : transforms relations
+    StructureLoader --> SemanticValidator : normalizes types
+    RelationshipsTransformer --> ClassNameNormalizer : relies on

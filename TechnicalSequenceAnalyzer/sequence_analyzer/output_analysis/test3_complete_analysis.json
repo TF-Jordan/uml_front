@@ -1,0 +1,271 @@
+{
+  "diagram_metadata": {
+    "name": "Page-1",
+    "id": "test3",
+    "use_case": "Cas d'usage décrit dans le diagramme Page-1",
+    "complexity": "medium"
+  },
+  "participants": [
+    {
+      "name": "Interface",
+      "type": "boundary",
+      "role": "Interface utilisateur",
+      "stereotype": null,
+      "id": "2"
+    },
+    {
+      "name": "Controller",
+      "type": "controller",
+      "role": "Orchestrateur de la logique métier",
+      "stereotype": null,
+      "id": "4"
+    },
+    {
+      "name": "SUPER<div>ADMIN</div>",
+      "type": "entity",
+      "role": "Accès aux données",
+      "stereotype": null,
+      "id": "19"
+    },
+    {
+      "name": "Repository<div>NewsLetter</div>",
+      "type": "entity",
+      "role": "Accès aux données",
+      "stereotype": null,
+      "id": "21"
+    },
+    {
+      "name": "LECTEUR",
+      "type": "entity",
+      "role": "Accès aux données",
+      "stereotype": null,
+      "id": "36"
+    }
+  ],
+  "sequence_flow": [],
+  "fragments": [
+    {
+      "type": "REF",
+      "line_number": null,
+      "condition": null,
+      "description": "Référence à un autre diagramme",
+      "nested": false,
+      "branches": [],
+      "reference": null,
+      "interactions": []
+    },
+    {
+      "type": "ALT",
+      "line_number": null,
+      "condition": null,
+      "description": "Condition alternative",
+      "nested": false,
+      "branches": [
+        {
+          "guard": "[condition1]",
+          "label": null,
+          "interactions": []
+        },
+        {
+          "guard": "[else]",
+          "label": null,
+          "interactions": []
+        }
+      ],
+      "reference": null,
+      "interactions": []
+    },
+    {
+      "type": "PAR",
+      "line_number": null,
+      "condition": null,
+      "description": "Exécution parallèle",
+      "nested": false,
+      "branches": [],
+      "reference": null,
+      "interactions": []
+    }
+  ],
+  "spring_boot_mapping": {
+    "controllers": [],
+    "services": [],
+    "repositories": [],
+    "entities": [],
+    "dtos": [],
+    "exceptions": [
+      {
+        "type": "ResourceNotFoundException",
+        "extends": "RuntimeException",
+        "when": "Ressource inexistante",
+        "http_status": "404 NOT_FOUND",
+        "message": "La ressource demandée n'existe pas"
+      },
+      {
+        "type": "ValidationException",
+        "extends": "RuntimeException",
+        "when": "Validation échouée",
+        "http_status": "400 BAD_REQUEST",
+        "message": "Les données fournies sont invalides"
+      }
+    ]
+  },
+  "existing_entities": {
+    "Reservation": {
+      "name": "Reservation",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "dateDebut",
+          "attribute_type": "datetime.date"
+        },
+        {
+          "visibility": "private",
+          "attribute_name": "videoprojeteur$",
+          "attribute_type": "Videoprojeteur"
+        },
+        {
+          "visibility": "private",
+          "attribute_name": "effectuer",
+          "attribute_type": "Enseignant"
+        }
+      ],
+      "methods": [
+        {
+          "visibility": "public",
+          "method_name": "validerReservation",
+          "method_type": "int",
+          "parameters": [
+            {
+              "param_type": "int",
+              "param_name": "nbre"
+            },
+            {
+              "param_type": "str",
+              "param_name": "exo"
+            }
+          ],
+          "name": "validerReservation"
+        }
+      ]
+    },
+    "Equipement": {
+      "name": "Equipement",
+      "type": "abstractClass",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "marque",
+          "attribute_type": "str"
+        }
+      ],
+      "methods": []
+    },
+    "Ordinateur": {
+      "name": "Ordinateur",
+      "type": "class, extends Equipement",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "ram",
+          "attribute_type": "int"
+        },
+        {
+          "visibility": "private",
+          "attribute_name": "etre composer$",
+          "attribute_type": "Reservation"
+        }
+      ],
+      "methods": []
+    },
+    "Videoprojeteur": {
+      "name": "Videoprojeteur",
+      "type": "class, extends Equipement",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "resolution",
+          "attribute_type": "str"
+        }
+      ],
+      "methods": []
+    },
+    "Enseignant": {
+      "name": "Enseignant",
+      "type": "class, implements Teacheractions",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "nom",
+          "attribute_type": "str"
+        }
+      ],
+      "methods": [
+        {
+          "visibility": "public",
+          "method_name": "name",
+          "method_type": "Void",
+          "parameters": [],
+          "name": "name"
+        }
+      ]
+    },
+    "Salle": {
+      "name": "Salle",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "public",
+          "attribute_name": "nbrePlace",
+          "attribute_type": "int"
+        },
+        {
+          "visibility": "private",
+          "attribute_name": "reservation#",
+          "attribute_type": "Reservation"
+        }
+      ],
+      "methods": []
+    },
+    "Responsableformation": {
+      "name": "Responsableformation",
+      "type": "class, extends Enseignant",
+      "attributes": [],
+      "methods": [
+        {
+          "visibility": "public",
+          "method_name": "name",
+          "method_type": "Void",
+          "parameters": [],
+          "name": "name"
+        }
+      ]
+    },
+    "Formation": {
+      "name": "Formation",
+      "type": "class",
+      "attributes": [
+        {
+          "visibility": "private",
+          "attribute_name": "etre responsable",
+          "attribute_type": "Responsableformation"
+        }
+      ],
+      "methods": []
+    },
+    "Teacheractions": {
+      "name": "Teacheractions",
+      "type": "interface",
+      "attributes": [],
+      "methods": [
+        {
+          "visibility": "public",
+          "method_name": "name",
+          "method_type": "Void",
+          "parameters": [],
+          "name": "name"
+        }
+      ]
+    }
+  }
+}

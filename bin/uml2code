@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  echo "Usage: $0 <config.json> [-- extra args]" >&2
+  echo "Env: UML2CODE_IMAGE, UML2CODE_ROOT, UML2CODE_DOCKER_ARGS" >&2
+}
+
+if [[ ${1:-} == "-h" || ${1:-} == "--help" || $# -lt 1 ]]; then
+  usage
+  exit 0
+fi
+
+config_path=$1
+shift
+
+if [[ ! -f "$config_path" ]]; then
+  echo "Config not found: $config_path" >&2
+  exit 1
+fi
+
+realpath_fallback() {
+  if command -v realpath >/dev/null 2>&1; then
+    realpath "$1"
+    return
+  fi
+  python - <<'PY' "$1"
+import os, sys
+print(os.path.abspath(sys.argv[1]))
+PY
+}
+
+config_abs=$(realpath_fallback "$config_path")
+
+root=${UML2CODE_ROOT:-}
+if [[ -z "$root" ]]; then
+  git_root=$(git rev-parse --show-toplevel 2>/dev/null || true)
+  if [[ -n "$git_root" && "$config_abs" == "$(realpath_fallback "$git_root")/"* ]]; then
+    root=$git_root
+  else
+    root=$(pwd)
+  fi
+fi
+
+root_abs=$(realpath_fallback "$root")
+if [[ "$config_abs" == "$root_abs/"* ]]; then
+  config_rel=${config_abs#"$root_abs"/}
+else
+  root_abs=$(dirname "$config_abs")
+  config_rel=$(basename "$config_abs")
+  echo "Note: config not under UML2CODE_ROOT; mounting $root_abs" >&2
+fi
+
+image=${UML2CODE_IMAGE:-uml2code-cli}
+
+extra_docker_args=()
+if [[ -n "${UML2CODE_DOCKER_ARGS-}" ]]; then
+  read -r -a extra_docker_args <<< "$UML2CODE_DOCKER_ARGS"
+fi
+
+env_flags=()
+for var in GEMINI_API_KEY GOOGLE_GENAI_API_KEY ANTHROPIC_API_KEY UML2CODE_AI_KEY; do
+  if [[ -n "${!var-}" ]]; then
+    env_flags+=("-e" "$var=${!var}")
+  fi
+done
+
+docker build -t "$image" "$root_abs"
+
+exec docker run --rm \
+  --user "$(id -u)":"$(id -g)" \
+  "${env_flags[@]}" \
+  -v "$root_abs:/workspace" \
+  -w /workspace \
+  "${extra_docker_args[@]}" \
+  "$image" "/workspace/$config_rel" "$@"

@@ -1,0 +1,72 @@
+package com.example.dto;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
+import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.math.BigDecimal;
+
+/**
+ * DTO pour la relation {{ relation.type }} entre {{ relation.source_name|title }} et {{ relation.target_name|title }}
+ * Cardinalité: {{ relation.source_cardinality }} -> {{ relation.target_cardinality }}
+ * Générée automatiquement à partir du diagramme UML
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class {{ relation.name|title }}DTO {
+
+    // ========================================
+    // Attributs de {{ relation.source_name|title }} (Source)
+    // ========================================
+{% if source_class %}
+    {% for attr in source_class.attributes %}
+    {% set java_type = map_type(attr.attribute_type) %}
+    {% if attr.visibility == '+' %}
+    /**
+     * {{ attr.attribute_name }} de {{ relation.source_name|title }}
+     * Type: {{ attr.attribute_type }}
+     */
+    private {{ java_type }} {{ attr.attribute_name }};
+    {% endif %}
+    {% endfor %}
+{% endif %}
+
+    // ========================================
+    // Attributs de {{ relation.target_name|title }} (Target)
+    // ========================================
+{% if target_class %}
+    {% for attr in target_class.attributes %}
+    {% set java_type = map_type(attr.attribute_type) %}
+    {% if attr.visibility == '+' %}
+    /**
+     * {{ attr.attribute_name }} de {{ relation.target_name|title }}
+     * Type: {{ attr.attribute_type }}
+     */
+    private {{ java_type }} {{ attr.attribute_name }};
+    {% endif %}
+    {% endfor %}
+{% else %}
+    // ATTENTION: Classe cible "{{ relation.target_name }}" introuvable dans le modèle
+{% endif %}
+
+    // ========================================
+    // Métadonnées de la relation
+    // ========================================
+    
+    /**
+     * Type de relation: {{ relation.type }}
+     */
+    private String relationType = "{{ relation.type }}";
+    
+    /**
+     * Nom de la relation: {{ relation.name }}
+     */
+    private String relationName = "{{ relation.name }}";
+}
+

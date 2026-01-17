@@ -1,0 +1,92 @@
+<?php
+
+namespace {{ base_namespace }}\Services;
+
+use {{ base_namespace }}\Models\{{ class_name }};
+use {{ base_namespace }}\Repositories\Interfaces\{{ class_name }}RepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
+
+class {{ class_name }}Service
+{
+    /**
+     * The {{ class_name | lower }} repository instance.
+     */
+    protected {{ class_name }}RepositoryInterface ${{ class_name | lower }}Repository;
+
+    /**
+     * Create a new service instance.
+     */
+    public function __construct({{ class_name }}RepositoryInterface ${{ class_name | lower }}Repository)
+    {
+        $this->{{ class_name | lower }}Repository = ${{ class_name | lower }}Repository;
+    }
+
+    /**
+     * Get all {{ class_name | lower }}s.
+     *
+     * @return Collection<int, {{ class_name }}>
+     */
+    public function getAll(): Collection
+    {
+        return $this->{{ class_name | lower }}Repository->all();
+    }
+
+    /**
+     * Get a {{ class_name | lower }} by ID.
+     *
+     * @param int $id
+     * @return {{ class_name }}|null
+     */
+    public function getById(int $id): ?{{ class_name }}
+    {
+        return $this->{{ class_name | lower }}Repository->find($id);
+    }
+
+    /**
+     * Create a new {{ class_name | lower }}.
+     *
+     * @param array<string, mixed> $data
+     * @return {{ class_name }}
+     */
+    public function create(array $data): {{ class_name }}
+    {
+        // Add business logic here before creating
+        return $this->{{ class_name | lower }}Repository->create($data);
+    }
+
+    /**
+     * Update an existing {{ class_name | lower }}.
+     *
+     * @param int $id
+     * @param array<string, mixed> $data
+     * @return {{ class_name }}|null
+     */
+    public function update(int $id, array $data): ?{{ class_name }}
+    {
+        // Add business logic here before updating
+        return $this->{{ class_name | lower }}Repository->update($id, $data);
+    }
+
+    /**
+     * Delete a {{ class_name | lower }}.
+     *
+     * @param int $id
+     * @return bool
+     */
+    public function delete(int $id): bool
+    {
+        // Add business logic here before deleting
+        return $this->{{ class_name | lower }}Repository->delete($id);
+    }
+
+    /**
+     * Find {{ class_name | lower }}s by criteria.
+     *
+     * @param array<string, mixed> $criteria
+     * @return Collection<int, {{ class_name }}>
+     */
+    public function findBy(array $criteria): Collection
+    {
+        return $this->{{ class_name | lower }}Repository->findBy($criteria);
+    }
+}

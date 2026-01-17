@@ -1,0 +1,22 @@
+flowchart LR
+    User((User))
+    CLI((CLI))
+
+    RunPipeline([Run semantic pipeline])
+    NormalizeVis([Normalize visibility only])
+    NormalizeTypes([Normalize types only])
+    NormalizeNames([Normalize class names only])
+    TransformRelations([Transform relationships only])
+
+    User --> RunPipeline
+    CLI --> RunPipeline
+
+    User --> NormalizeVis
+    User --> NormalizeTypes
+    User --> NormalizeNames
+    User --> TransformRelations
+
+    RunPipeline -.->|include| NormalizeVis
+    RunPipeline -.->|include| NormalizeTypes
+    RunPipeline -.->|include| NormalizeNames
+    RunPipeline -.->|include| TransformRelations

@@ -1,0 +1,106 @@
+import datetime
+{% if orm == "sqlmodel" %}
+from typing import List, Optional
+
+from sqlalchemy import (
+    Boolean,
+    Column,
+    Date,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    Time,
+    Table,
+)
+from sqlmodel import Field, Relationship, SQLModel
+
+{%- if extends and extends_module %}
+from {{ base_module }}.models.{{ extends_module }} import {{ extends }}
+{%- endif %}
+
+{%- set many_to_many_attrs = attributes | selectattr("relation_kind", "equalto", "many_to_many") | list %}
+{%- for attr in many_to_many_attrs %}
+association_{{ attr.join_table }} = Table(
+    "{{ attr.join_table }}",
+    SQLModel.metadata,
+    Column("{{ attr.column_name }}", Integer, ForeignKey("{{ table_name }}.id")),
+    Column("{{ attr.inverse_join_column }}", Integer, ForeignKey("{{ attr.target_table }}.id")),
+)
+{%- endfor %}
+
+
+class {{ class_name }}({% if extends %}{{ extends }}, {% endif %}SQLModel, table=True):
+    __tablename__ = "{{ table_name }}"
+{%- for attr in attributes %}
+    {%- if attr.relation_kind == "many_to_one" %}
+        {%- if attr.nullable_db %}
+    {{ attr.column_name }}: int | None = Field(default=None, foreign_key="{{ attr.target_table }}.id", nullable=True)
+        {%- else %}
+    {{ attr.column_name }}: int = Field(foreign_key="{{ attr.target_table }}.id", nullable=False)
+        {%- endif %}
+    {{ attr.name }}: Optional["{{ attr.target_class }}"] = Relationship()
+    {%- elif attr.relation_kind == "one_to_many" %}
+    {{ attr.name }}: List["{{ attr.target_class }}"] = Relationship()
+    {%- elif attr.relation_kind == "many_to_many" %}
+    {{ attr.name }}: List["{{ attr.target_class }}"] = Relationship(
+        sa_relationship_kwargs={"secondary": association_{{ attr.join_table }}}
+    )
+    {%- else %}
+        {%- if attr.is_primary %}
+    {{ attr.column_name }}: int | None = Field(default=None, primary_key=True)
+        {%- elif attr.optional_schema %}
+    {{ attr.column_name }}: {{ attr.type }} | None = Field(default=None)
+        {%- else %}
+    {{ attr.column_name }}: {{ attr.type }} = Field(nullable=False)
+        {%- endif %}
+    {%- endif %}
+{%- endfor %}
+{% else %}
+from sqlalchemy import (
+    Boolean,
+    Column,
+    Date,
+    DateTime,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    Time,
+    Table,
+)
+from sqlalchemy.orm import relationship
+
+from {{ base_module }}.db import Base
+
+{%- if extends and extends_module %}
+from {{ base_module }}.models.{{ extends_module }} import {{ extends }}
+{%- endif %}
+
+{%- set many_to_many_attrs = attributes | selectattr("relation_kind", "equalto", "many_to_many") | list %}
+{%- for attr in many_to_many_attrs %}
+association_{{ attr.join_table }} = Table(
+    "{{ attr.join_table }}",
+    Base.metadata,
+    Column("{{ attr.column_name }}", Integer, ForeignKey("{{ table_name }}.id")),
+    Column("{{ attr.inverse_join_column }}", Integer, ForeignKey("{{ attr.target_table }}.id")),
+)
+{%- endfor %}
+
+
+class {{ class_name }}({% if extends %}{{ extends }}, {% endif %}Base):
+    __tablename__ = "{{ table_name }}"
+{%- for attr in attributes %}
+    {%- if attr.relation_kind == "many_to_one" %}
+    {{ attr.column_name }} = Column({{ attr.column_type }}, ForeignKey("{{ attr.target_table }}.id"), nullable={{ "True" if attr.nullable_db else "False" }})
+    {{ attr.name }} = relationship("{{ attr.target_class }}")
+    {%- elif attr.relation_kind == "one_to_many" %}
+    {{ attr.name }} = relationship("{{ attr.target_class }}", cascade="all, delete-orphan")
+    {%- elif attr.relation_kind == "many_to_many" %}
+    {{ attr.name }} = relationship("{{ attr.target_class }}", secondary=association_{{ attr.join_table }})
+    {%- else %}
+    {{ attr.column_name }} = Column({{ attr.column_type }}{% if attr.is_primary %}, primary_key=True, index=True, autoincrement=True{% endif %}{% if attr.nullable_db %}, nullable=True{% else %}, nullable=False{% endif %})
+    {%- endif %}
+{%- endfor %}
+{% endif %}

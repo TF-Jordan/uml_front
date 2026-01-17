@@ -1,0 +1,46 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { {{ class_name }} } from '../entities/{{ module_name }}.entity';
+import { I{{ class_name }}Repository } from './{{ module_name }}.repository.interface';
+import { Create{{ class_name }}Dto } from '../dto/create-{{ module_name }}.dto';
+import { Update{{ class_name }}Dto } from '../dto/update-{{ module_name }}.dto';
+
+@Injectable()
+export class {{ class_name }}Repository implements I{{ class_name }}Repository {
+  constructor(
+    @InjectRepository({{ class_name }})
+    private readonly repository: Repository<{{ class_name }}>,
+  ) {}
+
+  async findAll(): Promise<{{ class_name }}[]> {
+    return this.repository.find();
+  }
+
+  async findById(id: number): Promise<{{ class_name }} | null> {
+    return this.repository.findOne({ where: { id } });
+  }
+
+  async create(data: Create{{ class_name }}Dto): Promise<{{ class_name }}> {
+    const entity = this.repository.create(data);
+    return this.repository.save(entity);
+  }
+
+  async update(id: number, data: Update{{ class_name }}Dto): Promise<{{ class_name }} | null> {
+    const entity = await this.findById(id);
+    if (!entity) {
+      return null;
+    }
+    Object.assign(entity, data);
+    return this.repository.save(entity);
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const result = await this.repository.delete(id);
+    return result.affected !== 0;
+  }
+
+  async findBy(field: keyof {{ class_name }}, value: any): Promise<{{ class_name }}[]> {
+    return this.repository.find({ where: { [field]: value } as any });
+  }
+}

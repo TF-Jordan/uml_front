@@ -1,0 +1,104 @@
+package com.example.repository;
+
+import com.example.Models.{{data.name | capitalize}};
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+{% if data.hasDateAttributes %}
+import java.time.LocalDateTime;
+{% endif %}
+
+
+@Repository
+public interface {{data.name | capitalize}}Repository extends JpaRepository<{{data.name | capitalize}},  UUID> {
+
+   
+    
+    {% for attr in data.attributes %}
+    {% if attr.searchable %}
+    /**
+     * Trouve {% if attr.unique %}une entité{% else %}toutes les entités{% endif %} par {{attr.name}}
+     * @param {{attr.name}} Le {{attr.name}} à rechercher
+     * @return {% if attr.unique %}Optional contenant l'entité si trouvée{% else %}Liste des entités correspondantes{% endif %}
+     */
+    {% if attr.unique %}
+    Optional<{{data.name | capitalize}}> findBy{{attr.name | capitalize}}({{attr.type}} {{attr.name}});
+    {% else %}
+    List<{{data.name | capitalize}}> findBy{{attr.name | capitalize}}({{attr.type}} {{attr.name}});
+    {% endif %}
+    
+    {% endif %}
+    {% endfor %}
+
+    
+    {% for attr in data.attributes %}
+    {% if attr.searchable and attr.type == 'String' %}
+    /**
+     * Recherche par {{attr.name}} (insensible à la casse)
+     * @param {{attr.name}} Le {{attr.name}} à rechercher
+     * @return Liste des entités correspondantes
+     */
+    List<{{data.name | capitalize}}> findBy{{attr.name | capitalize}}IgnoreCase(String {{attr.name}});
+    
+    /**
+     * Recherche par {{attr.name}} contenant un mot-clé
+     * @param keyword Le mot-clé à rechercher
+     * @return Liste des entités correspondantes
+     */
+    List<{{data.name | capitalize}}> findBy{{attr.name | capitalize}}Containing(String keyword);
+    
+    /**
+     * Recherche par {{attr.name}} contenant un mot-clé (insensible à la casse)
+     * @param keyword Le mot-clé à rechercher
+     * @return Liste des entités correspondantes
+     */
+    List<{{data.name | capitalize}}> findBy{{attr.name | capitalize}}ContainingIgnoreCase(String keyword);
+    
+    {% endif %}
+    {% endfor %}
+
+     {% for composition in data.compositions %}
+    @Query("SELECT e FROM {{data.name | capitalize}} e LEFT JOIN FETCH e.{{composition.name}} WHERE e.id = :id")
+    Optional<{{data.name | capitalize}}> findByIdWith{{composition.name | capitalize}}(@Param("id") UUID id);
+    {% endfor %}
+    
+    {% for aggregation in data.aggregations %}
+    @Query("SELECT e FROM {{data.name | capitalize}} e LEFT JOIN FETCH e.{{aggregation.name}} WHERE e.id = :id")
+    Optional<{{data.name | capitalize}}> findByIdWith{{aggregation.name | capitalize}}(@Param("id") UUID id);
+    {% endfor %}
+
+   
+    
+    {% for attr in data.attributes %}
+    {% if attr.unique %}
+    /**
+     * Vérifie si une entité existe avec ce {{attr.name}}
+     * @param {{attr.name}} Le {{attr.name}} à vérifier
+     * @return true si l'entité existe, false sinon
+     */
+    boolean existsBy{{attr.name | capitalize}}({{attr.type}} {{attr.name}});
+    
+    {% endif %}
+    {% endfor %}
+
+  
+    
+    {% for attr in data.attributes %}
+    {% if attr.countable %}
+    /**
+     * Compte le nombre d'entités par {{attr.name}}
+     * @param {{attr.name}} Le {{attr.name}} à compter
+     * @return Nombre d'entités
+     */
+    long countBy{{attr.name | capitalize}}({{attr.type}} {{attr.name}});
+    
+    {% endif %}
+    {% endfor %}
+
+ }   

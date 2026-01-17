@@ -1,0 +1,28 @@
+package routes
+
+import (
+    "github.com/gofiber/fiber/v2"
+
+    "{{ module_path }}/config"
+    "{{ module_path }}/handlers"
+    "{{ module_path }}/repositories"
+    "{{ module_path }}/services"
+)
+
+func SetupRoutes(app *fiber.App) {
+    api := app.Group("/api/v1")
+
+{% for route in handler_routes %}
+    // {{route.name}} routes
+    {{route.snake}}Repo := repositories.New{{route.name}}Repository(config.DB)
+    {{route.snake}}Service := services.New{{route.name}}Service({{route.snake}}Repo)
+    {{route.snake}}Handler := handlers.New{{route.name}}Handler({{route.snake}}Service)
+
+    {{route.snake}}Group := api.Group("{{route.route}}")
+    {{route.snake}}Group.Get("/", {{route.snake}}Handler.GetAll)
+    {{route.snake}}Group.Get("/:id", {{route.snake}}Handler.GetByID)
+    {{route.snake}}Group.Post("/", {{route.snake}}Handler.Create)
+    {{route.snake}}Group.Put("/:id", {{route.snake}}Handler.Update)
+    {{route.snake}}Group.Delete("/:id", {{route.snake}}Handler.Delete)
+{% endfor %}
+}

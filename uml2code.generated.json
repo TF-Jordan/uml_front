@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "schema_version": "1.0",
+    "project_name": "check2",
+    "stack": "fiber",
+    "output_dir": "output"
+  },
+  "inputs": {
+    "class_diagram_path": "datas/diagramTest.drawio",
+    "sequence_diagram_path": "datas/test5.drawio"
+  },
+  "pipeline": {
+    "mode": "class_plus_sequence_ia",
+    "overwrite_strategy": "backup"
+  },
+  "fiber": {
+    "go_version": "1.21",
+    "fiber_version": "2.52.10",
+    "db": "postgres",
+    "orm": "gorm"
+  },
+  "ai": {
+    "enabled": true,
+    "provider": "gemini",
+    "user_key_id": "GEMINI_API_KEY"
+  }
+}

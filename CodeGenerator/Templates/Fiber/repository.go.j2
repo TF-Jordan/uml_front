@@ -1,0 +1,43 @@
+package repositories
+
+import (
+{% if id_attr.type != "string" %}
+{% endif %}
+    "gorm.io/gorm"
+    "{{ module_path }}/models"
+)
+
+type {{class_name}}Repository struct {
+    db *gorm.DB
+}
+
+func New{{class_name}}Repository(db *gorm.DB) *{{class_name}}Repository {
+    return &{{class_name}}Repository{db: db}
+}
+
+func (r *{{class_name}}Repository) FindAll() ([]models.{{class_name}}, error) {
+    var items []models.{{class_name}}
+    result := r.db.Find(&items)
+    return items, result.Error
+}
+
+func (r *{{class_name}}Repository) FindByID(id {{id_attr.type}}) (*models.{{class_name}}, error) {
+    var item models.{{class_name}}
+    result := r.db.First(&item, id)
+    if result.Error != nil {
+        return nil, result.Error
+    }
+    return &item, nil
+}
+
+func (r *{{class_name}}Repository) Create(item *models.{{class_name}}) error {
+    return r.db.Create(item).Error
+}
+
+func (r *{{class_name}}Repository) Update(item *models.{{class_name}}) error {
+    return r.db.Save(item).Error
+}
+
+func (r *{{class_name}}Repository) Delete(id {{id_attr.type}}) error {
+    return r.db.Delete(&models.{{class_name}}{}, id).Error
+}

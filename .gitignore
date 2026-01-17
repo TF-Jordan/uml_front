@@ -1,0 +1,8 @@
+# Environnements virtuels
+.venv/*
+venv/
+env/
+
+# Node
+node_modules/
+job_store/

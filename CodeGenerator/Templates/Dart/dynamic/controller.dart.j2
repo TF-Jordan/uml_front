@@ -1,0 +1,121 @@
+import 'dart:convert';
+
+import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart';
+
+import '../models/{{ file_name }}.dart';
+import '../services/{{ file_name }}_service.dart';
+import '../utils/response_utils.dart';
+
+/// REST Controller for {{ class_name }}
+class {{ class_name }}Controller {
+  final {{ class_name }}Service _service;
+
+  {{ class_name }}Controller(this._service);
+
+  /// Get router with all {{ class_name }} routes
+  Router get router {
+    final router = Router();
+
+    // GET /{{ file_name | plural }} - List all
+    router.get('/', _findAll);
+
+    // GET /{{ file_name | plural }}/<id> - Get by ID
+    router.get('/<id|[0-9]+>', _findById);
+
+    // POST /{{ file_name | plural }} - Create
+    router.post('/', _create);
+
+    // PUT /{{ file_name | plural }}/<id> - Update
+    router.put('/<id|[0-9]+>', _update);
+
+    // PATCH /{{ file_name | plural }}/<id> - Partial update
+    router.patch('/<id|[0-9]+>', _update);
+
+    // DELETE /{{ file_name | plural }}/<id> - Delete
+    router.delete('/<id|[0-9]+>', _delete);
+
+    return router;
+  }
+
+  /// GET /{{ file_name | plural }}
+  Future<Response> _findAll(Request request) async {
+    try {
+      final entities = await _service.findAll();
+      return ResponseUtils.ok(entities.map((e) => e.toJson()).toList());
+    } catch (e) {
+      return ResponseUtils.internalError(e.toString());
+    }
+  }
+
+  /// GET /{{ file_name | plural }}/<id>
+  Future<Response> _findById(Request request, String id) async {
+    try {
+      final entityId = int.parse(id);
+      final entity = await _service.findByIdOrNull(entityId);
+
+      if (entity == null) {
+        return ResponseUtils.notFound('{{ class_name }} with id $id not found');
+      }
+
+      return ResponseUtils.ok(entity.toJson());
+    } catch (e) {
+      return ResponseUtils.internalError(e.toString());
+    }
+  }
+
+  /// POST /{{ file_name | plural }}
+  Future<Response> _create(Request request) async {
+    try {
+      final body = await request.readAsString();
+      final json = jsonDecode(body) as Map<String, dynamic>;
+      final entity = {{ class_name }}.fromJson(json);
+
+      final created = await _service.create(entity);
+      return ResponseUtils.created(created.toJson());
+    } catch (e) {
+      return ResponseUtils.badRequest(e.toString());
+    }
+  }
+
+  /// PUT/PATCH /{{ file_name | plural }}/<id>
+  Future<Response> _update(Request request, String id) async {
+    try {
+      final entityId = int.parse(id);
+      final body = await request.readAsString();
+      final json = jsonDecode(body) as Map<String, dynamic>;
+
+      // Get existing entity
+      final existing = await _service.findByIdOrNull(entityId);
+      if (existing == null) {
+        return ResponseUtils.notFound('{{ class_name }} with id $id not found');
+      }
+
+      // Merge with existing data for PATCH
+      final mergedJson = {...existing.toJson(), ...json};
+      final entity = {{ class_name }}.fromJson(mergedJson);
+
+      final updated = await _service.update(entityId, entity);
+      return ResponseUtils.ok(updated.toJson());
+    } catch (e) {
+      return ResponseUtils.badRequest(e.toString());
+    }
+  }
+
+  /// DELETE /{{ file_name | plural }}/<id>
+  Future<Response> _delete(Request request, String id) async {
+    try {
+      final entityId = int.parse(id);
+
+      final existing = await _service.findByIdOrNull(entityId);
+      if (existing == null) {
+        return ResponseUtils.notFound('{{ class_name }} with id $id not found');
+      }
+
+      await _service.delete(entityId);
+      return ResponseUtils.noContent();
+    } catch (e) {
+      return ResponseUtils.internalError(e.toString());
+    }
+  }
+}
