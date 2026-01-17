@@ -100,14 +100,14 @@ class _OverviewPageState extends State<OverviewPage>
               children: [
                 SingleChildScrollView(
                   padding: EdgeInsets.fromLTRB(
-                    isCompact ? 20 : 52,
-                    isCompact ? 120 : 132,
-                    isCompact ? 20 : 52,
-                    120,
+                    isCompact ? 16 : 32,
+                    isCompact ? 110 : 120,
+                    isCompact ? 16 : 32,
+                    80,
                   ),
                   child: Center(
                     child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 1200),
+                      constraints: const BoxConstraints(maxWidth: 1440),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -141,13 +141,7 @@ class _OverviewPageState extends State<OverviewPage>
                             end: 0.72,
                             child: _StepsSection(isCompact: isCompact),
                           ),
-                          const SizedBox(height: 64),
-                          _buildReveal(
-                            start: 0.58,
-                            end: 0.88,
-                            child: _CliSnapshotSection(isCompact: isCompact),
-                          ),
-                          const SizedBox(height: 32),
+                          const SizedBox(height: 48),
                         ],
                       ),
                     ),
@@ -159,14 +153,14 @@ class _OverviewPageState extends State<OverviewPage>
                   top: 0,
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(
-                      isCompact ? 20 : 52,
+                      isCompact ? 16 : 32,
                       12,
-                      isCompact ? 20 : 52,
+                      isCompact ? 16 : 32,
                       0,
                     ),
                     child: Center(
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 1200),
+                        constraints: const BoxConstraints(maxWidth: 1440),
                         child: _TopNav(
                           isCompact: isCompact,
                           onDocumentation: () => DocsLauncher.open(context),
@@ -423,13 +417,13 @@ class _HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final headlineSize = isCompact ? 34.0 : 46.0;
+    final headlineSize = isCompact ? 38.0 : 52.0;
 
     final textBlock = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const _Tag(label: 'Simple et clair'),
-        const SizedBox(height: 18),
+        const SizedBox(height: 20),
         Text.rich(
           TextSpan(
             text: 'Transformez vos',
@@ -437,7 +431,7 @@ class _HeroSection extends StatelessWidget {
               fontSize: headlineSize,
               fontWeight: FontWeight.w700,
               color: ModernPalette.ink,
-              height: 1.05,
+              height: 1.1,
             ),
             children: const [
               TextSpan(
@@ -448,15 +442,15 @@ class _HeroSection extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 20),
         Text(
           'Importez vos diagrammes, mettez-les en ordre et obtenez une base de '
           'projet propre. Tout se fait sur votre ordinateur, avec une partie '
           'en ligne optionnelle selon le resultat attendu',
           style: GoogleFonts.spaceGrotesk(
-            fontSize: 16,
+            fontSize: 18,
             color: ModernPalette.inkSoft,
-            height: 1.5,
+            height: 1.6,
           ),
         ),
         const SizedBox(height: 24),
@@ -722,7 +716,7 @@ class _HighlightsRow extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final tileWidth =
-            (constraints.maxWidth < 360 ? constraints.maxWidth : 320).toDouble();
+            (constraints.maxWidth < 400 ? constraints.maxWidth : 380).toDouble();
         return SizedBox(
           width: constraints.maxWidth,
           child: Column(
@@ -834,15 +828,15 @@ class _HighlightCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: ModernPalette.surface,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(color: ModernPalette.border),
         boxShadow: [
           BoxShadow(
             color: ModernPalette.ink.withOpacity(0.08),
-            blurRadius: 20,
+            blurRadius: 24,
             offset: const Offset(0, 12),
           ),
         ],
@@ -851,15 +845,15 @@ class _HighlightCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 42,
-            height: 42,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
               color: ModernPalette.accent.withOpacity(0.12),
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(icon, color: ModernPalette.accent),
+            child: Icon(icon, color: ModernPalette.accent, size: 26),
           ),
-          const SizedBox(width: 14),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -867,17 +861,18 @@ class _HighlightCard extends StatelessWidget {
                 Text(
                   title,
                   style: GoogleFonts.spaceGrotesk(
-                    fontSize: 15,
+                    fontSize: 17,
                     fontWeight: FontWeight.w600,
                     color: ModernPalette.ink,
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 8),
                 Text(
                   body,
                   style: GoogleFonts.spaceGrotesk(
-                    fontSize: 13,
+                    fontSize: 15,
                     color: ModernPalette.inkMuted,
+                    height: 1.5,
                   ),
                 ),
               ],
@@ -897,15 +892,15 @@ class _Tag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
       decoration: BoxDecoration(
         color: ModernPalette.ink,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
       ),
       child: Text(
         label,
         style: GoogleFonts.spaceGrotesk(
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: FontWeight.w600,
           color: Colors.white,
           letterSpacing: 0.6,
@@ -923,16 +918,23 @@ class _MetricChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(color: ModernPalette.border),
+        boxShadow: [
+          BoxShadow(
+            color: ModernPalette.ink.withOpacity(0.06),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Text(
         label,
         style: GoogleFonts.spaceGrotesk(
-          fontSize: 13,
+          fontSize: 15,
           fontWeight: FontWeight.w500,
           color: ModernPalette.ink,
         ),
@@ -960,7 +962,7 @@ class _StepsSection extends StatelessWidget {
         LayoutBuilder(
           builder: (context, constraints) {
             final tileWidth =
-                (constraints.maxWidth < 360 ? constraints.maxWidth : 320)
+                (constraints.maxWidth < 400 ? constraints.maxWidth : 380)
                     .toDouble();
             return Align(
               alignment: Alignment.center,
@@ -1021,11 +1023,18 @@ class _StepCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      padding: const EdgeInsets.all(22),
+      padding: const EdgeInsets.all(26),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(color: ModernPalette.border),
+        boxShadow: [
+          BoxShadow(
+            color: ModernPalette.ink.withOpacity(0.06),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1034,7 +1043,7 @@ class _StepCard extends StatelessWidget {
             children: [
               Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                 decoration: BoxDecoration(
                   color: ModernPalette.surfaceSoft,
                   borderRadius: BorderRadius.circular(14),
@@ -1042,30 +1051,32 @@ class _StepCard extends StatelessWidget {
                 child: Text(
                   index,
                   style: GoogleFonts.spaceGrotesk(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
                     color: ModernPalette.ink,
                   ),
                 ),
               ),
               const Spacer(),
-              Icon(icon, color: ModernPalette.accent),
+              Icon(icon, color: ModernPalette.accent, size: 28),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           Text(
             title,
             style: GoogleFonts.spaceGrotesk(
               fontWeight: FontWeight.w600,
-              fontSize: 16,
+              fontSize: 19,
               color: ModernPalette.ink,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           Text(
             body,
             style: GoogleFonts.spaceGrotesk(
-              fontSize: 13,
+              fontSize: 15,
               color: ModernPalette.inkMuted,
+              height: 1.5,
             ),
           ),
         ],
@@ -1332,7 +1343,7 @@ class _LanguageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = isCompact ? 300.0 : 340.0;
+    final height = isCompact ? 320.0 : 360.0;
     return MouseRegion(
       onEnter: (_) => onEnter(),
       child: AnimatedOpacity(
@@ -1343,119 +1354,170 @@ class _LanguageTile extends StatelessWidget {
           curve: Curves.easeOutCubic,
           width: width,
           height: height,
-          padding: const EdgeInsets.all(16),
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             color: ModernPalette.surface,
-            borderRadius: BorderRadius.circular(22),
+            borderRadius: BorderRadius.circular(24),
             border: Border.all(
-              color: isHovered ? ModernPalette.accent : ModernPalette.border,
-              width: isHovered ? 1.6 : 1,
+              color: isHovered ? item.color : ModernPalette.border,
+              width: isHovered ? 2 : 1,
             ),
             gradient: LinearGradient(
-              colors: [
-                Colors.white,
-                ModernPalette.surfaceSoft,
-              ],
+              colors: isHovered
+                  ? [
+                      item.color.withOpacity(0.08),
+                      item.color.withOpacity(0.15),
+                    ]
+                  : [
+                      Colors.white,
+                      ModernPalette.surfaceSoft,
+                    ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             boxShadow: [
               BoxShadow(
-                color: ModernPalette.ink.withOpacity(isHovered ? 0.18 : 0.08),
-                blurRadius: isHovered ? 30 : 16,
+                color: isHovered
+                    ? item.color.withOpacity(0.25)
+                    : ModernPalette.ink.withOpacity(0.08),
+                blurRadius: isHovered ? 32 : 16,
                 offset: const Offset(0, 10),
               ),
             ],
           ),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final maxLogoSize =
-                  (constraints.maxWidth - 32) * (isHovered ? 0.6 : 0.72);
-              final scaleFactor = isHovered && item.logoScale > 1.18
-                  ? 1.18
-                  : item.logoScale;
-              double logoSize = (isHovered ? 108.0 : 88.0) * scaleFactor;
-              if (maxLogoSize < 48) {
-                logoSize = maxLogoSize;
-              } else if (logoSize > maxLogoSize) {
-                logoSize = maxLogoSize;
-              } else if (logoSize < 48) {
-                logoSize = 48;
-              }
-
-              return Stack(
-                children: [
-                  AnimatedAlign(
+          child: Stack(
+            children: [
+              // Logo toujours visible en haut
+              Positioned(
+                top: 16,
+                left: 16,
+                right: 16,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 260),
+                  curve: Curves.easeOutCubic,
+                  height: isHovered ? 80 : 140,
+                  child: AnimatedAlign(
                     duration: const Duration(milliseconds: 260),
                     curve: Curves.easeOutCubic,
-                    alignment: isHovered ? Alignment.topLeft : Alignment.center,
-                  child: AnimatedScale(
-                    duration: const Duration(milliseconds: 260),
-                    scale: isHovered ? 1.06 : 1.0,
-                    child: _LanguageAsset(
-                      asset: item.asset,
-                      needsBadge: item.needsBadge,
-                      size: logoSize,
+                    alignment: isHovered ? Alignment.centerLeft : Alignment.center,
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 260),
+                      padding: EdgeInsets.all(isHovered ? 8 : 0),
+                      decoration: BoxDecoration(
+                        color: isHovered ? Colors.white.withOpacity(0.9) : Colors.transparent,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: isHovered
+                            ? [
+                                BoxShadow(
+                                  color: item.color.withOpacity(0.2),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ]
+                            : [],
+                      ),
+                      child: _LanguageAsset(
+                        asset: item.asset,
+                        needsBadge: item.needsBadge,
+                        size: isHovered ? 56 : 100,
+                      ),
                     ),
                   ),
                 ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: AnimatedOpacity(
-                      duration: const Duration(milliseconds: 200),
-                      opacity: isHovered ? 1 : 0,
-                      child: AnimatedSlide(
-                        duration: const Duration(milliseconds: 220),
-                        offset: isHovered ? Offset.zero : const Offset(0, 0.15),
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxHeight: height - 88,
+              ),
+              // Nom du langage visible quand non survolé
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 260),
+                curve: Curves.easeOutCubic,
+                bottom: isHovered ? 999 : 20,
+                left: 0,
+                right: 0,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 180),
+                  opacity: isHovered ? 0 : 1,
+                  child: Center(
+                    child: Text(
+                      item.name,
+                      style: GoogleFonts.spaceGrotesk(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: ModernPalette.ink,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              // Panneau de description avec glassmorphism
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 280),
+                curve: Curves.easeOutCubic,
+                top: isHovered ? 100 : height,
+                left: 12,
+                right: 12,
+                bottom: 12,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: isHovered ? 1 : 0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(18),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              item.color.withOpacity(0.92),
+                              item.color.withOpacity(0.98),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: item.color,
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(
-                                color: Colors.white.withOpacity(0.35),
-                              ),
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.3),
+                            width: 1.5,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: item.color.withOpacity(0.3),
+                              blurRadius: 20,
+                              offset: const Offset(0, 8),
                             ),
-                            child: SingleChildScrollView(
-                              physics: const BouncingScrollPhysics(),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    item.name.toUpperCase(),
-                                    style: GoogleFonts.spaceGrotesk(
-                                      fontSize: 12.5,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white.withOpacity(0.9),
-                                      letterSpacing: 1.2,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Text(
-                                    item.description,
-                                    style: GoogleFonts.spaceGrotesk(
-                                      fontSize: 15.2,
-                                      color: Colors.white,
-                                      height: 1.5,
-                                    ),
-                                  ),
-                                ],
+                          ],
+                        ),
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.name.toUpperCase(),
+                                style: GoogleFonts.spaceGrotesk(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                  letterSpacing: 1.5,
+                                ),
                               ),
-                            ),
+                              const SizedBox(height: 10),
+                              Text(
+                                item.description,
+                                style: GoogleFonts.spaceGrotesk(
+                                  fontSize: 14,
+                                  color: Colors.white.withOpacity(0.95),
+                                  height: 1.6,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
                   ),
-                ],
-              );
-            },
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -1508,156 +1570,6 @@ class _LanguageAsset extends StatelessWidget {
   }
 }
 
-class _CliSnapshotSection extends StatelessWidget {
-  const _CliSnapshotSection({required this.isCompact});
-
-  final bool isCompact;
-
-  @override
-  Widget build(BuildContext context) {
-    const code = '''
-{
-  Projet : demo
-  Diagramme principal : mon_diagramme
-  Dossier de sortie : output
-  Parcours : standard
-}
-''';
-
-    final infoList = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Vos choix sont enregistrés pour relancer plus tard.',
-          style: GoogleFonts.spaceGrotesk(
-            fontSize: 14,
-            color: ModernPalette.inkSoft,
-          ),
-        ),
-        const SizedBox(height: 16),
-        const _BulletLine(text: 'Vos réglages restent disponibles'),
-        const _BulletLine(text: 'Le résultat reste sur cet ordinateur'),
-        const _BulletLine(text: 'Relancez quand vous voulez'),
-      ],
-    );
-
-    final codeCard = Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(22),
-      decoration: BoxDecoration(
-        color: ModernPalette.ink,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: ModernPalette.inkSoft),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Vos réglages',
-            style: GoogleFonts.spaceGrotesk(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.6,
-            ),
-          ),
-          const SizedBox(height: 16),
-          SelectableText(
-            code,
-            style: GoogleFonts.ibmPlexMono(
-              color: Colors.white.withOpacity(0.9),
-              fontSize: isCompact ? 11.5 : 12.5,
-              height: 1.5,
-            ),
-          ),
-        ],
-      ),
-    );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const _SectionHeader(
-          title: 'Récapitulatif',
-          subtitle: 'Un aperçu clair de vos choix enregistrés.',
-          center: true,
-        ),
-        const SizedBox(height: 24),
-        if (isCompact)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 620),
-                  child: codeCard,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Align(
-                alignment: Alignment.center,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 620),
-                  child: infoList,
-                ),
-              ),
-            ],
-          )
-        else
-          Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 1100),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(flex: 6, child: codeCard),
-                  const SizedBox(width: 28),
-                  Expanded(flex: 4, child: infoList),
-                ],
-              ),
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-class _BulletLine extends StatelessWidget {
-  const _BulletLine({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
-      child: Row(
-        children: [
-          Container(
-            width: 8,
-            height: 8,
-            decoration: const BoxDecoration(
-              color: ModernPalette.accent,
-              shape: BoxShape.circle,
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              text,
-              style: GoogleFonts.spaceGrotesk(
-                fontSize: 13,
-                color: ModernPalette.inkSoft,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _SectionHeader extends StatelessWidget {
   const _SectionHeader({
@@ -1679,18 +1591,19 @@ class _SectionHeader extends StatelessWidget {
         Text(
           title,
           style: GoogleFonts.spaceGrotesk(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
+            fontSize: 32,
+            fontWeight: FontWeight.w700,
             color: ModernPalette.ink,
           ),
           textAlign: center ? TextAlign.center : TextAlign.start,
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         Text(
           subtitle,
           style: GoogleFonts.spaceGrotesk(
-            fontSize: 14,
+            fontSize: 17,
             color: ModernPalette.inkSoft,
+            height: 1.5,
           ),
           textAlign: center ? TextAlign.center : TextAlign.start,
         ),

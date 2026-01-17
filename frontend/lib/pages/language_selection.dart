@@ -67,14 +67,14 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
           SafeArea(
             child: SingleChildScrollView(
               padding: EdgeInsets.fromLTRB(
-                isCompact ? 20 : 52,
-                28,
-                isCompact ? 20 : 52,
-                60,
+                isCompact ? 16 : 32,
+                24,
+                isCompact ? 16 : 32,
+                48,
               ),
               child: Center(
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1200),
+                  constraints: const BoxConstraints(maxWidth: 1440),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -112,29 +112,30 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
     );
 
     final rightPanel = _GlassPanel(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(28),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'Choisissez votre stack',
             style: GoogleFonts.spaceGrotesk(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
               color: ModernPalette.ink,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           Text(
             'Sélectionnez une cible pour générer le squelette et les conventions de projet.',
             style: GoogleFonts.spaceGrotesk(
-              fontSize: 13.5,
+              fontSize: 16,
               color: ModernPalette.inkMuted,
+              height: 1.5,
             ),
           ),
-          const SizedBox(height: 20),
-          _buildLanguageGrid(isCompact),
           const SizedBox(height: 24),
+          _buildLanguageGrid(isCompact),
+          const SizedBox(height: 28),
           // Row(
           //   children: [
           //     Expanded(
@@ -283,27 +284,29 @@ class _LanguageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconSize = isCompact ? 72.0 : 84.0;
+    final iconSize = isCompact ? 80.0 : 96.0;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeOutCubic,
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        color: option.color.withOpacity(isHovered || isSelected ? 0.18 : 0.12),
+        borderRadius: BorderRadius.circular(20),
+        color: option.color.withOpacity(isHovered || isSelected ? 0.18 : 0.10),
         border: Border.all(
           color: isSelected
               ? option.color
               : isHovered
                   ? option.color.withOpacity(0.6)
                   : ModernPalette.border,
-          width: isSelected ? 1.6 : 1,
+          width: isSelected ? 2 : 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: ModernPalette.ink.withOpacity(isHovered || isSelected ? 0.18 : 0.08),
-            blurRadius: isHovered || isSelected ? 22 : 14,
+            color: isHovered || isSelected
+                ? option.color.withOpacity(0.2)
+                : ModernPalette.ink.withOpacity(0.06),
+            blurRadius: isHovered || isSelected ? 24 : 14,
             offset: const Offset(0, 8),
           ),
         ],
@@ -327,7 +330,20 @@ class _LanguageTile extends StatelessWidget {
           if (isSelected)
             Align(
               alignment: Alignment.topRight,
-              child: Icon(Icons.check_circle, color: option.color),
+              child: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: option.color.withOpacity(0.3),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: Icon(Icons.check_circle, color: option.color, size: 26),
+              ),
             ),
         ],
       ),
@@ -433,32 +449,32 @@ class _InfoPanel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _StepTag(selectedLanguage: selectedLanguage),
-        const SizedBox(height: 18),
+        const SizedBox(height: 20),
         Text(
           'Choisir la cible',
           style: GoogleFonts.spaceGrotesk(
-            fontSize: isCompact ? 28 : 36,
+            fontSize: isCompact ? 32 : 42,
             fontWeight: FontWeight.w700,
             color: ModernPalette.ink,
             height: 1.1,
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
         Text(
           'La stack sélectionnée détermine la structure des dossiers, '
           'les conventions de code, et les frameworks générés.',
           style: GoogleFonts.spaceGrotesk(
-            fontSize: 20,
+            fontSize: 18,
             color: ModernPalette.inkSoft,
-            height: 1.5,
+            height: 1.6,
           ),
         ),
-        const SizedBox(height: 28),
+        const SizedBox(height: 32),
         _SelectionCard(selectedLanguage: selectedLanguage),
-        const SizedBox(height: 24),
+        const SizedBox(height: 28),
         Wrap(
-          spacing: 12,
-          runSpacing: 12,
+          spacing: 14,
+          runSpacing: 14,
           children: const [
             _InfoChip(icon: Icons.layers_outlined, label: 'Structure propre'),
             _InfoChip(icon: Icons.auto_fix_high, label: 'Conventions générées'),
@@ -482,18 +498,18 @@ class _StepTag extends StatelessWidget {
         ? 'Étape 2/5 · aucune stack sélectionnée'
         : 'Étape 2/5 · $selectedLanguage sélectionné';
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
       decoration: BoxDecoration(
         color: ModernPalette.ink,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         label,
         style: GoogleFonts.spaceGrotesk(
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: FontWeight.w600,
           color: Colors.white,
-          letterSpacing: 0.4,
+          letterSpacing: 0.5,
         ),
       ),
     );
@@ -509,38 +525,47 @@ class _SelectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasSelection = selectedLanguage != null;
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
         color: ModernPalette.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: ModernPalette.border),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: hasSelection ? ModernPalette.accent.withOpacity(0.3) : ModernPalette.border),
+        boxShadow: [
+          BoxShadow(
+            color: hasSelection ? ModernPalette.accent.withOpacity(0.08) : ModernPalette.ink.withOpacity(0.04),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
       child: Row(
         children: [
           Container(
-            width: 40,
-            height: 40,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
               color: hasSelection
                   ? ModernPalette.accent.withOpacity(0.12)
                   : ModernPalette.surfaceSoft,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(14),
             ),
             child: Icon(
               hasSelection ? Icons.check_circle : Icons.info_outline,
               color: hasSelection ? ModernPalette.accent : ModernPalette.inkMuted,
+              size: 26,
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
           Expanded(
             child: Text(
               hasSelection
                   ? 'Stack choisie : $selectedLanguage. Vous pouvez continuer.'
                   : 'Sélectionnez une stack pour activer la génération.',
               style: GoogleFonts.spaceGrotesk(
-                fontSize: 13,
+                fontSize: 15,
                 fontWeight: FontWeight.w600,
                 color: ModernPalette.inkSoft,
+                height: 1.4,
               ),
             ),
           ),
@@ -559,21 +584,29 @@ class _InfoChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: ModernPalette.surface,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(18),
         border: Border.all(color: ModernPalette.border),
+        boxShadow: [
+          BoxShadow(
+            color: ModernPalette.ink.withOpacity(0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: ModernPalette.accent),
-          const SizedBox(width: 8),
+          Icon(icon, size: 20, color: ModernPalette.accent),
+          const SizedBox(width: 10),
           Text(
             label,
             style: GoogleFonts.spaceGrotesk(
-              fontSize: 12.5,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
               color: ModernPalette.ink,
             ),
           ),
