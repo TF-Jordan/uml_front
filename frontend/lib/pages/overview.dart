@@ -1285,7 +1285,7 @@ class _LanguageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = isCompact ? 320.0 : 360.0;
+    final height = isCompact ? 320.0 : 380.0;
     return MouseRegion(
       onEnter: (_) => onEnter(),
       child: AnimatedOpacity(
@@ -1299,159 +1299,169 @@ class _LanguageTile extends StatelessWidget {
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
             color: ModernPalette.surface,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(28),
             border: Border.all(
               color: isHovered ? item.color : ModernPalette.border,
-              width: isHovered ? 2 : 1,
+              width: isHovered ? 2.5 : 1,
             ),
             gradient: LinearGradient(
               colors: isHovered
                   ? [
-                      item.color.withOpacity(0.08),
-                      item.color.withOpacity(0.15),
+                      item.color.withOpacity(0.06),
+                      item.color.withOpacity(0.12),
                     ]
                   : [
                       Colors.white,
-                      ModernPalette.surfaceSoft,
+                      ModernPalette.surfaceSoft.withOpacity(0.7),
                     ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
             boxShadow: [
               BoxShadow(
                 color: isHovered
-                    ? item.color.withOpacity(0.25)
-                    : ModernPalette.ink.withOpacity(0.08),
-                blurRadius: isHovered ? 32 : 16,
-                offset: const Offset(0, 10),
+                    ? item.color.withOpacity(0.3)
+                    : ModernPalette.ink.withOpacity(0.06),
+                blurRadius: isHovered ? 40 : 20,
+                offset: const Offset(0, 12),
               ),
             ],
           ),
           child: Stack(
             children: [
-              // Logo toujours visible en haut
+              // Logo centré avec cercle décoratif
               Positioned(
-                top: 16,
-                left: 16,
-                right: 16,
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 260),
-                  curve: Curves.easeOutCubic,
-                  height: isHovered ? 80 : 140,
-                  child: AnimatedAlign(
-                    duration: const Duration(milliseconds: 260),
+                top: 40,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 280),
                     curve: Curves.easeOutCubic,
-                    alignment: isHovered ? Alignment.centerLeft : Alignment.center,
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 260),
-                      padding: EdgeInsets.all(isHovered ? 8 : 0),
-                      decoration: BoxDecoration(
-                        color: isHovered ? Colors.white.withOpacity(0.9) : Colors.transparent,
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: isHovered
-                            ? [
-                                BoxShadow(
-                                  color: item.color.withOpacity(0.2),
-                                  blurRadius: 12,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ]
-                            : [],
+                    width: isHovered ? 100 : 120,
+                    height: isHovered ? 100 : 120,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isHovered
+                          ? item.color.withOpacity(0.12)
+                          : ModernPalette.surfaceSoft.withOpacity(0.6),
+                      border: Border.all(
+                        color: isHovered
+                            ? item.color.withOpacity(0.3)
+                            : ModernPalette.border.withOpacity(0.5),
+                        width: 2,
                       ),
-                      child: _LanguageAsset(
-                        asset: item.asset,
-                        needsBadge: item.needsBadge,
-                        size: isHovered ? 56 : 100,
-                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: isHovered
+                              ? item.color.withOpacity(0.2)
+                              : Colors.black.withOpacity(0.04),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: _LanguageAsset(
+                      asset: item.asset,
+                      needsBadge: item.needsBadge,
+                      size: isHovered ? 56 : 72,
                     ),
                   ),
                 ),
               ),
-              // Nom du langage visible quand non survolé
+              // Nom du langage avec style élégant
               AnimatedPositioned(
                 duration: const Duration(milliseconds: 260),
                 curve: Curves.easeOutCubic,
-                bottom: isHovered ? 999 : 20,
-                left: 0,
-                right: 0,
-                child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 180),
-                  opacity: isHovered ? 0 : 1,
-                  child: Center(
-                    child: Text(
-                      item.name,
-                      style: GoogleFonts.spaceGrotesk(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: ModernPalette.ink,
+                top: isHovered ? 150 : 180,
+                left: 16,
+                right: 16,
+                child: Column(
+                  children: [
+                    // Nom principal avec police élégante
+                    AnimatedDefaultTextStyle(
+                      duration: const Duration(milliseconds: 260),
+                      style: GoogleFonts.playfairDisplay(
+                        fontSize: isHovered ? 22 : 26,
+                        fontWeight: FontWeight.w700,
+                        color: isHovered ? item.color : ModernPalette.ink,
+                        letterSpacing: 0.5,
+                      ),
+                      child: Text(
+                        item.name,
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 8),
+                    // Ligne décorative sous le nom
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 280),
+                      width: isHovered ? 60 : 40,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(2),
+                        gradient: LinearGradient(
+                          colors: [
+                            item.color.withOpacity(isHovered ? 0.8 : 0.3),
+                            item.color.withOpacity(isHovered ? 0.5 : 0.1),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               // Panneau de description avec glassmorphism
               AnimatedPositioned(
-                duration: const Duration(milliseconds: 280),
+                duration: const Duration(milliseconds: 300),
                 curve: Curves.easeOutCubic,
-                top: isHovered ? 100 : height,
-                left: 12,
-                right: 12,
-                bottom: 12,
+                top: isHovered ? 220 : height + 20,
+                left: 16,
+                right: 16,
+                bottom: 16,
                 child: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 220),
                   opacity: isHovered ? 1 : 0,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(20),
                     child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
                       child: Container(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(18),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              item.color.withOpacity(0.92),
-                              item.color.withOpacity(0.98),
+                              item.color.withOpacity(0.88),
+                              item.color.withOpacity(0.95),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.circular(18),
+                          borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.3),
+                            color: Colors.white.withOpacity(0.25),
                             width: 1.5,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: item.color.withOpacity(0.3),
-                              blurRadius: 20,
-                              offset: const Offset(0, 8),
+                              color: item.color.withOpacity(0.35),
+                              blurRadius: 24,
+                              offset: const Offset(0, 10),
                             ),
                           ],
                         ),
                         child: SingleChildScrollView(
                           physics: const BouncingScrollPhysics(),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item.name.toUpperCase(),
-                                style: GoogleFonts.spaceGrotesk(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                  letterSpacing: 1.5,
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              Text(
-                                item.description,
-                                style: GoogleFonts.spaceGrotesk(
-                                  fontSize: 14,
-                                  color: Colors.white.withOpacity(0.95),
-                                  height: 1.6,
-                                ),
-                              ),
-                            ],
+                          child: Text(
+                            item.description,
+                            style: GoogleFonts.inter(
+                              fontSize: 13.5,
+                              color: Colors.white.withOpacity(0.95),
+                              height: 1.6,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
