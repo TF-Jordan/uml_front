@@ -126,17 +126,19 @@ class _GenerationPageState extends State<GenerationPage> {
                         onDocumentation: () => DocsLauncher.open(context),
                       ),
                       const SizedBox(height: 16),
-                      BreadcrumbBar(
-                        items: const [
-                          'Vue d\'ensemble',
-                          'Import UML',
-                          'Stack',
-                          'Configuration',
-                          'Revue',
-                          'Génération'
-                        ],
-                        activeIndex: 5,
-                        onNavigate: _handleBreadcrumbNavigate,
+                      Center(
+                        child: BreadcrumbBar(
+                          items: const [
+                            'Vue d\'ensemble',
+                            'Import UML',
+                            'Stack',
+                            'Configuration',
+                            'Revue',
+                            'Génération'
+                          ],
+                          activeIndex: 5,
+                          onNavigate: _handleBreadcrumbNavigate,
+                        ),
                       ),
                       const SizedBox(height: 40),
                       _buildContent(isCompact),
@@ -838,7 +840,7 @@ class _GenerationTopNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _GlassPanel(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Row(
         children: [
           _BrandMark(),

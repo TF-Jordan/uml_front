@@ -107,7 +107,7 @@ class _OverviewPageState extends State<OverviewPage>
                   ),
                   child: Center(
                     child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 1440),
+                      constraints: const BoxConstraints(maxWidth: 1800),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -128,18 +128,17 @@ class _OverviewPageState extends State<OverviewPage>
                               onStart: () => _goToUpload(context),
                               onDocumentation: () => DocsLauncher.open(context),
                             ),
+                          ),    const SizedBox(height: 64),
+                          _buildReveal(
+                            start: 0.44,
+                            end: 0.72,
+                            child: _StepsSection(isCompact: isCompact),
                           ),
                           const SizedBox(height: 64),
                           _buildReveal(
                             start: 0.32,
                             end: 0.6,
                             child: _LanguageShowcase(isCompact: isCompact),
-                          ),
-                          const SizedBox(height: 64),
-                          _buildReveal(
-                            start: 0.44,
-                            end: 0.72,
-                            child: _StepsSection(isCompact: isCompact),
                           ),
                           const SizedBox(height: 48),
                         ],
@@ -311,7 +310,7 @@ class _TopNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _GlassPanel(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Row(
         children: [
           _BrandMark(),
@@ -422,7 +421,6 @@ class _HeroSection extends StatelessWidget {
     final textBlock = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const _Tag(label: 'Simple et clair'),
         const SizedBox(height: 20),
         Text.rich(
           TextSpan(
@@ -443,77 +441,95 @@ class _HeroSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        Text(
-          'Importez vos diagrammes, mettez-les en ordre et obtenez une base de '
-          'projet propre. Tout se fait sur votre ordinateur, avec une partie '
-          'en ligne optionnelle selon le resultat attendu',
-          style: GoogleFonts.spaceGrotesk(
-            fontSize: 18,
-            color: ModernPalette.inkSoft,
-            height: 1.6,
+Container(
+          padding: const EdgeInsets.only(left: 20),
+          decoration: BoxDecoration(
+            border: Border(
+              left: BorderSide(
+                color: ModernPalette.accent.withOpacity(0.5),
+                width: 3,
+              ),
+            ),
           ),
-        ),
-        const SizedBox(height: 24),
-        // Wrap(
-        //   spacing: 12,
-        //   runSpacing: 12,
-        //   children: [
-        //     ElevatedButton(
-        //       onPressed: () => onAction('Lancer la préparation'),
-        //       style: ElevatedButton.styleFrom(
-        //         backgroundColor: ModernPalette.accent,
-        //         foregroundColor: Colors.white,
-        //         padding:
-        //             const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
-        //         shape: RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.circular(14),
-        //         ),
-        //       ),
-        //       child: const Text('Lancer la préparation'),
-        //     ),
-        //     OutlinedButton(
-        //       onPressed: () => onAction('Voir les étapes'),
-        //       style: OutlinedButton.styleFrom(
-        //         foregroundColor: ModernPalette.ink,
-        //         side: const BorderSide(color: ModernPalette.inkSoft),
-        //         padding:
-        //             const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
-        //         shape: RoundedRectangleBorder(
-        //           borderRadius: BorderRadius.circular(14),
-        //         ),
-        //       ),
-        //       child: const Text('Voir les étapes'),
-        //     ),
-        //   ],
-        // ),
-        const SizedBox(height: 24),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: const [
-            _MetricChip(label: 'Tout reste local par défaut'),
-            _MetricChip(label: 'Résultat prévisible'),
-            _MetricChip(label: 'Fonctions en ligne optionnelles'),
-          ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text.rich(
+                TextSpan(
+                  style: GoogleFonts.spaceGrotesk(
+                    fontSize: 18,
+                    color: ModernPalette.inkSoft,
+                    height: 1.6,
+                  ),
+                  children: const [
+                    TextSpan(
+                      text: 'Importez',
+                      style: TextStyle(
+                        color: ModernPalette.ink,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    TextSpan(text: ' vos diagrammes, '),
+                    TextSpan(
+                      text: 'mettez-les en ordre',
+                      style: TextStyle(
+                        color: ModernPalette.ink,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    TextSpan(text: ' et obtenez une '),
+                    TextSpan(
+                      text: 'base de projet propre',
+                      style: TextStyle(
+                        color: ModernPalette.teal,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    TextSpan(text: '.'),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 4, right: 8),
+                    child: Icon(Icons.check_circle_outline, 
+                      size: 16, 
+                      color: ModernPalette.teal
+                    ),
+                  ),
+                  Expanded(
+                    child: Text.rich(
+                      TextSpan(
+                        style: GoogleFonts.spaceGrotesk(
+                          fontSize: 16,
+                          color: ModernPalette.inkMuted,
+                          height: 1.5,
+                        ),
+                        children: const [
+                          TextSpan(text: 'Tout se fait '),
+                          TextSpan(
+                            text: 'sur votre ordinateur',
+                            style: TextStyle(
+                              color: ModernPalette.ink,
+                    fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          TextSpan(text: ', avec une partie en ligne optionnelle selon le résultat attendu.'),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );
 
-    final commandPanel = _GlassPanel(
-      padding: const EdgeInsets.all(22),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          _CommandHeader(),
-          SizedBox(height: 18),
-          _CommandBlock(),
-          SizedBox(height: 18),
-          _CommandStats(),
-          SizedBox(height: 16),
-          _ProgressMeter(value: 0.78),
-        ],
-      ),
-    );
 
     if (isCompact) {
       return Column(
@@ -521,7 +537,7 @@ class _HeroSection extends StatelessWidget {
         children: [
           textBlock,
           const SizedBox(height: 32),
-          commandPanel,
+
         ],
       );
     }
@@ -531,87 +547,12 @@ class _HeroSection extends StatelessWidget {
       children: [
         Expanded(flex: 6, child: textBlock),
         const SizedBox(width: 32),
-        Expanded(flex: 5, child: commandPanel),
       ],
     );
   }
 }
 
-class _CommandHeader extends StatelessWidget {
-  const _CommandHeader();
 
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: ModernPalette.ink,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Text(
-            'Aperçu rapide',
-            style: GoogleFonts.spaceGrotesk(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-              letterSpacing: 0.6,
-            ),
-          ),
-        ),
-        const Spacer(),
-      ],
-    );
-  }
-}
-
-class _CommandBlock extends StatelessWidget {
-  const _CommandBlock();
-
-  @override
-  Widget build(BuildContext context) {
-    const command = r'''
-1. Choisir un fichier
-2. Sélectionner une technologie
-3. Générer le projet
-''';
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: ModernPalette.ink,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: SelectableText(
-        command,
-        style: GoogleFonts.ibmPlexMono(
-          color: Colors.white.withOpacity(0.92),
-          fontSize: 12.5,
-          height: 1.5,
-        ),
-      ),
-    );
-  }
-}
-
-class _CommandStats extends StatelessWidget {
-  const _CommandStats();
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 12,
-      runSpacing: 12,
-      children: const [
-        _MiniStat(label: 'Parcours', value: 'standard'),
-        _MiniStat(label: 'Technologies', value: 'variées'),
-        _MiniStat(label: 'Version', value: 'à jour et stable'),
-      ],
-    );
-  }
-}
 
 class _MiniStat extends StatelessWidget {
   const _MiniStat({required this.label, required this.value});

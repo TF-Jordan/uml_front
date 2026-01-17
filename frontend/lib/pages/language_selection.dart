@@ -65,10 +65,12 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
             ),
           ),
           SafeArea(
-            child: SingleChildScrollView(
+            child: Stack(
+              children: [
+                SingleChildScrollView(
               padding: EdgeInsets.fromLTRB(
                 isCompact ? 16 : 32,
-                24,
+                220,
                 isCompact ? 16 : 32,
                 48,
               ),
@@ -78,25 +80,53 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _LanguageTopNav(
-                        onDocumentation: () => DocsLauncher.open(context),
-                      ),
-                      const SizedBox(height: 16),
-                      BreadcrumbBar(
-                        items: const [
-                          'Vue d\'ensemble',
-                          'Import UML',
-                          'Stack'
-                        ],
-                        activeIndex: 2,
-                        onNavigate: _handleBreadcrumbNavigate,
-                      ),
+
                       const SizedBox(height: 48),
                       _buildContent(isCompact),
                     ],
                   ),
                 ),
               ),
+            ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                      isCompact ? 16 : 32,
+                      12,
+                      isCompact ? 16 : 32,
+                      0,
+                    ),
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 1440),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _LanguageTopNav(
+                              onDocumentation: () => DocsLauncher.open(context),
+                            ),
+                            const SizedBox(height: 16),
+                            Center(
+                              child: BreadcrumbBar(
+                                items: const [
+                                  'Vue d\'ensemble',
+                                  'Import UML',
+                                  'Stack'
+                                ],
+                                activeIndex: 2,
+                                onNavigate: _handleBreadcrumbNavigate,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -359,7 +389,7 @@ class _LanguageTopNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _GlassPanel(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Row(
         children: [
           _BrandMark(),

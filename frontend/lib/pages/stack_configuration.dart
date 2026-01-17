@@ -104,7 +104,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
               ),
               child: Center(
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1200),
+                  constraints: const BoxConstraints(maxWidth: 1800),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -112,15 +112,17 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                         onDocumentation: () => DocsLauncher.open(context),
                       ),
                       const SizedBox(height: 16),
-                      BreadcrumbBar(
-                        items: const [
-                          'Vue d\'ensemble',
-                          'Import UML',
-                          'Stack',
-                          'Configuration'
-                        ],
-                        activeIndex: 3,
-                        onNavigate: _handleBreadcrumbNavigate,
+                      Center(
+                        child: BreadcrumbBar(
+                          items: const [
+                            'Vue d\'ensemble',
+                            'Import UML',
+                            'Stack',
+                            'Configuration'
+                          ],
+                          activeIndex: 3,
+                          onNavigate: _handleBreadcrumbNavigate,
+                        ),
                       ),
                       const SizedBox(height: 40),
                       _buildContent(isCompact),
@@ -1063,7 +1065,7 @@ class _ConfigTopNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _GlassPanel(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Row(
         children: [
           _BrandMark(),

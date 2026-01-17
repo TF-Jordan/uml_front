@@ -77,7 +77,7 @@ class UploadZone extends StatelessWidget {
         const SizedBox(height: 16),
         Text(
           'Téléversement en cours... ${(uploadProgress * 100).toInt()}%',
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 12),
         SizedBox(

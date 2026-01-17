@@ -89,7 +89,7 @@ class ReviewPage extends StatelessWidget {
               ),
               child: Center(
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1200),
+                  constraints: const BoxConstraints(maxWidth: 1800),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -97,17 +97,19 @@ class ReviewPage extends StatelessWidget {
                         onDocumentation: () => DocsLauncher.open(context),
                       ),
                       const SizedBox(height: 16),
-                      BreadcrumbBar(
-                        items: const [
-                          'Vue d\'ensemble',
-                          'Import UML',
-                          'Stack',
-                          'Configuration',
-                          'Revue'
-                        ],
-                        activeIndex: 4,
-                        onNavigate: (index) =>
-                            _handleBreadcrumbNavigate(context, index),
+                      Center(
+                        child: BreadcrumbBar(
+                          items: const [
+                            'Vue d\'ensemble',
+                            'Import UML',
+                            'Stack',
+                            'Configuration',
+                            'Revue'
+                          ],
+                          activeIndex: 4,
+                          onNavigate: (index) =>
+                              _handleBreadcrumbNavigate(context, index),
+                        ),
                       ),
                       const SizedBox(height: 40),
                       _buildContent(context, isCompact),
@@ -427,7 +429,7 @@ class _ReviewTopNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _GlassPanel(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Row(
         children: [
           _BrandMark(),
