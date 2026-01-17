@@ -114,7 +114,7 @@ class _GenerationPageState extends State<GenerationPage> {
                 SingleChildScrollView(
                   padding: EdgeInsets.fromLTRB(
                     isCompact ? 20 : 52,
-                    180,
+                    220,
                     isCompact ? 20 : 52,
                     60,
                   ),

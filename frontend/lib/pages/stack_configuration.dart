@@ -100,7 +100,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                 SingleChildScrollView(
                   padding: EdgeInsets.fromLTRB(
                     isCompact ? 20 : 52,
-                    180,
+                    220,
                     isCompact ? 20 : 52,
                     60,
                   ),
