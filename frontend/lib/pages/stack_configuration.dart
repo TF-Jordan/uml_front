@@ -95,41 +95,76 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
             ),
           ),
           SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(
-                isCompact ? 20 : 52,
-                28,
-                isCompact ? 20 : 52,
-                60,
-              ),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1800),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _ConfigTopNav(
-                        onDocumentation: () => DocsLauncher.open(context),
-                      ),
-                      const SizedBox(height: 16),
-                      Center(
-                        child: BreadcrumbBar(
-                          items: const [
-                            'Vue d\'ensemble',
-                            'Import UML',
-                            'Stack',
-                            'Configuration'
-                          ],
-                          activeIndex: 3,
-                          onNavigate: _handleBreadcrumbNavigate,
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      _buildContent(isCompact),
-                    ],
+            child: Stack(
+              children: [
+                SingleChildScrollView(
+                  padding: EdgeInsets.fromLTRB(
+                    isCompact ? 20 : 52,
+                    180,
+                    isCompact ? 20 : 52,
+                    60,
+                  ),
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 1800),
+                      child: _buildContent(isCompact),
+                    ),
                   ),
                 ),
-              ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          ModernPalette.sand,
+                          ModernPalette.sand.withOpacity(0.98),
+                          ModernPalette.sand.withOpacity(0),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        stops: const [0.0, 0.85, 1.0],
+                      ),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        isCompact ? 20 : 52,
+                        12,
+                        isCompact ? 20 : 52,
+                        16,
+                      ),
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1800),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _ConfigTopNav(
+                                onDocumentation: () => DocsLauncher.open(context),
+                              ),
+                              const SizedBox(height: 16),
+                              Center(
+                                child: BreadcrumbBar(
+                                  items: const [
+                                    'Vue d\'ensemble',
+                                    'Import UML',
+                                    'Stack',
+                                    'Configuration'
+                                  ],
+                                  activeIndex: 3,
+                                  onNavigate: _handleBreadcrumbNavigate,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

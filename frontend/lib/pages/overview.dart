@@ -419,7 +419,7 @@ class _HeroSection extends StatelessWidget {
     final headlineSize = isCompact ? 38.0 : 52.0;
 
     final textBlock = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 20),
         Text.rich(
@@ -439,6 +439,7 @@ class _HeroSection extends StatelessWidget {
               TextSpan(text: ' en un projet prêt à l\'emploi.'),
             ],
           ),
+          textAlign: TextAlign.center,
         ),
         const SizedBox(height: 20),
 Container(

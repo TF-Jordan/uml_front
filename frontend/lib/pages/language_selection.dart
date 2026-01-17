@@ -92,35 +92,49 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                   left: 0,
                   right: 0,
                   top: 0,
-                  child: Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      isCompact ? 16 : 32,
-                      12,
-                      isCompact ? 16 : 32,
-                      0,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          ModernPalette.sand,
+                          ModernPalette.sand.withOpacity(0.98),
+                          ModernPalette.sand.withOpacity(0),
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        stops: const [0.0, 0.85, 1.0],
+                      ),
                     ),
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 1440),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _LanguageTopNav(
-                              onDocumentation: () => DocsLauncher.open(context),
-                            ),
-                            const SizedBox(height: 16),
-                            Center(
-                              child: BreadcrumbBar(
-                                items: const [
-                                  'Vue d\'ensemble',
-                                  'Import UML',
-                                  'Stack'
-                                ],
-                                activeIndex: 2,
-                                onNavigate: _handleBreadcrumbNavigate,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(
+                        isCompact ? 16 : 32,
+                        12,
+                        isCompact ? 16 : 32,
+                        16,
+                      ),
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 1440),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _LanguageTopNav(
+                                onDocumentation: () => DocsLauncher.open(context),
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 16),
+                              Center(
+                                child: BreadcrumbBar(
+                                  items: const [
+                                    'Vue d\'ensemble',
+                                    'Import UML',
+                                    'Stack'
+                                  ],
+                                  activeIndex: 2,
+                                  onNavigate: _handleBreadcrumbNavigate,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
