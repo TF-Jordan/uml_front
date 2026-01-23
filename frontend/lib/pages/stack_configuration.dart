@@ -9,6 +9,7 @@ import '../models/stack_definition.dart';
 import '../models/uml_inputs.dart';
 import '../services/ai_key_store.dart';
 import '../services/docs_launcher.dart';
+import '../services/settings_service.dart';
 import '../widgets/breadcrumb_bar.dart';
 import 'review.dart';
 import 'language_selection.dart';
@@ -32,6 +33,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
   final _projectNameController = TextEditingController();
   final _packageController = TextEditingController();
   final _outputController = TextEditingController(text: 'output');
+  final _settings = SettingsService.instance;
 
   final Map<String, String> _selectValues = {};
   final Map<String, bool> _toggleValues = {};
@@ -45,7 +47,30 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
   void initState() {
     super.initState();
     _initDefaults();
-    _loadStoredKey(_aiProvider);
+    _loadSettingsAndKey();
+  }
+
+  Future<void> _loadSettingsAndKey() async {
+    // Charger le fournisseur et la clé depuis les Settings
+    final savedProvider = _settings.aiProvider;
+    final savedKey = _settings.getApiKey(savedProvider);
+    final savedOutputDir = _settings.defaultOutputDir;
+
+    setState(() {
+      _aiProvider = savedProvider;
+      if (savedKey != null && savedKey.isNotEmpty) {
+        _aiKey = savedKey;
+        _rememberKey = true;
+      }
+      if (savedOutputDir.isNotEmpty) {
+        _outputController.text = savedOutputDir;
+      }
+    });
+
+    // Aussi vérifier l'ancien système AiKeyStore pour migration
+    if (_aiKey.isEmpty) {
+      _loadStoredKey(_aiProvider);
+    }
   }
 
   @override
@@ -1038,10 +1063,14 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
       apiKey: _aiKey.trim(),
     );
 
-    if (aiConfig.enabled) {
-      if (_rememberKey && aiConfig.hasKey) {
+    // Synchroniser avec SettingsService et AiKeyStore
+    if (aiConfig.enabled && aiConfig.hasKey) {
+      if (_rememberKey) {
+        // Sauvegarder dans les deux systèmes pour compatibilité
         AiKeyStore.write(_aiProvider, aiConfig.apiKey);
-      } else if (!_rememberKey) {
+        _settings.setApiKey(_aiProvider, aiConfig.apiKey);
+        _settings.setAiProvider(_aiProvider);
+      } else {
         AiKeyStore.delete(_aiProvider);
       }
     }

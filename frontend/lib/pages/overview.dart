@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../constantes/modern_palette.dart';
 import '../services/docs_launcher.dart';
 import 'page1.dart';
+import 'settings.dart';
 
 class OverviewPage extends StatefulWidget {
   const OverviewPage({Key? key}) : super(key: key);
@@ -164,6 +165,10 @@ class _OverviewPageState extends State<OverviewPage>
                           isCompact: isCompact,
                           onDocumentation: () => DocsLauncher.open(context),
                           onStart: () => _goToUpload(context),
+                          onSettings: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => const SettingsPage()),
+                          ),
                         ),
                       ),
                     ),
@@ -301,11 +306,13 @@ class _TopNav extends StatelessWidget {
     required this.isCompact,
     required this.onDocumentation,
     required this.onStart,
+    required this.onSettings,
   });
 
   final bool isCompact;
   final VoidCallback onDocumentation;
   final VoidCallback onStart;
+  final VoidCallback onSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -315,6 +322,21 @@ class _TopNav extends StatelessWidget {
         children: [
           _BrandMark(),
           const Spacer(),
+          // Settings button
+          IconButton(
+            onPressed: onSettings,
+            icon: const Icon(Icons.settings_outlined),
+            style: IconButton.styleFrom(
+              foregroundColor: ModernPalette.ink,
+              backgroundColor: ModernPalette.surfaceSoft,
+              padding: const EdgeInsets.all(12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            tooltip: 'Paramètres',
+          ),
+          const SizedBox(width: 12),
           OutlinedButton(
             onPressed: onDocumentation,
             style: OutlinedButton.styleFrom(
