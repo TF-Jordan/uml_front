@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 
 import 'docker_builder.dart';
 class DocsLauncher {
-  static const String _url = 'http://127.0.0.1:5555';
+  static const String _url = 'http://localhost:5555';
+  static const String _fallbackUrl = 'http://127.0.0.1:5555';
 
   static Future<void> open(BuildContext context) async {
     final ready = await _ensureDocsRunning(context);
     if (!ready) {
       return;
     }
-    await _openUrl(context, _url);
+    final opened = await _openUrl(context, _url);
+    if (!opened) {
+      await _openUrl(context, _fallbackUrl);
+    }
   }
 
   static Future<bool> _ensureDocsRunning(BuildContext context) async {
@@ -28,11 +32,12 @@ class DocsLauncher {
     }
     final running = await _isDocsContainerRunning();
     if (running) {
-      return true;
-    }
-    final exists = await _docsContainerExists();
-    if (exists) {
       await _removeDocsContainer();
+    } else {
+      final exists = await _docsContainerExists();
+      if (exists) {
+        await _removeDocsContainer();
+      }
     }
     final result = await Process.run(
       'docker',
@@ -62,7 +67,7 @@ class DocsLauncher {
     return true;
   }
 
-  static Future<void> _openUrl(BuildContext context, String url) async {
+  static Future<bool> _openUrl(BuildContext context, String url) async {
     try {
       if (Platform.isWindows) {
         await Process.start('explorer', [url], runInShell: true);
@@ -71,8 +76,10 @@ class DocsLauncher {
       } else {
         await Process.start('xdg-open', [url], runInShell: true);
       }
+      return true;
     } catch (_) {
       _showMessage(context, 'Impossible d\'ouvrir la documentation.');
+      return false;
     }
   }
 

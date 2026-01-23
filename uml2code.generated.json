@@ -1,27 +1,22 @@
 {
   "meta": {
     "schema_version": "1.0",
-    "project_name": "check2",
+    "project_name": "feu_op",
     "stack": "fiber",
-    "output_dir": "output"
+    "output_dir": "output/feu_op_20260117_154536_z5auan"
   },
   "inputs": {
-    "class_diagram_path": "datas/diagramTest.drawio",
-    "sequence_diagram_path": "datas/test5.drawio"
+    "class_diagram_path": "datas/imports/diagramTest_4.drawio"
   },
   "pipeline": {
-    "mode": "class_plus_sequence_ia",
+    "mode": "class_only",
     "overwrite_strategy": "backup"
   },
   "fiber": {
     "go_version": "1.21",
-    "fiber_version": "2.52.10",
+    "fiber_version": "2.52.9",
     "db": "postgres",
-    "orm": "gorm"
-  },
-  "ai": {
-    "enabled": true,
-    "provider": "gemini",
-    "user_key_id": "GEMINI_API_KEY"
+    "orm": "gorm",
+    "package_name": "main"
   }
 }

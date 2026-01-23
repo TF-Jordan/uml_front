@@ -419,7 +419,8 @@ class _HeroSection extends StatelessWidget {
     final headlineSize = isCompact ? 38.0 : 52.0;
 
     final textBlock = Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(height: 20),
         Text.rich(
@@ -439,10 +440,10 @@ class _HeroSection extends StatelessWidget {
               TextSpan(text: ' en un projet prêt à l\'emploi.'),
             ],
           ),
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.left,
         ),
-        const SizedBox(height: 20),
-Container(
+        const SizedBox(height: 32),
+        Container(
           padding: const EdgeInsets.only(left: 20),
           decoration: BoxDecoration(
             border: Border(
@@ -463,62 +464,33 @@ Container(
                     height: 1.6,
                   ),
                   children: const [
-                    TextSpan(
-                      text: 'Importez',
-                      style: TextStyle(
-                        color: ModernPalette.ink,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+                    TextSpan(text: 'Importez', style: TextStyle(color: ModernPalette.ink, fontWeight: FontWeight.w700)),
                     TextSpan(text: ' vos diagrammes, '),
-                    TextSpan(
-                      text: 'mettez-les en ordre',
-                      style: TextStyle(
-                        color: ModernPalette.ink,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+                    TextSpan(text: 'mettez-les en ordre', style: TextStyle(color: ModernPalette.ink, fontWeight: FontWeight.w700)),
                     TextSpan(text: ' et obtenez une '),
-                    TextSpan(
-                      text: 'base de projet propre',
-                      style: TextStyle(
-                        color: ModernPalette.teal,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    TextSpan(text: 'base de projet propre', style: TextStyle(color: ModernPalette.teal, fontWeight: FontWeight.w600)),
                     TextSpan(text: '.'),
                   ],
                 ),
               ),
               const SizedBox(height: 12),
               Row(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(top: 4, right: 8),
-                    child: Icon(Icons.check_circle_outline, 
-                      size: 16, 
-                      color: ModernPalette.teal
-                    ),
+                    child: Icon(Icons.check_circle_outline, size: 16, color: ModernPalette.teal),
                   ),
-                  Expanded(
+
+                  Flexible(
                     child: Text.rich(
                       TextSpan(
-                        style: GoogleFonts.spaceGrotesk(
-                          fontSize: 16,
-                          color: ModernPalette.inkMuted,
-                          height: 1.5,
-                        ),
+                        style: GoogleFonts.spaceGrotesk(fontSize: 16, color: ModernPalette.inkMuted, height: 1.5),
                         children: const [
                           TextSpan(text: 'Tout se fait '),
-                          TextSpan(
-                            text: 'sur votre ordinateur',
-                            style: TextStyle(
-                              color: ModernPalette.ink,
-                    fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          TextSpan(text: ', avec une partie en ligne optionnelle selon le résultat attendu.'),
+                          TextSpan(text: 'sur votre ordinateur', style: TextStyle(color: ModernPalette.ink, fontWeight: FontWeight.w600)),
+                          TextSpan(text: ', avec une partie en ligne optionnelle.'),
                         ],
                       ),
                     ),
@@ -531,24 +503,10 @@ Container(
       ],
     );
 
-
-    if (isCompact) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          textBlock,
-          const SizedBox(height: 32),
-
-        ],
-      );
-    }
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(flex: 6, child: textBlock),
-        const SizedBox(width: 32),
-      ],
+    return Center(
+      child: IntrinsicWidth(
+        child: textBlock,
+      ),
     );
   }
 }
@@ -1286,6 +1244,10 @@ class _LanguageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = isCompact ? 320.0 : 380.0;
+    // Taille de l'icône au repos : occupe la majeure partie de la box
+    final restIconSize = height * 0.45;
+    final hoverIconSize = 50.0;
+    
     return MouseRegion(
       onEnter: (_) => onEnter(),
       child: AnimatedOpacity(
@@ -1298,10 +1260,10 @@ class _LanguageTile extends StatelessWidget {
           height: height,
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
-            color: ModernPalette.surface,
+            color: ModernPalette.surface.withOpacity(isHovered ? 0.95 : 0.5),
             borderRadius: BorderRadius.circular(28),
             border: Border.all(
-              color: isHovered ? item.color : ModernPalette.border,
+              color: isHovered ? item.color : ModernPalette.border.withOpacity(0.5),
               width: isHovered ? 2.5 : 1,
             ),
             gradient: LinearGradient(
@@ -1311,8 +1273,8 @@ class _LanguageTile extends StatelessWidget {
                       item.color.withOpacity(0.12),
                     ]
                   : [
-                      Colors.white,
-                      ModernPalette.surfaceSoft.withOpacity(0.7),
+                      Colors.white.withOpacity(0.4),
+                      ModernPalette.surfaceSoft.withOpacity(0.3),
                     ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -1321,149 +1283,133 @@ class _LanguageTile extends StatelessWidget {
               BoxShadow(
                 color: isHovered
                     ? item.color.withOpacity(0.3)
-                    : ModernPalette.ink.withOpacity(0.06),
-                blurRadius: isHovered ? 40 : 20,
+                    : ModernPalette.ink.withOpacity(0.04),
+                blurRadius: isHovered ? 40 : 15,
                 offset: const Offset(0, 12),
               ),
             ],
           ),
           child: Stack(
             children: [
-              // Logo centré avec cercle décoratif
-              Positioned(
-                top: 40,
-                left: 0,
-                right: 0,
-                child: Center(
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 280),
-                    curve: Curves.easeOutCubic,
-                    width: isHovered ? 100 : 120,
-                    height: isHovered ? 100 : 120,
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: isHovered
-                          ? item.color.withOpacity(0.12)
-                          : ModernPalette.surfaceSoft.withOpacity(0.6),
-                      border: Border.all(
-                        color: isHovered
-                            ? item.color.withOpacity(0.3)
-                            : ModernPalette.border.withOpacity(0.5),
-                        width: 2,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: isHovered
-                              ? item.color.withOpacity(0.2)
-                              : Colors.black.withOpacity(0.04),
-                          blurRadius: 20,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: _LanguageAsset(
-                      asset: item.asset,
-                      needsBadge: item.needsBadge,
-                      size: isHovered ? 56 : 72,
-                    ),
+              // Logo - au repos: centré et grand, au hover: top-left petit
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 280),
+                curve: Curves.easeOutCubic,
+                top: isHovered ? 16 : (height - restIconSize) / 2 - 20,
+                left: isHovered ? 16 : (width - restIconSize) / 2,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 280),
+                  curve: Curves.easeOutCubic,
+                  width: isHovered ? hoverIconSize : restIconSize,
+                  height: isHovered ? hoverIconSize : restIconSize,
+                  padding: EdgeInsets.all(isHovered ? 8 : 16),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isHovered
+                        ? item.color.withOpacity(0.15)
+                        : Colors.transparent,
+                    border: isHovered
+                        ? Border.all(
+                            color: item.color.withOpacity(0.3),
+                            width: 2,
+                          )
+                        : null,
+                  ),
+                  child: _LanguageAsset(
+                    asset: item.asset,
+                    needsBadge: item.needsBadge,
+                    size: isHovered ? hoverIconSize - 16 : restIconSize - 32,
                   ),
                 ),
               ),
-              // Nom du langage avec style élégant
+              // Nom du langage - au repos: sous l'icône, au hover: à droite de l'icône
               AnimatedPositioned(
                 duration: const Duration(milliseconds: 260),
                 curve: Curves.easeOutCubic,
-                top: isHovered ? 150 : 180,
-                left: 16,
+                top: isHovered ? 24 : (height - restIconSize) / 2 + restIconSize - 10,
+                left: isHovered ? 16 + hoverIconSize + 12 : 16,
                 right: 16,
-                child: Column(
-                  children: [
-                    // Nom principal avec police élégante
-                    AnimatedDefaultTextStyle(
-                      duration: const Duration(milliseconds: 260),
-                      style: GoogleFonts.playfairDisplay(
-                        fontSize: isHovered ? 22 : 26,
-                        fontWeight: FontWeight.w700,
-                        color: isHovered ? item.color : ModernPalette.ink,
-                        letterSpacing: 0.5,
-                      ),
-                      child: Text(
-                        item.name,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    // Ligne décorative sous le nom
-                    AnimatedContainer(
-                      duration: const Duration(milliseconds: 280),
-                      width: isHovered ? 60 : 40,
+                child: AnimatedDefaultTextStyle(
+                  duration: const Duration(milliseconds: 260),
+                  style: GoogleFonts.playfairDisplay(
+                    fontSize: isHovered ? 18 : 24,
+                    fontWeight: FontWeight.w700,
+                    color: isHovered ? item.color : ModernPalette.ink,
+                    letterSpacing: 0.5,
+                  ),
+                  child: Text(
+                    item.name,
+                    textAlign: isHovered ? TextAlign.left : TextAlign.center,
+                  ),
+                ),
+              ),
+              // Ligne décorative sous le nom (visible seulement au repos)
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 280),
+                curve: Curves.easeOutCubic,
+                top: isHovered ? 0 : (height - restIconSize) / 2 + restIconSize + 24,
+                left: 0,
+                right: 0,
+                child: AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: isHovered ? 0 : 1,
+                  child: Center(
+                    child: Container(
+                      width: 40,
                       height: 3,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(2),
                         gradient: LinearGradient(
                           colors: [
-                            item.color.withOpacity(isHovered ? 0.8 : 0.3),
-                            item.color.withOpacity(isHovered ? 0.5 : 0.1),
+                            item.color.withOpacity(0.3),
+                            item.color.withOpacity(0.1),
                           ],
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
-              // Panneau de description avec glassmorphism
+              // Panneau de description - SANS glassmorphism (couleur solide)
               AnimatedPositioned(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeOutCubic,
-                top: isHovered ? 220 : height + 20,
+                top: isHovered ? 70 : height + 20,
                 left: 16,
                 right: 16,
                 bottom: 16,
                 child: AnimatedOpacity(
                   duration: const Duration(milliseconds: 220),
                   opacity: isHovered ? 1 : 0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-                      child: Container(
-                        padding: const EdgeInsets.all(18),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              item.color.withOpacity(0.88),
-                              item.color.withOpacity(0.95),
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: Colors.white.withOpacity(0.25),
-                            width: 1.5,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: item.color.withOpacity(0.35),
-                              blurRadius: 24,
-                              offset: const Offset(0, 10),
-                            ),
-                          ],
+                  child: Container(
+                    padding: const EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      // Couleur solide sans glassmorphism
+                      color: item.color,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: item.color.withOpacity(0.8),
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: item.color.withOpacity(0.35),
+                          blurRadius: 24,
+                          offset: const Offset(0, 10),
                         ),
-                        child: SingleChildScrollView(
-                          physics: const BouncingScrollPhysics(),
-                          child: Text(
-                            item.description,
-                            style: GoogleFonts.inter(
-                              fontSize: 13.5,
-                              color: Colors.white.withOpacity(0.95),
-                              height: 1.6,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                      ],
+                    ),
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Text(
+                        item.description,
+                        style: GoogleFonts.inter(
+                          fontSize: 20,
+                          color: Colors.white.withOpacity(0.95),
+                          height: 1.6,
+                          fontWeight: FontWeight.w400,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),

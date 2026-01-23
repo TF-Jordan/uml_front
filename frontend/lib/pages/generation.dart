@@ -733,11 +733,14 @@ class _GenerationPageState extends State<GenerationPage> {
       return;
     }
     final cleaned = message.replaceFirst('Exception: ', '');
+    final logHint = _logFilePath != null
+        ? '\nVoir le journal technique: $_logFilePath'
+        : '';
     setState(() {
       _isGenerating = false;
       _generationProgress = 0.0;
       _generationStatus = '';
-      _generationError = cleaned;
+      _generationError = '$cleaned$logHint';
       _runningProcess = null;
     });
   }
