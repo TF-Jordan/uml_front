@@ -51,7 +51,7 @@ class ReviewPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   CurrentTheme.sand,
@@ -228,7 +228,7 @@ class ReviewPage extends StatelessWidget {
               onPressed: () => _handleBack(context),
               style: OutlinedButton.styleFrom(
                 foregroundColor: CurrentTheme.ink,
-                side: const BorderSide(color: CurrentTheme.border),
+                side: BorderSide(color: CurrentTheme.border),
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -469,7 +469,7 @@ class _ReviewTopNav extends StatelessWidget {
             onPressed: onDocumentation,
             style: OutlinedButton.styleFrom(
               foregroundColor: CurrentTheme.ink,
-              side: const BorderSide(color: CurrentTheme.inkSoft),
+              side: BorderSide(color: CurrentTheme.inkSoft),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -508,7 +508,7 @@ class _BrandMark extends StatelessWidget {
               'assets/pics/logo.png',
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.auto_awesome, color: CurrentTheme.accent),
+                  Icon(Icons.auto_awesome, color: CurrentTheme.accent),
             ),
           ),
         ),

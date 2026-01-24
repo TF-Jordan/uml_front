@@ -640,16 +640,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 theme: theme,
                 icon: Icons.menu_book_rounded,
                 label: l10n.documentationLink,
-                onTap: () => _launchUrl('https://github.com/TF-Jordan/uml_front'),
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: _AboutButton(
-                theme: theme,
-                icon: Icons.code_rounded,
-                label: 'GitHub',
-                onTap: () => _launchUrl('https://github.com/TF-Jordan/uml_front'),
+                onTap: () => _launchUrl('lien ici'),
               ),
             ),
           ],

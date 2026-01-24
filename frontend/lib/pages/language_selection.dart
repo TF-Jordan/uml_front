@@ -36,7 +36,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   CurrentTheme.sand,
@@ -413,7 +413,7 @@ class _LanguageTopNav extends StatelessWidget {
             onPressed: onDocumentation,
             style: OutlinedButton.styleFrom(
               foregroundColor: CurrentTheme.ink,
-              side: const BorderSide(color: CurrentTheme.inkSoft),
+              side: BorderSide(color: CurrentTheme.inkSoft),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -452,7 +452,7 @@ class _BrandMark extends StatelessWidget {
               'assets/pics/logo.png',
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.auto_awesome, color: CurrentTheme.accent),
+                  Icon(Icons.auto_awesome, color: CurrentTheme.accent),
             ),
           ),
         ),
@@ -496,7 +496,7 @@ class _InfoPanel extends StatelessWidget {
         _StepTag(selectedLanguage: selectedLanguage),
         const SizedBox(height: 20),
         Text(
-          'Choisir la cible',
+          'Choisir la Stack',
           style: GoogleFonts.spaceGrotesk(
             fontSize: isCompact ? 32 : 42,
             fontWeight: FontWeight.w700,
@@ -545,13 +545,13 @@ class _StepTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
       decoration: BoxDecoration(
-        color: CurrentTheme.ink,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         label,
         style: GoogleFonts.spaceGrotesk(
-          fontSize: 14,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           color: Colors.white,
           letterSpacing: 0.5,

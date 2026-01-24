@@ -47,7 +47,7 @@ class _UploadPageState extends State<UploadPage> {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   CurrentTheme.sand,
@@ -281,7 +281,7 @@ class _UploadPageState extends State<UploadPage> {
           decoration: BoxDecoration(
             color: _isHoveringDrop
                 ? CurrentTheme.surfaceSoft
-                : Colors.white,
+                :CurrentTheme.surfaceSoft,
             borderRadius: BorderRadius.circular(18),
           ),
           child: _isUploading ? _buildUploadingState() : _buildIdleState(),
@@ -302,7 +302,7 @@ class _UploadPageState extends State<UploadPage> {
               color: CurrentTheme.accent.withOpacity(0.12),
               borderRadius: BorderRadius.circular(18),
             ),
-            child: const Icon(Icons.cloud_upload_outlined,
+            child: Icon(Icons.cloud_upload_outlined,
                 color: CurrentTheme.accent, size: 30),
           ),
           const SizedBox(height: 16),
@@ -327,7 +327,7 @@ class _UploadPageState extends State<UploadPage> {
             onPressed: _handleFilePicked,
             style: OutlinedButton.styleFrom(
               foregroundColor: CurrentTheme.ink,
-              side: const BorderSide(color: CurrentTheme.inkSoft),
+              side: BorderSide(color: CurrentTheme.inkSoft),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -345,7 +345,7 @@ class _UploadPageState extends State<UploadPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const CircularProgressIndicator(color: CurrentTheme.accent),
+        CircularProgressIndicator(color: CurrentTheme.accent),
         const SizedBox(height: 12),
         Text(
           'Import en cours... ${( _uploadProgress * 100).toInt()}%',
@@ -381,7 +381,7 @@ class _UploadPageState extends State<UploadPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.check_circle,
+                  Icon(Icons.check_circle,
                       color: CurrentTheme.teal, size: 16),
                   const SizedBox(width: 6),
                   Text(
@@ -410,7 +410,7 @@ class _UploadPageState extends State<UploadPage> {
         ),
         child: Row(
           children: [
-            const Icon(Icons.info_outline, color: CurrentTheme.inkMuted),
+            Icon(Icons.info_outline, color: CurrentTheme.inkMuted),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -435,7 +435,7 @@ class _UploadPageState extends State<UploadPage> {
       ),
       child: Row(
         children: [
-          const Icon(Icons.check_circle, color: CurrentTheme.teal),
+          Icon(Icons.check_circle, color: CurrentTheme.teal),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -665,7 +665,7 @@ class _UploadTopNav extends StatelessWidget {
             onPressed: onDocumentation,
             style: OutlinedButton.styleFrom(
               foregroundColor: CurrentTheme.ink,
-              side: const BorderSide(color: CurrentTheme.inkSoft),
+              side: BorderSide(color: CurrentTheme.inkSoft),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -704,7 +704,7 @@ class _BrandMark extends StatelessWidget {
               'assets/pics/logo.png',
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.auto_awesome, color: CurrentTheme.accent),
+                  Icon(Icons.auto_awesome, color: CurrentTheme.accent),
             ),
           ),
         ),
@@ -796,13 +796,13 @@ class _StepTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
-        color: CurrentTheme.ink,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
         'Étape 1/5 · $count/2 fichiers importés',
         style: GoogleFonts.spaceGrotesk(
-          fontSize: 12,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           color: Colors.white,
           letterSpacing: 0.4,
@@ -888,7 +888,7 @@ class _ChecklistItem extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         children: [
-          const Icon(Icons.check_circle,
+          Icon(Icons.check_circle,
               size: 16, color: CurrentTheme.teal),
           const SizedBox(width: 8),
           Expanded(

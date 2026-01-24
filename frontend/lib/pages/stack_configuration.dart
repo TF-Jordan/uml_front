@@ -91,7 +91,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   CurrentTheme.sand,
@@ -274,7 +274,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
           const SizedBox(height: 12),
           Row(
             children: [
-              const Icon(Icons.info_outline,
+              Icon(Icons.info_outline,
                   size: 16, color: CurrentTheme.inkMuted),
               const SizedBox(width: 8),
               Expanded(
@@ -335,7 +335,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
             ),
             if (required) ...[
               const SizedBox(width: 6),
-              const Text('*',
+              Text('*',
                   style: TextStyle(color: CurrentTheme.accent, fontSize: 14)),
             ],
           ],
@@ -351,16 +351,16 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
               color: CurrentTheme.inkMuted,
             ),
             filled: true,
-            fillColor: Colors.white,
+            fillColor: CurrentTheme.surfaceSoft,
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: CurrentTheme.border),
+              borderSide: BorderSide(color: CurrentTheme.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: CurrentTheme.border),
+              borderSide: BorderSide(color: CurrentTheme.border),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
@@ -402,14 +402,14 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                   color: CurrentTheme.inkMuted,
                 ),
                 filled: true,
-                fillColor: Colors.white,
+                fillColor: CurrentTheme.surfaceSoft,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(color: CurrentTheme.border),
+                  borderSide: BorderSide(color: CurrentTheme.border),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(color: CurrentTheme.border),
+                  borderSide: BorderSide(color: CurrentTheme.border),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -453,7 +453,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
             margin: const EdgeInsets.only(bottom: 10),
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: CurrentTheme.surfaceSoft,
               borderRadius: BorderRadius.circular(14),
               border: Border.all(color: CurrentTheme.border),
             ),
@@ -513,7 +513,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
         ),
         child: Row(
           children: [
-            const Icon(Icons.info_outline, color: CurrentTheme.inkMuted),
+            Icon(Icons.info_outline, color: CurrentTheme.inkMuted),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -602,11 +602,11 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
               fillColor: Colors.white,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: CurrentTheme.border),
+                borderSide: BorderSide(color: CurrentTheme.border),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: CurrentTheme.border),
+                borderSide: BorderSide(color: CurrentTheme.border),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -649,11 +649,11 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: CurrentTheme.border),
+                borderSide: BorderSide(color: CurrentTheme.border),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: CurrentTheme.border),
+                borderSide: BorderSide(color: CurrentTheme.border),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -1139,7 +1139,7 @@ class _ConfigTopNav extends StatelessWidget {
             onPressed: onDocumentation,
             style: OutlinedButton.styleFrom(
               foregroundColor: CurrentTheme.ink,
-              side: const BorderSide(color: CurrentTheme.inkSoft),
+              side: BorderSide(color: CurrentTheme.inkSoft),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -1178,7 +1178,7 @@ class _BrandMark extends StatelessWidget {
               'assets/pics/logo.png',
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.auto_awesome, color: CurrentTheme.accent),
+                  Icon(Icons.auto_awesome, color: CurrentTheme.accent),
             ),
           ),
         ),
@@ -1267,13 +1267,13 @@ class _StepTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
-        color: CurrentTheme.ink,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
         'Étape 3/5 · $stackName',
         style: GoogleFonts.spaceGrotesk(
-          fontSize: 12,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           color: Colors.white,
           letterSpacing: 0.4,
@@ -1312,10 +1312,10 @@ class _SummaryCard extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              'Stack sélectionnée : ${stack.name}. '
+              'Stack sélectionnée : ${stack.name}. \n'
               'Les options ci-contre personnalisent la génération.',
               style: GoogleFonts.spaceGrotesk(
-                fontSize: 12.5,
+                fontSize: 18,
                 color: CurrentTheme.inkSoft,
               ),
             ),

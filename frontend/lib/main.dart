@@ -99,7 +99,7 @@ class _UMLToCodeAppState extends State<UMLToCodeApp> {
         foregroundColor: appTheme.ink,
         elevation: 0,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: appTheme.surface,
         elevation: 0,
         shape: RoundedRectangleBorder(

@@ -1,22 +1,23 @@
 {
   "meta": {
     "schema_version": "1.0",
-    "project_name": "feu_op",
-    "stack": "fiber",
-    "output_dir": "output/feu_op_20260117_154536_z5auan"
+    "project_name": "aa",
+    "stack": "spring",
+    "output_dir": "/home/foudjo/Desktop/aa_20260124_061746_81nvkh"
   },
   "inputs": {
-    "class_diagram_path": "datas/imports/diagramTest_4.drawio"
+    "class_diagram_path": "datas/imports/daigramme de classe tutore_2.drawio"
   },
   "pipeline": {
     "mode": "class_only",
     "overwrite_strategy": "backup"
   },
-  "fiber": {
-    "go_version": "1.21",
-    "fiber_version": "2.52.9",
-    "db": "postgres",
-    "orm": "gorm",
-    "package_name": "main"
+  "spring": {
+    "spring_boot_version": "4.0.1",
+    "java_version": "25",
+    "build_tool": "maven",
+    "db": "mysql",
+    "tests": "junit",
+    "dependencies": []
   }
 }

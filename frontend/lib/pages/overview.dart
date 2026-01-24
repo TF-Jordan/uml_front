@@ -45,7 +45,7 @@ class _OverviewPageState extends State<OverviewPage>
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   CurrentTheme.sand,
@@ -342,7 +342,7 @@ class _TopNav extends StatelessWidget {
             onPressed: onDocumentation,
             style: OutlinedButton.styleFrom(
               foregroundColor: CurrentTheme.ink,
-              side: const BorderSide(color: CurrentTheme.inkSoft),
+              side: BorderSide(color: CurrentTheme.inkSoft),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -401,7 +401,7 @@ class _BrandMark extends StatelessWidget {
               'assets/pics/logo.png',
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.auto_awesome, color: CurrentTheme.accent),
+                  Icon(Icons.auto_awesome, color: CurrentTheme.accent),
             ),
           ),
         ),
@@ -455,12 +455,12 @@ class _HeroSection extends StatelessWidget {
               color: CurrentTheme.ink,
               height: 1.1,
             ),
-            children: const [
+            children: [
               TextSpan(
                 text: ' diagrammes \nUML ',
                 style: TextStyle(color: CurrentTheme.accent),
               ),
-              TextSpan(text: ' en un projet prêt à l\'emploi.'),
+              const TextSpan(text: ' en un projet prêt à l\'emploi.'),
             ],
           ),
           textAlign: TextAlign.left,
@@ -486,13 +486,13 @@ class _HeroSection extends StatelessWidget {
                     color: CurrentTheme.inkSoft,
                     height: 1.6,
                   ),
-                  children: const [
+                  children: [
                     TextSpan(text: 'Importez', style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w700)),
-                    TextSpan(text: ' vos diagrammes, '),
+                    const TextSpan(text: ' vos diagrammes, '),
                     TextSpan(text: 'mettez-les en ordre', style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w700)),
-                    TextSpan(text: ' et obtenez une '),
+                    const TextSpan(text: ' et obtenez une '),
                     TextSpan(text: 'base de projet propre', style: TextStyle(color: CurrentTheme.teal, fontWeight: FontWeight.w600)),
-                    TextSpan(text: '.'),
+                    const TextSpan(text: '.'),
                   ],
                 ),
               ),
@@ -501,8 +501,8 @@ class _HeroSection extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 4, right: 8),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4, right: 8),
                     child: Icon(Icons.check_circle_outline, size: 16, color: CurrentTheme.teal),
                   ),
 
@@ -510,10 +510,10 @@ class _HeroSection extends StatelessWidget {
                     child: Text.rich(
                       TextSpan(
                         style: GoogleFonts.spaceGrotesk(fontSize: 16, color: CurrentTheme.inkMuted, height: 1.5),
-                        children: const [
-                          TextSpan(text: 'Tout se fait '),
+                        children: [
+                          const TextSpan(text: 'Tout se fait '),
                           TextSpan(text: 'sur votre ordinateur', style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w600)),
-                          TextSpan(text: ', avec une partie en ligne optionnelle.'),
+                          const TextSpan(text: ', avec une partie en ligne optionnelle.'),
                         ],
                       ),
                     ),
@@ -604,7 +604,7 @@ class _ProgressMeter extends StatelessWidget {
               child: FractionallySizedBox(
                 widthFactor: value,
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
                         CurrentTheme.accent,
@@ -655,7 +655,7 @@ class _HighlightsRow extends StatelessWidget {
                       onPressed: onDocumentation,
                       style: OutlinedButton.styleFrom(
                         foregroundColor: CurrentTheme.ink,
-                        side: const BorderSide(color: CurrentTheme.inkSoft),
+                        side: BorderSide(color: CurrentTheme.inkSoft),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 20),
                         minimumSize: const Size(210, 60),
@@ -948,7 +948,7 @@ class _StepCard extends StatelessWidget {
       width: width,
       padding: const EdgeInsets.all(26),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: CurrentTheme.surfaceSoft,
         borderRadius: BorderRadius.circular(22),
         border: Border.all(color: CurrentTheme.border),
         boxShadow: [

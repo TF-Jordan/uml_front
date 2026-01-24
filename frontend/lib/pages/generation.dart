@@ -80,7 +80,7 @@ class _GenerationPageState extends State<GenerationPage> {
       body: Stack(
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   CurrentTheme.sand,
@@ -274,7 +274,7 @@ class _GenerationPageState extends State<GenerationPage> {
                     onPressed: _isGenerating ? null : _startNewFlow,
                     style: OutlinedButton.styleFrom(
                       foregroundColor: CurrentTheme.ink,
-                      side: const BorderSide(color: CurrentTheme.border),
+                      side: BorderSide(color: CurrentTheme.border),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
@@ -883,7 +883,7 @@ class _GenerationTopNav extends StatelessWidget {
             onPressed: onDocumentation,
             style: OutlinedButton.styleFrom(
               foregroundColor: CurrentTheme.ink,
-              side: const BorderSide(color: CurrentTheme.inkSoft),
+              side: BorderSide(color: CurrentTheme.inkSoft),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -922,7 +922,7 @@ class _BrandMark extends StatelessWidget {
               'assets/pics/logo.png',
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.auto_awesome, color: CurrentTheme.accent),
+                  Icon(Icons.auto_awesome, color: CurrentTheme.accent),
             ),
           ),
         ),
@@ -1020,13 +1020,13 @@ class _StepTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
-        color: CurrentTheme.ink,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
         'Étape 5/5 · génération',
         style: GoogleFonts.spaceGrotesk(
-          fontSize: 12,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           color: Colors.white,
           letterSpacing: 0.4,
@@ -1466,7 +1466,7 @@ class _ErrorCard extends StatelessWidget {
               color: CurrentTheme.accentDeep.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.error_outline, color: CurrentTheme.accentDeep),
+            child: Icon(Icons.error_outline, color: CurrentTheme.accentDeep),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -1508,7 +1508,7 @@ class _SuccessCard extends StatelessWidget {
               color: CurrentTheme.success.withOpacity(0.14),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.check_circle, color: CurrentTheme.success),
+            child: Icon(Icons.check_circle, color: CurrentTheme.success),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -1539,7 +1539,7 @@ class _SuccessCard extends StatelessWidget {
             onPressed: onOpen,
             style: OutlinedButton.styleFrom(
               foregroundColor: CurrentTheme.ink,
-              side: const BorderSide(color: CurrentTheme.border),
+              side: BorderSide(color: CurrentTheme.border),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
