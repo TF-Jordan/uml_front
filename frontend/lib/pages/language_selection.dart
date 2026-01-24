@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../constantes/modern_palette.dart';
 import '../constantes/theme_extension.dart';
+import '../l10n/app_localizations.dart';
 import '../models/stack_definition.dart';
 import '../models/uml_inputs.dart';
 import '../services/docs_launcher.dart';
@@ -123,16 +124,21 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
                                 onDocumentation: () => DocsLauncher.open(context),
                               ),
                               const SizedBox(height: 16),
-                              Center(
-                                child: BreadcrumbBar(
-                                  items: const [
-                                    'Vue d\'ensemble',
-                                    'Import UML',
-                                    'Stack'
-                                  ],
-                                  activeIndex: 2,
-                                  onNavigate: _handleBreadcrumbNavigate,
-                                ),
+                              Builder(
+                                builder: (context) {
+                                  final l10n = AppLocalizations.of(context);
+                                  return Center(
+                                    child: BreadcrumbBar(
+                                      items: [
+                                        l10n.overview,
+                                        l10n.importUml,
+                                        l10n.stack
+                                      ],
+                                      activeIndex: 2,
+                                      onNavigate: _handleBreadcrumbNavigate,
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -150,6 +156,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
   }
 
   Widget _buildContent(bool isCompact) {
+    final l10n = AppLocalizations.of(context);
     final leftPanel = _InfoPanel(
       isCompact: isCompact,
       selectedLanguage:
@@ -162,7 +169,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Choisissez votre stack',
+            l10n.chooseYourStack,
             style: GoogleFonts.spaceGrotesk(
               fontSize: 24,
               fontWeight: FontWeight.w700,
@@ -171,7 +178,7 @@ class _LanguageSelectionPageState extends State<LanguageSelectionPage> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Sélectionnez une cible pour générer le squelette et les conventions de projet.',
+            l10n.selectTargetForGeneration,
             style: GoogleFonts.spaceGrotesk(
               fontSize: 16,
               color: CurrentTheme.inkMuted,
@@ -403,6 +410,7 @@ class _LanguageTopNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return _GlassPanel(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Row(
@@ -419,7 +427,7 @@ class _LanguageTopNav extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
-            child: const Text('Documentation'),
+            child: Text(l10n.documentation),
           ),
         ],
       ),
@@ -430,6 +438,7 @@ class _LanguageTopNav extends StatelessWidget {
 class _BrandMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       children: [
         Container(
@@ -461,7 +470,7 @@ class _BrandMark extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'UML2Code',
+              l10n.appName,
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -469,7 +478,7 @@ class _BrandMark extends StatelessWidget {
               ),
             ),
             Text(
-              'Choix du langage',
+              l10n.languageChoice,
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 12,
                 color: CurrentTheme.inkMuted,
@@ -490,13 +499,14 @@ class _InfoPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _StepTag(selectedLanguage: selectedLanguage),
         const SizedBox(height: 20),
         Text(
-          'Choisir la Stack',
+          l10n.chooseTheStack,
           style: GoogleFonts.spaceGrotesk(
             fontSize: isCompact ? 32 : 42,
             fontWeight: FontWeight.w700,
@@ -506,8 +516,7 @@ class _InfoPanel extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          'La stack sélectionnée détermine la structure des dossiers, '
-          'les conventions de code, et les frameworks générés.',
+          l10n.stackDetermines,
           style: GoogleFonts.spaceGrotesk(
             fontSize: 18,
             color: CurrentTheme.inkSoft,
@@ -520,10 +529,10 @@ class _InfoPanel extends StatelessWidget {
         Wrap(
           spacing: 14,
           runSpacing: 14,
-          children: const [
-            _InfoChip(icon: Icons.layers_outlined, label: 'Structure propre'),
-            _InfoChip(icon: Icons.auto_fix_high, label: 'Conventions générées'),
-            _InfoChip(icon: Icons.settings_suggest, label: 'Paramètres adaptés'),
+          children: [
+            _InfoChip(icon: Icons.layers_outlined, label: l10n.cleanStructure),
+            _InfoChip(icon: Icons.auto_fix_high, label: l10n.generatedConventions),
+            _InfoChip(icon: Icons.settings_suggest, label: l10n.adaptedSettings),
           ],
         ),
 
@@ -539,9 +548,10 @@ class _StepTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final label = selectedLanguage == null
-        ? 'Étape 2/5 · aucune stack sélectionnée'
-        : 'Étape 2/5 · $selectedLanguage sélectionné';
+        ? '${l10n.step} 2/5 · ${l10n.noStackSelected}'
+        : '${l10n.step} 2/5 · $selectedLanguage ${l10n.stackSelected}';
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
       decoration: BoxDecoration(
@@ -602,16 +612,21 @@ class _SelectionCard extends StatelessWidget {
           ),
           const SizedBox(width: 16),
           Expanded(
-            child: Text(
-              hasSelection
-                  ? 'Stack choisie : $selectedLanguage. Vous pouvez continuer.'
-                  : 'Sélectionnez une stack pour activer la génération.',
-              style: GoogleFonts.spaceGrotesk(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-                color: CurrentTheme.inkSoft,
-                height: 1.4,
-              ),
+            child: Builder(
+              builder: (context) {
+                final l10n = AppLocalizations.of(context);
+                return Text(
+                  hasSelection
+                      ? '${l10n.stack} : $selectedLanguage. ${l10n.continueBtn}.'
+                      : l10n.selectStackToActivate,
+                  style: GoogleFonts.spaceGrotesk(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: CurrentTheme.inkSoft,
+                    height: 1.4,
+                  ),
+                );
+              },
             ),
           ),
         ],

@@ -7,6 +7,7 @@ import 'package:path/path.dart' as p;
 
 import '../constantes/modern_palette.dart';
 import '../constantes/theme_extension.dart';
+import '../l10n/app_localizations.dart';
 import '../models/ai_config.dart';
 import '../models/stack_definition.dart';
 import '../models/uml_inputs.dart';
@@ -128,19 +129,24 @@ class ReviewPage extends StatelessWidget {
                             onDocumentation: () => DocsLauncher.open(context),
                           ),
                           const SizedBox(height: 16),
-                          Center(
-                            child: BreadcrumbBar(
-                              items: const [
-                                'Vue d\'ensemble',
-                                'Import UML',
-                                'Stack',
-                                'Configuration',
-                                'Revue'
-                              ],
-                              activeIndex: 4,
-                              onNavigate: (index) =>
-                                  _handleBreadcrumbNavigate(context, index),
-                            ),
+                          Builder(
+                            builder: (context) {
+                              final l10n = AppLocalizations.of(context);
+                              return Center(
+                                child: BreadcrumbBar(
+                                  items: [
+                                    l10n.overview,
+                                    l10n.importUml,
+                                    l10n.stack,
+                                    l10n.configuration,
+                                    l10n.review
+                                  ],
+                                  activeIndex: 4,
+                                  onNavigate: (index) =>
+                                      _handleBreadcrumbNavigate(context, index),
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),

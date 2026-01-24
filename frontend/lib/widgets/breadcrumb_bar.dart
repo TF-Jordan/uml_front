@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../constantes/modern_palette.dart';
 import '../constantes/theme_extension.dart';
+import '../l10n/app_localizations.dart';
 
 class BreadcrumbBar extends StatelessWidget {
   const BreadcrumbBar({
@@ -78,32 +79,33 @@ class BreadcrumbBar extends StatelessWidget {
     String target,
     String current,
   ) async {
+    final l10n = AppLocalizations.of(context);
     final result = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Text(
-          'Revenir à "$target" ?',
+          '${l10n.returnTo} "$target" ?',
           style: GoogleFonts.spaceGrotesk(
             fontWeight: FontWeight.w600,
             color: CurrentTheme.ink,
           ),
         ),
         content: Text(
-          'Cela va abandonner les modifications depuis "$current". Continuer ?',
+          '${l10n.abandonChanges} "$current". ${l10n.continueQuestion}',
           style: GoogleFonts.spaceGrotesk(color: CurrentTheme.inkSoft),
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Annuler'),
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
+            onPressed: () => Navigator.pop(dialogContext, true),
             style: ElevatedButton.styleFrom(
               backgroundColor: CurrentTheme.accent,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Revenir'),
+            child: Text(l10n.returnAction),
           ),
         ],
       ),

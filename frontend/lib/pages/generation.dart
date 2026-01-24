@@ -9,6 +9,7 @@ import 'package:path/path.dart' as p;
 
 import '../constantes/modern_palette.dart';
 import '../constantes/theme_extension.dart';
+import '../l10n/app_localizations.dart';
 import '../models/ai_config.dart';
 import '../models/stack_definition.dart';
 import '../models/uml_inputs.dart';
@@ -157,19 +158,24 @@ class _GenerationPageState extends State<GenerationPage> {
                             onDocumentation: () => DocsLauncher.open(context),
                           ),
                           const SizedBox(height: 16),
-                          Center(
-                            child: BreadcrumbBar(
-                              items: const [
-                                'Vue d\'ensemble',
-                                'Import UML',
-                                'Stack',
-                                'Configuration',
-                                'Revue',
-                                'Génération'
-                              ],
-                              activeIndex: 5,
-                              onNavigate: _handleBreadcrumbNavigate,
-                            ),
+                          Builder(
+                            builder: (context) {
+                              final l10n = AppLocalizations.of(context);
+                              return Center(
+                                child: BreadcrumbBar(
+                                  items: [
+                                    l10n.overview,
+                                    l10n.importUml,
+                                    l10n.stack,
+                                    l10n.configuration,
+                                    l10n.review,
+                                    l10n.generation
+                                  ],
+                                  activeIndex: 5,
+                                  onNavigate: _handleBreadcrumbNavigate,
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),

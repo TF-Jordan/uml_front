@@ -9,6 +9,7 @@ import 'package:path/path.dart' as p;
 
 import '../constantes/modern_palette.dart';
 import '../constantes/theme_extension.dart';
+import '../l10n/app_localizations.dart';
 import '../models/uml_inputs.dart';
 import '../services/docs_launcher.dart';
 import '../services/workspace_paths.dart';
@@ -134,12 +135,17 @@ class _UploadPageState extends State<UploadPage> {
                                 onDocumentation: () => DocsLauncher.open(context),
                               ),
                               const SizedBox(height: 16),
-                              Center(
-                                child: BreadcrumbBar(
-                                  items: const ['Vue d\'ensemble', 'Import UML'],
-                                  activeIndex: 1,
-                                  onNavigate: _handleBreadcrumbNavigate,
-                                ),
+                              Builder(
+                                builder: (context) {
+                                  final l10n = AppLocalizations.of(context);
+                                  return Center(
+                                    child: BreadcrumbBar(
+                                      items: [l10n.overview, l10n.importUml],
+                                      activeIndex: 1,
+                                      onNavigate: _handleBreadcrumbNavigate,
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -157,6 +163,7 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   Widget _buildContent(bool isCompact) {
+    final l10n = AppLocalizations.of(context);
     final leftPanel = _InfoPanel(
       isCompact: isCompact,
       filesCount: _uploadedFiles.length,
@@ -168,7 +175,7 @@ class _UploadPageState extends State<UploadPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Déposez vos fichiers UML',
+            l10n.dropYourUmlFiles,
             style: GoogleFonts.spaceGrotesk(
               fontSize: 30,
               fontWeight: FontWeight.w600,
@@ -177,7 +184,7 @@ class _UploadPageState extends State<UploadPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            '1 fichier minimum, 2 maximum. Classes requises, séquence optionnelle.',
+            l10n.oneFileMinTwoMax,
             style: GoogleFonts.spaceGrotesk(
               fontSize: 20,
               color: CurrentTheme.inkMuted,
@@ -188,7 +195,7 @@ class _UploadPageState extends State<UploadPage> {
           const SizedBox(height: 18),
           if (_uploadedFiles.isNotEmpty) ...[
             Text(
-              'Fichiers importés',
+              l10n.importedFiles,
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
@@ -216,7 +223,7 @@ class _UploadPageState extends State<UploadPage> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  child: const Text('Continuer'),
+                  child: Text(l10n.continueBtn),
                 ),
               ),
             ],
@@ -291,6 +298,7 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   Widget _buildIdleState() {
+    final l10n = AppLocalizations.of(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -307,7 +315,7 @@ class _UploadPageState extends State<UploadPage> {
           ),
           const SizedBox(height: 16),
           Text(
-          'Glissez vos diagrammes ici',
+          l10n.dragDiagramsHere,
           style: GoogleFonts.spaceGrotesk(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -316,7 +324,7 @@ class _UploadPageState extends State<UploadPage> {
         ),
         const SizedBox(height: 6),
         Text(
-          'Formats supportés : .drawio (1 à 2 fichiers)',
+          l10n.supportedFormats,
           style: GoogleFonts.spaceGrotesk(
             fontSize: 12.5,
             color: CurrentTheme.inkMuted,
@@ -334,7 +342,7 @@ class _UploadPageState extends State<UploadPage> {
               ),
             ),
             icon: const Icon(Icons.folder_open),
-            label: const Text('Choisir un fichier'),
+            label: Text(l10n.chooseFile),
           ),
         ],
       ),
@@ -342,13 +350,14 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   Widget _buildUploadingState() {
+    final l10n = AppLocalizations.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CircularProgressIndicator(color: CurrentTheme.accent),
         const SizedBox(height: 12),
         Text(
-          'Import en cours... ${( _uploadProgress * 100).toInt()}%',
+          '${l10n.importInProgress} ${( _uploadProgress * 100).toInt()}%',
           style: GoogleFonts.spaceGrotesk(
             fontSize: 13,
             fontWeight: FontWeight.w600,
@@ -400,6 +409,7 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   Widget _buildProgressBar() {
+    final l10n = AppLocalizations.of(context);
     if (_uploadedFiles.isEmpty) {
       return Container(
         padding: const EdgeInsets.all(14),
@@ -414,7 +424,7 @@ class _UploadPageState extends State<UploadPage> {
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                'Ajoutez entre 1 et 2 fichiers pour activer la suite.',
+                l10n.addFilesToContinue,
                 style: GoogleFonts.spaceGrotesk(
                   fontSize: 12.5,
                   color: CurrentTheme.inkMuted,
@@ -440,8 +450,8 @@ class _UploadPageState extends State<UploadPage> {
           Expanded(
             child: Text(
               _uploadedFiles.length >= _maxFiles
-                  ? '$_uploadedFilesCountText. Maximum atteint.'
-                  : '$_uploadedFilesCountText. Vous pouvez encore ajouter un fichier si besoin.',
+                  ? '$_uploadedFilesCountText. ${l10n.maximumReached}'
+                  : '$_uploadedFilesCountText. ${l10n.canAddMore}',
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 12.5,
                 color: CurrentTheme.inkSoft,
@@ -514,37 +524,38 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   void _showSequenceDiagramDialog() {
+    final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Text(
-          'Diagramme de séquence ?',
+          l10n.sequenceDiagramQuestion,
           style: GoogleFonts.spaceGrotesk(
             fontWeight: FontWeight.w600,
             color: CurrentTheme.ink,
           ),
         ),
         content: Text(
-          'Souhaitez-vous ajouter un diagramme de séquence pour enrichir la génération ?',
+          l10n.wantToAddSequence,
           style: GoogleFonts.spaceGrotesk(color: CurrentTheme.inkSoft),
         ),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               _goToLanguagePage();
             },
-            child: const Text('Non'),
+            child: Text(l10n.no),
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: CurrentTheme.accent,
               foregroundColor: Colors.white,
             ),
-            child: const Text('Oui'),
+            child: Text(l10n.yes),
           ),
         ],
       ),
@@ -580,8 +591,9 @@ class _UploadPageState extends State<UploadPage> {
   }
 
   void _goToLanguagePage() {
+    final l10n = AppLocalizations.of(context);
     if (_uploadedFiles.isEmpty) {
-      _showSnackBar('Ajoutez au moins un fichier UML.');
+      _showSnackBar(l10n.addAtLeastOneFile);
       return;
     }
     final inputs = UmlInputs(
@@ -604,8 +616,10 @@ class _UploadPageState extends State<UploadPage> {
     }
   }
 
-  String get _uploadedFilesCountText =>
-      '${_uploadedFiles.length}/$_maxFiles fichiers importés';
+  String get _uploadedFilesCountText {
+    final l10n = AppLocalizations.of(context);
+    return '${_uploadedFiles.length}/$_maxFiles ${l10n.filesImportedCount}';
+  }
 
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -655,6 +669,7 @@ class _UploadTopNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return _GlassPanel(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Row(
@@ -671,7 +686,7 @@ class _UploadTopNav extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
-            child: const Text('Documentation'),
+            child: Text(l10n.documentation),
           ),
         ],
       ),
@@ -682,6 +697,7 @@ class _UploadTopNav extends StatelessWidget {
 class _BrandMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       children: [
         Container(
@@ -713,7 +729,7 @@ class _BrandMark extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'UML2Code',
+              l10n.appName,
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -721,7 +737,7 @@ class _BrandMark extends StatelessWidget {
               ),
             ),
             Text(
-              'Import UML',
+              l10n.importUml,
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 12,
                 color: CurrentTheme.inkMuted,
@@ -742,13 +758,14 @@ class _InfoPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _StepTag(count: filesCount),
         const SizedBox(height: 18),
         Text(
-          'Importer vos diagrammes UML',
+          l10n.importYourUmlDiagrams,
           style: GoogleFonts.spaceGrotesk(
             fontSize: isCompact ? 28 : 36,
             fontWeight: FontWeight.w700,
@@ -758,9 +775,7 @@ class _InfoPanel extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Text(
-          'Ajoutez votre diagramme de classes en premier pour démarrer. '
-          'Vous pouvez ensuite enrichir la génération avec un diagramme '
-          'de séquence pour couvrir les cas d’usage.',
+          l10n.addClassFirst,
           style: GoogleFonts.spaceGrotesk(
             fontSize: 20,
             color: CurrentTheme.inkSoft,
@@ -774,10 +789,10 @@ class _InfoPanel extends StatelessWidget {
         Wrap(
           spacing: 12,
           runSpacing: 12,
-          children: const [
-            _InfoChip(icon: Icons.account_tree_outlined, label: 'Classes requises'),
-            _InfoChip(icon: Icons.timeline, label: 'Séquence optionnelle'),
-            _InfoChip(icon: Icons.shield_outlined, label: 'Local & sécurisé'),
+          children: [
+            _InfoChip(icon: Icons.account_tree_outlined, label: l10n.classesRequired),
+            _InfoChip(icon: Icons.timeline, label: l10n.sequenceOptional),
+            _InfoChip(icon: Icons.shield_outlined, label: l10n.localAndSecure),
           ],
         ),
 
@@ -793,6 +808,7 @@ class _StepTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
@@ -800,7 +816,7 @@ class _StepTag extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
-        'Étape 1/5 · $count/2 fichiers importés',
+        '${l10n.step} 1/5 · $count/2 ${l10n.filesImportedCount}',
         style: GoogleFonts.spaceGrotesk(
           fontSize: 20,
           fontWeight: FontWeight.w600,
@@ -848,6 +864,7 @@ class _InfoChip extends StatelessWidget {
 class _ChecklistCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
@@ -859,7 +876,7 @@ class _ChecklistCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Avant de commencer',
+            l10n.beforeStarting,
             style: GoogleFonts.spaceGrotesk(
               fontSize: 50,
               fontWeight: FontWeight.w900,
@@ -867,10 +884,10 @@ class _ChecklistCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 10),
-          const _ChecklistItem(text: 'Diagramme de classes propre et complet'),
-          const _ChecklistItem(text: 'Nom des classes normalisé'),
-          const _ChecklistItem(text: 'Relations UML explicites'),
-          const _ChecklistItem(text: 'Optionnel : séquences pour les cas clés'),
+          _ChecklistItem(text: l10n.cleanClassDiagram),
+          _ChecklistItem(text: l10n.normalizedNames),
+          _ChecklistItem(text: l10n.explicitRelations),
+          _ChecklistItem(text: l10n.optionalSequences),
         ],
       ),
     );

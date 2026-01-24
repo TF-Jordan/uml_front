@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../constantes/modern_palette.dart';
 import '../constantes/theme_extension.dart';
+import '../l10n/app_localizations.dart';
 import '../models/ai_config.dart';
 import '../models/stack_definition.dart';
 import '../models/uml_inputs.dart';
@@ -171,17 +172,22 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                                 onDocumentation: () => DocsLauncher.open(context),
                               ),
                               const SizedBox(height: 16),
-                              Center(
-                                child: BreadcrumbBar(
-                                  items: const [
-                                    'Vue d\'ensemble',
-                                    'Import UML',
-                                    'Stack',
-                                    'Configuration'
-                                  ],
-                                  activeIndex: 3,
-                                  onNavigate: _handleBreadcrumbNavigate,
-                                ),
+                              Builder(
+                                builder: (context) {
+                                  final l10n = AppLocalizations.of(context);
+                                  return Center(
+                                    child: BreadcrumbBar(
+                                      items: [
+                                        l10n.overview,
+                                        l10n.importUml,
+                                        l10n.stack,
+                                        l10n.configuration
+                                      ],
+                                      activeIndex: 3,
+                                      onNavigate: _handleBreadcrumbNavigate,
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -199,6 +205,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
   }
 
   Widget _buildContent(bool isCompact) {
+    final l10n = AppLocalizations.of(context);
     final leftPanel = _InfoPanel(
       isCompact: isCompact,
       stack: widget.stack,
@@ -210,7 +217,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Configuration ${widget.stack.name}',
+            '${l10n.configurationOf} ${widget.stack.name}',
             style: GoogleFonts.spaceGrotesk(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -219,7 +226,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Renseignez les paramètres essentiels pour générer un projet cohérent.',
+            l10n.fillEssentialParams,
             style: GoogleFonts.spaceGrotesk(
               fontSize: 13.5,
               color: CurrentTheme.inkMuted,
@@ -227,22 +234,22 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
           ),
           const SizedBox(height: 20),
           _buildTextField(
-            label: 'Nom du projet',
-            helper: 'Obligatoire (ex: ecommerce_api)',
+            label: l10n.projectName,
+            helper: l10n.projectNameRequiredHint,
             controller: _projectNameController,
             required: true,
             onChanged: (_) => setState(() {}),
           ),
           const SizedBox(height: 14),
           _buildTextField(
-            label: 'Namespace / Package',
-            helper: 'Optionnel (ex: com.company.app)',
+            label: l10n.namespacePackage,
+            helper: l10n.namespaceOptionalHint,
             controller: _packageController,
           ),
           const SizedBox(height: 14),
           _buildTextField(
-            label: 'Répertoire de sortie',
-            helper: 'Par défaut: output',
+            label: l10n.outputDirectoryField,
+            helper: l10n.outputDefault,
             controller: _outputController,
           ),
           const SizedBox(height: 20),

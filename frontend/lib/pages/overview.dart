@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../constantes/modern_palette.dart';
 import '../constantes/theme_extension.dart';
+import '../l10n/app_localizations.dart';
 import '../services/docs_launcher.dart';
 import 'page1.dart';
 import 'settings.dart';
@@ -317,6 +318,7 @@ class _TopNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return _GlassPanel(
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
       child: Row(
@@ -335,7 +337,7 @@ class _TopNav extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            tooltip: 'Paramètres',
+            tooltip: l10n.settings,
           ),
           const SizedBox(width: 12),
           OutlinedButton(
@@ -348,7 +350,7 @@ class _TopNav extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
-            child: const Text('Documentation'),
+            child: Text(l10n.documentation),
           ),
           const SizedBox(width: 12),
           ElevatedButton(
@@ -361,12 +363,12 @@ class _TopNav extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Commencer'),
-                SizedBox(width: 8),
-                Icon(Icons.arrow_forward),
+                Text(l10n.getStarted),
+                const SizedBox(width: 8),
+                const Icon(Icons.arrow_forward),
               ],
             ),
           ),
@@ -379,6 +381,7 @@ class _TopNav extends StatelessWidget {
 class _BrandMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Row(
       children: [
         Container(
@@ -410,7 +413,7 @@ class _BrandMark extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'UML2Code',
+              l10n.appName,
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -418,7 +421,7 @@ class _BrandMark extends StatelessWidget {
               ),
             ),
             Text(
-              'Suite de bureau',
+              l10n.desktopSuite,
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 12,
                 color: CurrentTheme.inkMuted,
@@ -439,6 +442,7 @@ class _HeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final headlineSize = isCompact ? 38.0 : 52.0;
 
     final textBlock = Column(
@@ -448,7 +452,7 @@ class _HeroSection extends StatelessWidget {
         const SizedBox(height: 20),
         Text.rich(
           TextSpan(
-            text: 'Transformez vos',
+            text: l10n.transformYour,
             style: GoogleFonts.spaceGrotesk(
               fontSize: headlineSize,
               fontWeight: FontWeight.w700,
@@ -457,10 +461,10 @@ class _HeroSection extends StatelessWidget {
             ),
             children: [
               TextSpan(
-                text: ' diagrammes \nUML ',
+                text: ' ${l10n.umlDiagrams} ',
                 style: TextStyle(color: CurrentTheme.accent),
               ),
-              const TextSpan(text: ' en un projet prêt à l\'emploi.'),
+              TextSpan(text: ' ${l10n.intoReadyProject}'),
             ],
           ),
           textAlign: TextAlign.left,
@@ -487,11 +491,11 @@ class _HeroSection extends StatelessWidget {
                     height: 1.6,
                   ),
                   children: [
-                    TextSpan(text: 'Importez', style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w700)),
-                    const TextSpan(text: ' vos diagrammes, '),
-                    TextSpan(text: 'mettez-les en ordre', style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w700)),
-                    const TextSpan(text: ' et obtenez une '),
-                    TextSpan(text: 'base de projet propre', style: TextStyle(color: CurrentTheme.teal, fontWeight: FontWeight.w600)),
+                    TextSpan(text: l10n.importAction, style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w700)),
+                    TextSpan(text: ' ${l10n.yourDiagrams} '),
+                    TextSpan(text: l10n.organizeAction, style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w700)),
+                    TextSpan(text: ' ${l10n.andGetA} '),
+                    TextSpan(text: l10n.cleanProjectBase, style: TextStyle(color: CurrentTheme.teal, fontWeight: FontWeight.w600)),
                     const TextSpan(text: '.'),
                   ],
                 ),
@@ -511,9 +515,9 @@ class _HeroSection extends StatelessWidget {
                       TextSpan(
                         style: GoogleFonts.spaceGrotesk(fontSize: 16, color: CurrentTheme.inkMuted, height: 1.5),
                         children: [
-                          const TextSpan(text: 'Tout se fait '),
-                          TextSpan(text: 'sur votre ordinateur', style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w600)),
-                          const TextSpan(text: ', avec une partie en ligne optionnelle.'),
+                          TextSpan(text: '${l10n.everythingDone} '),
+                          TextSpan(text: l10n.onYourComputer, style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w600)),
+                          TextSpan(text: l10n.withOnlinePart),
                         ],
                       ),
                     ),
@@ -635,6 +639,7 @@ class _HighlightsRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final spacing = isCompact ? 12.0 : 20.0;
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -667,7 +672,7 @@ class _HighlightsRow extends StatelessWidget {
                           borderRadius: BorderRadius.circular(14),
                         ),
                       ),
-                      child: const Text('Documentation'),
+                      child: Text(l10n.documentation),
                     ),
                     ElevatedButton(
                       onPressed: onStart,
@@ -685,12 +690,12 @@ class _HighlightsRow extends StatelessWidget {
                           borderRadius: BorderRadius.circular(14),
                         ),
                       ),
-                      child: const Row(
+                      child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('Commencer'),
-                          SizedBox(width: 8),
-                          Icon(Icons.arrow_forward),
+                          Text(l10n.getStarted),
+                          const SizedBox(width: 8),
+                          const Icon(Icons.arrow_forward),
                         ],
                       ),
                     ),
@@ -705,23 +710,20 @@ class _HighlightsRow extends StatelessWidget {
                 children: [
                   _HighlightCard(
                     width: tileWidth,
-                    title: 'Tout reste local',
-                    body:
-                        'Le cœur du travail reste sur votre ordinateur.',
+                    title: l10n.allStaysLocal,
+                    body: l10n.coreWorkLocal,
                     icon: Icons.lock_outline,
                   ),
                   _HighlightCard(
                     width: tileWidth,
-                    title: 'Historique clair',
-                    body:
-                        'Vos choix sont conservés pour garder une trace simple.',
+                    title: l10n.clearHistory,
+                    body: l10n.choicesKept,
                     icon: Icons.data_object,
                   ),
                   _HighlightCard(
                     width: tileWidth,
-                    title: 'Plusieurs choix',
-                    body:
-                        'Choisissez une technologie adaptée à votre projet.',
+                    title: l10n.multipleChoices,
+                    body: l10n.chooseTech,
                     icon: Icons.layers_outlined,
                   ),
                 ],
@@ -873,12 +875,13 @@ class _StepsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const _SectionHeader(
-          title: 'Comment ça marche',
-          subtitle: 'Trois étapes simples et faciles à suivre.',
+        _SectionHeader(
+          title: l10n.howItWorks,
+          subtitle: l10n.threeSteps,
           center: true,
         ),
         const SizedBox(height: 24),
@@ -897,24 +900,22 @@ class _StepsSection extends StatelessWidget {
                   _StepCard(
                     width: tileWidth,
                     index: '01',
-                    title: 'Importer vos schémas',
-                    body:
-                        'Vos diagrammes deviennent une base claire et lisible.',
+                    title: l10n.importSchemas,
+                    body: l10n.diagramsBecomeClear,
                     icon: Icons.layers_outlined,
                   ),
                   _StepCard(
                     width: tileWidth,
                     index: '02',
-                    title: 'Mettre en ordre',
-                    body:
-                        'Les informations sont organisées pour éviter les erreurs.',
+                    title: l10n.organizeStep,
+                    body: l10n.infoOrganized,
                     icon: Icons.tune,
                   ),
                   _StepCard(
                     width: tileWidth,
                     index: '03',
-                    title: 'Créer le projet',
-                    body: 'Vous obtenez une base prête à personnaliser.',
+                    title: l10n.createProject,
+                    body: l10n.getReadyBase,
                     icon: Icons.folder_open,
                   ),
                 ],
@@ -1124,13 +1125,14 @@ class _LanguageShowcaseState extends State<_LanguageShowcase> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final rowCount = (_items.length / 3).ceil();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const _SectionHeader(
-          title: 'Langages',
-          subtitle: 'Description de ce que nous avons préparé pour vous.',
+        _SectionHeader(
+          title: l10n.languagesSection,
+          subtitle: l10n.whatWePrepared,
           center: true,
         ),
         const SizedBox(height: 24),
