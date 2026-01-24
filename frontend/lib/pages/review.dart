@@ -606,13 +606,13 @@ class _StepTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
-        color: CurrentTheme.ink,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
         'Étape 4/5 · revue',
         style: GoogleFonts.spaceGrotesk(
-          fontSize: 12,
+          fontSize: 20,
           fontWeight: FontWeight.w600,
           color: Colors.white,
           letterSpacing: 0.4,

@@ -545,7 +545,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: CurrentTheme.surface,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(color: CurrentTheme.border),
           ),
@@ -560,7 +560,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                       style: GoogleFonts.spaceGrotesk(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: CurrentTheme.ink,
+                        color: Colors.white,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -570,7 +570,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                           : 'Ajoutez un diagramme de séquence pour activer l\'IA.',
                       style: GoogleFonts.spaceGrotesk(
                         fontSize: 11.5,
-                        color: CurrentTheme.inkMuted,
+                        color: CurrentTheme.surfaceSoft,
                       ),
                     ),
                   ],
@@ -596,10 +596,10 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
               labelText: 'Fournisseur',
               labelStyle: GoogleFonts.spaceGrotesk(
                 fontSize: 12.5,
-                color: CurrentTheme.inkMuted,
+                color: Colors.white,
               ),
               filled: true,
-              fillColor: Colors.white,
+              fillColor: CurrentTheme.surface,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
                 borderSide: BorderSide(color: CurrentTheme.border),
@@ -639,7 +639,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                 color: CurrentTheme.inkMuted,
               ),
               filled: true,
-              fillColor: Colors.white,
+              fillColor: CurrentTheme.surface,
               suffixIcon: IconButton(
                 onPressed: () =>
                     setState(() => _aiKeyVisible = !_aiKeyVisible),
