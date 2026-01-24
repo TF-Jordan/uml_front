@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../constantes/modern_palette.dart';
+import '../constantes/theme_extension.dart';
 
 class BreadcrumbBar extends StatelessWidget {
   const BreadcrumbBar({
@@ -26,7 +27,7 @@ class BreadcrumbBar extends StatelessWidget {
             '→',
             style: GoogleFonts.spaceGrotesk(
               fontSize: 14,
-              color: ModernPalette.inkMuted,
+              color: CurrentTheme.inkMuted,
             ),
           );
         }
@@ -44,11 +45,11 @@ class BreadcrumbBar extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
               color: isActive
-                  ? ModernPalette.accent.withOpacity(0.12)
-                  : ModernPalette.surface,
+                  ? CurrentTheme.accent.withOpacity(0.12)
+                  : CurrentTheme.surface,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: isActive ? ModernPalette.accent : ModernPalette.border,
+                color: isActive ? CurrentTheme.accent : CurrentTheme.border,
               ),
             ),
             child: Text(
@@ -56,7 +57,7 @@ class BreadcrumbBar extends StatelessWidget {
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 14,
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-                color: isActive ? ModernPalette.accent : ModernPalette.inkSoft,
+                color: isActive ? CurrentTheme.accent : CurrentTheme.inkSoft,
               ),
             ),
           ),
@@ -84,12 +85,12 @@ class BreadcrumbBar extends StatelessWidget {
           'Revenir à "$target" ?',
           style: GoogleFonts.spaceGrotesk(
             fontWeight: FontWeight.w600,
-            color: ModernPalette.ink,
+            color: CurrentTheme.ink,
           ),
         ),
         content: Text(
           'Cela va abandonner les modifications depuis "$current". Continuer ?',
-          style: GoogleFonts.spaceGrotesk(color: ModernPalette.inkSoft),
+          style: GoogleFonts.spaceGrotesk(color: CurrentTheme.inkSoft),
         ),
         actions: [
           TextButton(
@@ -99,7 +100,7 @@ class BreadcrumbBar extends StatelessWidget {
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
-              backgroundColor: ModernPalette.accent,
+              backgroundColor: CurrentTheme.accent,
               foregroundColor: Colors.white,
             ),
             child: const Text('Revenir'),

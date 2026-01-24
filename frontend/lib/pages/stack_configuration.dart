@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../constantes/modern_palette.dart';
+import '../constantes/theme_extension.dart';
 import '../models/ai_config.dart';
 import '../models/stack_definition.dart';
 import '../models/uml_inputs.dart';
@@ -93,9 +94,9 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  ModernPalette.sand,
-                  ModernPalette.cloud,
-                  ModernPalette.sandDeep,
+                  CurrentTheme.sand,
+                  CurrentTheme.cloud,
+                  CurrentTheme.sandDeep,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -108,7 +109,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
             top: -80,
             child: _GlowingOrb(
               size: 240,
-              color: ModernPalette.accentGlow.withOpacity(0.25),
+              color: CurrentTheme.accentGlow.withOpacity(0.25),
             ),
           ),
           Positioned(
@@ -116,7 +117,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
             bottom: 120,
             child: _GlowingOrb(
               size: 200,
-              color: ModernPalette.teal.withOpacity(0.2),
+              color: CurrentTheme.teal.withOpacity(0.2),
             ),
           ),
           SafeArea(
@@ -144,9 +145,9 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          ModernPalette.sand,
-                          ModernPalette.sand.withOpacity(0.98),
-                          ModernPalette.sand.withOpacity(0),
+                          CurrentTheme.sand,
+                          CurrentTheme.sand.withOpacity(0.98),
+                          CurrentTheme.sand.withOpacity(0),
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -213,7 +214,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
             style: GoogleFonts.spaceGrotesk(
               fontSize: 20,
               fontWeight: FontWeight.w600,
-              color: ModernPalette.ink,
+              color: CurrentTheme.ink,
             ),
           ),
           const SizedBox(height: 8),
@@ -221,7 +222,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
             'Renseignez les paramètres essentiels pour générer un projet cohérent.',
             style: GoogleFonts.spaceGrotesk(
               fontSize: 13.5,
-              color: ModernPalette.inkMuted,
+              color: CurrentTheme.inkMuted,
             ),
           ),
           const SizedBox(height: 20),
@@ -257,8 +258,8 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                 child: ElevatedButton(
                   onPressed: _canContinue() ? _goToReview : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: ModernPalette.accent,
-                    disabledBackgroundColor: ModernPalette.surfaceSoft,
+                    backgroundColor: CurrentTheme.accent,
+                    disabledBackgroundColor: CurrentTheme.surfaceSoft,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -274,14 +275,14 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
           Row(
             children: [
               const Icon(Icons.info_outline,
-                  size: 16, color: ModernPalette.inkMuted),
+                  size: 16, color: CurrentTheme.inkMuted),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
                   'Les champs obligatoires sont contrôlés pour éviter les erreurs.',
                   style: GoogleFonts.spaceGrotesk(
                     fontSize: 12,
-                    color: ModernPalette.inkMuted,
+                    color: CurrentTheme.inkMuted,
                   ),
                 ),
               ),
@@ -329,13 +330,13 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: ModernPalette.ink,
+                color: CurrentTheme.ink,
               ),
             ),
             if (required) ...[
               const SizedBox(width: 6),
               const Text('*',
-                  style: TextStyle(color: ModernPalette.accent, fontSize: 14)),
+                  style: TextStyle(color: CurrentTheme.accent, fontSize: 14)),
             ],
           ],
         ),
@@ -347,7 +348,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
             hintText: helper,
             hintStyle: GoogleFonts.spaceGrotesk(
               fontSize: 12.5,
-              color: ModernPalette.inkMuted,
+              color: CurrentTheme.inkMuted,
             ),
             filled: true,
             fillColor: Colors.white,
@@ -355,11 +356,11 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                 const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: ModernPalette.border),
+              borderSide: const BorderSide(color: CurrentTheme.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: const BorderSide(color: ModernPalette.border),
+              borderSide: const BorderSide(color: CurrentTheme.border),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
@@ -385,7 +386,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
           style: GoogleFonts.spaceGrotesk(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: ModernPalette.ink,
+            color: CurrentTheme.ink,
           ),
         ),
         const SizedBox(height: 12),
@@ -398,17 +399,17 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                 labelText: option.label,
                 labelStyle: GoogleFonts.spaceGrotesk(
                   fontSize: 12.5,
-                  color: ModernPalette.inkMuted,
+                  color: CurrentTheme.inkMuted,
                 ),
                 filled: true,
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(color: ModernPalette.border),
+                  borderSide: const BorderSide(color: CurrentTheme.border),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
-                  borderSide: const BorderSide(color: ModernPalette.border),
+                  borderSide: const BorderSide(color: CurrentTheme.border),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -443,7 +444,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
           style: GoogleFonts.spaceGrotesk(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: ModernPalette.ink,
+            color: CurrentTheme.ink,
           ),
         ),
         const SizedBox(height: 12),
@@ -454,7 +455,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: ModernPalette.border),
+              border: Border.all(color: CurrentTheme.border),
             ),
             child: Row(
               children: [
@@ -467,7 +468,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                         style: GoogleFonts.spaceGrotesk(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: ModernPalette.ink,
+                          color: CurrentTheme.ink,
                         ),
                       ),
                       if (option.helper != null) ...[
@@ -476,7 +477,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                           option.helper!,
                           style: GoogleFonts.spaceGrotesk(
                             fontSize: 11.5,
-                            color: ModernPalette.inkMuted,
+                            color: CurrentTheme.inkMuted,
                           ),
                         ),
                       ],
@@ -506,20 +507,20 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
       return Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: ModernPalette.surface,
+          color: CurrentTheme.surface,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: ModernPalette.border),
+          border: Border.all(color: CurrentTheme.border),
         ),
         child: Row(
           children: [
-            const Icon(Icons.info_outline, color: ModernPalette.inkMuted),
+            const Icon(Icons.info_outline, color: CurrentTheme.inkMuted),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
                 'Assistant IA non disponible pour cette technologie.',
                 style: GoogleFonts.spaceGrotesk(
                   fontSize: 12.5,
-                  color: ModernPalette.inkMuted,
+                  color: CurrentTheme.inkMuted,
                 ),
               ),
             ),
@@ -537,7 +538,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
           style: GoogleFonts.spaceGrotesk(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: ModernPalette.ink,
+            color: CurrentTheme.ink,
           ),
         ),
         const SizedBox(height: 12),
@@ -546,7 +547,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: ModernPalette.border),
+            border: Border.all(color: CurrentTheme.border),
           ),
           child: Row(
             children: [
@@ -559,7 +560,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                       style: GoogleFonts.spaceGrotesk(
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
-                        color: ModernPalette.ink,
+                        color: CurrentTheme.ink,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -569,7 +570,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                           : 'Ajoutez un diagramme de séquence pour activer l\'IA.',
                       style: GoogleFonts.spaceGrotesk(
                         fontSize: 11.5,
-                        color: ModernPalette.inkMuted,
+                        color: CurrentTheme.inkMuted,
                       ),
                     ),
                   ],
@@ -595,17 +596,17 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
               labelText: 'Fournisseur',
               labelStyle: GoogleFonts.spaceGrotesk(
                 fontSize: 12.5,
-                color: ModernPalette.inkMuted,
+                color: CurrentTheme.inkMuted,
               ),
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: ModernPalette.border),
+                borderSide: const BorderSide(color: CurrentTheme.border),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: ModernPalette.border),
+                borderSide: const BorderSide(color: CurrentTheme.border),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -635,7 +636,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
               helperText: 'La clé reste locale et n\'est pas affichée.',
               helperStyle: GoogleFonts.spaceGrotesk(
                 fontSize: 11,
-                color: ModernPalette.inkMuted,
+                color: CurrentTheme.inkMuted,
               ),
               filled: true,
               fillColor: Colors.white,
@@ -648,11 +649,11 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: ModernPalette.border),
+                borderSide: const BorderSide(color: CurrentTheme.border),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
-                borderSide: const BorderSide(color: ModernPalette.border),
+                borderSide: const BorderSide(color: CurrentTheme.border),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -681,7 +682,7 @@ class _StackConfigurationPageState extends State<StackConfigurationPage> {
                   'Se souvenir de la clé sur cet appareil.',
                   style: GoogleFonts.spaceGrotesk(
                     fontSize: 12,
-                    color: ModernPalette.inkMuted,
+                    color: CurrentTheme.inkMuted,
                   ),
                 ),
               ),
@@ -1137,8 +1138,8 @@ class _ConfigTopNav extends StatelessWidget {
           OutlinedButton(
             onPressed: onDocumentation,
             style: OutlinedButton.styleFrom(
-              foregroundColor: ModernPalette.ink,
-              side: const BorderSide(color: ModernPalette.inkSoft),
+              foregroundColor: CurrentTheme.ink,
+              side: const BorderSide(color: CurrentTheme.inkSoft),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -1165,7 +1166,7 @@ class _BrandMark extends StatelessWidget {
             color: Colors.white.withOpacity(0.7),
             boxShadow: [
               BoxShadow(
-                color: ModernPalette.accent.withOpacity(0.2),
+                color: CurrentTheme.accent.withOpacity(0.2),
                 blurRadius: 18,
                 offset: const Offset(0, 8),
               ),
@@ -1177,7 +1178,7 @@ class _BrandMark extends StatelessWidget {
               'assets/pics/logo.png',
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.auto_awesome, color: ModernPalette.accent),
+                  const Icon(Icons.auto_awesome, color: CurrentTheme.accent),
             ),
           ),
         ),
@@ -1190,14 +1191,14 @@ class _BrandMark extends StatelessWidget {
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: ModernPalette.ink,
+                color: CurrentTheme.ink,
               ),
             ),
             Text(
               'Configuration',
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 12,
-                color: ModernPalette.inkMuted,
+                color: CurrentTheme.inkMuted,
               ),
             ),
           ],
@@ -1225,7 +1226,7 @@ class _InfoPanel extends StatelessWidget {
           style: GoogleFonts.spaceGrotesk(
             fontSize: isCompact ? 28 : 36,
             fontWeight: FontWeight.w700,
-            color: ModernPalette.ink,
+            color: CurrentTheme.ink,
             height: 1.1,
           ),
         ),
@@ -1234,7 +1235,7 @@ class _InfoPanel extends StatelessWidget {
           stack.description,
           style: GoogleFonts.spaceGrotesk(
             fontSize: 15,
-            color: ModernPalette.inkSoft,
+            color: CurrentTheme.inkSoft,
             height: 1.5,
           ),
         ),
@@ -1266,7 +1267,7 @@ class _StepTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
-        color: ModernPalette.ink,
+        color: CurrentTheme.ink,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
@@ -1292,9 +1293,9 @@ class _SummaryCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: ModernPalette.surface,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: ModernPalette.border),
+        border: Border.all(color: CurrentTheme.border),
       ),
       child: Row(
         children: [
@@ -1315,7 +1316,7 @@ class _SummaryCard extends StatelessWidget {
               'Les options ci-contre personnalisent la génération.',
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 12.5,
-                color: ModernPalette.inkSoft,
+                color: CurrentTheme.inkSoft,
               ),
             ),
           ),
@@ -1336,20 +1337,20 @@ class _InfoChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: ModernPalette.surface,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: ModernPalette.border),
+        border: Border.all(color: CurrentTheme.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: ModernPalette.accent),
+          Icon(icon, size: 16, color: CurrentTheme.accent),
           const SizedBox(width: 8),
           Text(
             label,
             style: GoogleFonts.spaceGrotesk(
               fontSize: 12.5,
-              color: ModernPalette.ink,
+              color: CurrentTheme.ink,
             ),
           ),
         ],
@@ -1399,7 +1400,7 @@ class _GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = ModernPalette.grid.withOpacity(0.32)
+      ..color = CurrentTheme.grid.withOpacity(0.32)
       ..strokeWidth = 1;
 
     const step = 140.0;
@@ -1430,9 +1431,9 @@ class _GlassPanel extends StatelessWidget {
         child: Container(
           padding: padding ?? const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: ModernPalette.glass,
+            color: CurrentTheme.glass,
             borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: ModernPalette.border),
+            border: Border.all(color: CurrentTheme.border),
           ),
           child: child,
         ),

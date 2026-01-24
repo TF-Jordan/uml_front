@@ -8,6 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as p;
 
 import '../constantes/modern_palette.dart';
+import '../constantes/theme_extension.dart';
 import '../models/uml_inputs.dart';
 import '../services/docs_launcher.dart';
 import '../services/workspace_paths.dart';
@@ -49,9 +50,9 @@ class _UploadPageState extends State<UploadPage> {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  ModernPalette.sand,
-                  ModernPalette.cloud,
-                  ModernPalette.sandDeep,
+                  CurrentTheme.sand,
+                  CurrentTheme.cloud,
+                  CurrentTheme.sandDeep,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -64,7 +65,7 @@ class _UploadPageState extends State<UploadPage> {
             top: -80,
             child: _GlowingOrb(
               size: 240,
-              color: ModernPalette.accentGlow.withOpacity(0.25),
+              color: CurrentTheme.accentGlow.withOpacity(0.25),
             ),
           ),
           Positioned(
@@ -72,7 +73,7 @@ class _UploadPageState extends State<UploadPage> {
             bottom: 120,
             child: _GlowingOrb(
               size: 200,
-              color: ModernPalette.teal.withOpacity(0.2),
+              color: CurrentTheme.teal.withOpacity(0.2),
             ),
           ),
           SafeArea(
@@ -107,9 +108,9 @@ class _UploadPageState extends State<UploadPage> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          ModernPalette.sand,
-                          ModernPalette.sand.withOpacity(0.98),
-                          ModernPalette.sand.withOpacity(0),
+                          CurrentTheme.sand,
+                          CurrentTheme.sand.withOpacity(0.98),
+                          CurrentTheme.sand.withOpacity(0),
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -171,7 +172,7 @@ class _UploadPageState extends State<UploadPage> {
             style: GoogleFonts.spaceGrotesk(
               fontSize: 30,
               fontWeight: FontWeight.w600,
-              color: ModernPalette.ink,
+              color: CurrentTheme.ink,
             ),
           ),
           const SizedBox(height: 8),
@@ -179,7 +180,7 @@ class _UploadPageState extends State<UploadPage> {
             '1 fichier minimum, 2 maximum. Classes requises, séquence optionnelle.',
             style: GoogleFonts.spaceGrotesk(
               fontSize: 20,
-              color: ModernPalette.inkMuted,
+              color: CurrentTheme.inkMuted,
             ),
           ),
           const SizedBox(height: 20),
@@ -191,7 +192,7 @@ class _UploadPageState extends State<UploadPage> {
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: ModernPalette.ink,
+                color: CurrentTheme.ink,
               ),
             ),
             const SizedBox(height: 10),
@@ -207,8 +208,8 @@ class _UploadPageState extends State<UploadPage> {
                   onPressed:
                       _uploadedFiles.isNotEmpty ? _goToLanguagePage : null,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: ModernPalette.accent,
-                    disabledBackgroundColor: ModernPalette.surfaceSoft,
+                    backgroundColor: CurrentTheme.accent,
+                    disabledBackgroundColor: CurrentTheme.surfaceSoft,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -223,14 +224,14 @@ class _UploadPageState extends State<UploadPage> {
           // const SizedBox(height: 16),
           // Row(
           //   children: [
-          //     const Icon(Icons.lock_outline, size: 16, color: ModernPalette.inkMuted),
+          //     const Icon(Icons.lock_outline, size: 16, color: CurrentTheme.inkMuted),
           //     const SizedBox(width: 8),
           //     Expanded(
           //       child: Text(
           //         'Les fichiers restent sur votre machine. Aucun envoi externe par défaut.',
           //         style: GoogleFonts.spaceGrotesk(
           //           fontSize: 12,
-          //           color: ModernPalette.inkMuted,
+          //           color: CurrentTheme.inkMuted,
           //         ),
           //       ),
           //     ),
@@ -266,7 +267,7 @@ class _UploadPageState extends State<UploadPage> {
       onEnter: (_) => setState(() => _isHoveringDrop = true),
       onExit: (_) => setState(() => _isHoveringDrop = false),
       child: DottedBorder(
-        color: _isHoveringDrop ? ModernPalette.accent : ModernPalette.border,
+        color: _isHoveringDrop ? CurrentTheme.accent : CurrentTheme.border,
         strokeWidth: 1.4,
         dashPattern: const [10, 6],
         borderType: BorderType.RRect,
@@ -279,7 +280,7 @@ class _UploadPageState extends State<UploadPage> {
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: _isHoveringDrop
-                ? ModernPalette.surfaceSoft
+                ? CurrentTheme.surfaceSoft
                 : Colors.white,
             borderRadius: BorderRadius.circular(18),
           ),
@@ -298,11 +299,11 @@ class _UploadPageState extends State<UploadPage> {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: ModernPalette.accent.withOpacity(0.12),
+              color: CurrentTheme.accent.withOpacity(0.12),
               borderRadius: BorderRadius.circular(18),
             ),
             child: const Icon(Icons.cloud_upload_outlined,
-                color: ModernPalette.accent, size: 30),
+                color: CurrentTheme.accent, size: 30),
           ),
           const SizedBox(height: 16),
           Text(
@@ -310,7 +311,7 @@ class _UploadPageState extends State<UploadPage> {
           style: GoogleFonts.spaceGrotesk(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: ModernPalette.ink,
+            color: CurrentTheme.ink,
           ),
         ),
         const SizedBox(height: 6),
@@ -318,15 +319,15 @@ class _UploadPageState extends State<UploadPage> {
           'Formats supportés : .drawio (1 à 2 fichiers)',
           style: GoogleFonts.spaceGrotesk(
             fontSize: 12.5,
-            color: ModernPalette.inkMuted,
+            color: CurrentTheme.inkMuted,
             ),
           ),
           const SizedBox(height: 16),
           OutlinedButton.icon(
             onPressed: _handleFilePicked,
             style: OutlinedButton.styleFrom(
-              foregroundColor: ModernPalette.ink,
-              side: const BorderSide(color: ModernPalette.inkSoft),
+              foregroundColor: CurrentTheme.ink,
+              side: const BorderSide(color: CurrentTheme.inkSoft),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -344,21 +345,21 @@ class _UploadPageState extends State<UploadPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const CircularProgressIndicator(color: ModernPalette.accent),
+        const CircularProgressIndicator(color: CurrentTheme.accent),
         const SizedBox(height: 12),
         Text(
           'Import en cours... ${( _uploadProgress * 100).toInt()}%',
           style: GoogleFonts.spaceGrotesk(
             fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: ModernPalette.ink,
+            color: CurrentTheme.ink,
           ),
         ),
         const SizedBox(height: 12),
         LinearProgressIndicator(
           value: _uploadProgress,
-          backgroundColor: ModernPalette.surfaceSoft,
-          color: ModernPalette.accent,
+          backgroundColor: CurrentTheme.surfaceSoft,
+          color: CurrentTheme.accent,
         ),
       ],
     );
@@ -373,21 +374,21 @@ class _UploadPageState extends State<UploadPage> {
             (file) => Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: ModernPalette.surface,
+                color: CurrentTheme.surface,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: ModernPalette.border),
+                border: Border.all(color: CurrentTheme.border),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   const Icon(Icons.check_circle,
-                      color: ModernPalette.teal, size: 16),
+                      color: CurrentTheme.teal, size: 16),
                   const SizedBox(width: 6),
                   Text(
                     file.name,
                     style: GoogleFonts.spaceGrotesk(
                       fontSize: 12.5,
-                      color: ModernPalette.ink,
+                      color: CurrentTheme.ink,
                     ),
                   ),
                 ],
@@ -403,20 +404,20 @@ class _UploadPageState extends State<UploadPage> {
       return Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: ModernPalette.surface,
+          color: CurrentTheme.surface,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: ModernPalette.border),
+          border: Border.all(color: CurrentTheme.border),
         ),
         child: Row(
           children: [
-            const Icon(Icons.info_outline, color: ModernPalette.inkMuted),
+            const Icon(Icons.info_outline, color: CurrentTheme.inkMuted),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
                 'Ajoutez entre 1 et 2 fichiers pour activer la suite.',
                 style: GoogleFonts.spaceGrotesk(
                   fontSize: 12.5,
-                  color: ModernPalette.inkMuted,
+                  color: CurrentTheme.inkMuted,
                 ),
               ),
             ),
@@ -428,13 +429,13 @@ class _UploadPageState extends State<UploadPage> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: ModernPalette.surface,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: ModernPalette.border),
+        border: Border.all(color: CurrentTheme.border),
       ),
       child: Row(
         children: [
-          const Icon(Icons.check_circle, color: ModernPalette.teal),
+          const Icon(Icons.check_circle, color: CurrentTheme.teal),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -443,7 +444,7 @@ class _UploadPageState extends State<UploadPage> {
                   : '$_uploadedFilesCountText. Vous pouvez encore ajouter un fichier si besoin.',
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 12.5,
-                color: ModernPalette.inkSoft,
+                color: CurrentTheme.inkSoft,
               ),
             ),
           ),
@@ -520,12 +521,12 @@ class _UploadPageState extends State<UploadPage> {
           'Diagramme de séquence ?',
           style: GoogleFonts.spaceGrotesk(
             fontWeight: FontWeight.w600,
-            color: ModernPalette.ink,
+            color: CurrentTheme.ink,
           ),
         ),
         content: Text(
           'Souhaitez-vous ajouter un diagramme de séquence pour enrichir la génération ?',
-          style: GoogleFonts.spaceGrotesk(color: ModernPalette.inkSoft),
+          style: GoogleFonts.spaceGrotesk(color: CurrentTheme.inkSoft),
         ),
         actions: [
           TextButton(
@@ -540,7 +541,7 @@ class _UploadPageState extends State<UploadPage> {
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: ModernPalette.accent,
+              backgroundColor: CurrentTheme.accent,
               foregroundColor: Colors.white,
             ),
             child: const Text('Oui'),
@@ -611,7 +612,7 @@ class _UploadPageState extends State<UploadPage> {
       SnackBar(
         content: Text(message),
         behavior: SnackBarBehavior.floating,
-        backgroundColor: ModernPalette.ink,
+        backgroundColor: CurrentTheme.ink,
       ),
     );
   }
@@ -663,8 +664,8 @@ class _UploadTopNav extends StatelessWidget {
           OutlinedButton(
             onPressed: onDocumentation,
             style: OutlinedButton.styleFrom(
-              foregroundColor: ModernPalette.ink,
-              side: const BorderSide(color: ModernPalette.inkSoft),
+              foregroundColor: CurrentTheme.ink,
+              side: const BorderSide(color: CurrentTheme.inkSoft),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -691,7 +692,7 @@ class _BrandMark extends StatelessWidget {
             color: Colors.white.withOpacity(0.7),
             boxShadow: [
               BoxShadow(
-                color: ModernPalette.accent.withOpacity(0.2),
+                color: CurrentTheme.accent.withOpacity(0.2),
                 blurRadius: 18,
                 offset: const Offset(0, 8),
               ),
@@ -703,7 +704,7 @@ class _BrandMark extends StatelessWidget {
               'assets/pics/logo.png',
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.auto_awesome, color: ModernPalette.accent),
+                  const Icon(Icons.auto_awesome, color: CurrentTheme.accent),
             ),
           ),
         ),
@@ -716,14 +717,14 @@ class _BrandMark extends StatelessWidget {
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: ModernPalette.ink,
+                color: CurrentTheme.ink,
               ),
             ),
             Text(
               'Import UML',
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 12,
-                color: ModernPalette.inkMuted,
+                color: CurrentTheme.inkMuted,
               ),
             ),
           ],
@@ -751,7 +752,7 @@ class _InfoPanel extends StatelessWidget {
           style: GoogleFonts.spaceGrotesk(
             fontSize: isCompact ? 28 : 36,
             fontWeight: FontWeight.w700,
-            color: ModernPalette.ink,
+            color: CurrentTheme.ink,
             height: 1.1,
           ),
         ),
@@ -762,7 +763,7 @@ class _InfoPanel extends StatelessWidget {
           'de séquence pour couvrir les cas d’usage.',
           style: GoogleFonts.spaceGrotesk(
             fontSize: 20,
-            color: ModernPalette.inkSoft,
+            color: CurrentTheme.inkSoft,
             height: 1.5,
           ),
         ),
@@ -795,7 +796,7 @@ class _StepTag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
-        color: ModernPalette.ink,
+        color: CurrentTheme.ink,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Text(
@@ -822,20 +823,20 @@ class _InfoChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: ModernPalette.surface,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: ModernPalette.border),
+        border: Border.all(color: CurrentTheme.border),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: ModernPalette.accent),
+          Icon(icon, size: 16, color: CurrentTheme.accent),
           const SizedBox(width: 8),
           Text(
             label,
             style: GoogleFonts.spaceGrotesk(
               fontSize: 12.5,
-              color: ModernPalette.ink,
+              color: CurrentTheme.ink,
             ),
           ),
         ],
@@ -850,9 +851,9 @@ class _ChecklistCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: ModernPalette.surface,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: ModernPalette.border),
+        border: Border.all(color: CurrentTheme.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -862,7 +863,7 @@ class _ChecklistCard extends StatelessWidget {
             style: GoogleFonts.spaceGrotesk(
               fontSize: 50,
               fontWeight: FontWeight.w900,
-              color: ModernPalette.ink,
+              color: CurrentTheme.ink,
             ),
           ),
           const SizedBox(height: 10),
@@ -888,14 +889,14 @@ class _ChecklistItem extends StatelessWidget {
       child: Row(
         children: [
           const Icon(Icons.check_circle,
-              size: 16, color: ModernPalette.teal),
+              size: 16, color: CurrentTheme.teal),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               text,
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 20,
-                color: ModernPalette.inkSoft,
+                color: CurrentTheme.inkSoft,
               ),
             ),
           ),
@@ -946,7 +947,7 @@ class _GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = ModernPalette.grid.withOpacity(0.32)
+      ..color = CurrentTheme.grid.withOpacity(0.32)
       ..strokeWidth = 1;
 
     const step = 140.0;
@@ -977,9 +978,9 @@ class _GlassPanel extends StatelessWidget {
         child: Container(
           padding: padding ?? const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: ModernPalette.glass,
+            color: CurrentTheme.glass,
             borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: ModernPalette.border),
+            border: Border.all(color: CurrentTheme.border),
           ),
           child: child,
         ),

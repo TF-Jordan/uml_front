@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../constantes/modern_palette.dart';
+import '../constantes/theme_extension.dart';
 import '../services/docs_launcher.dart';
 import 'page1.dart';
 import 'settings.dart';
@@ -47,9 +48,9 @@ class _OverviewPageState extends State<OverviewPage>
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  ModernPalette.sand,
-                  ModernPalette.cloud,
-                  ModernPalette.sandDeep,
+                  CurrentTheme.sand,
+                  CurrentTheme.cloud,
+                  CurrentTheme.sandDeep,
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -66,7 +67,7 @@ class _OverviewPageState extends State<OverviewPage>
                 width: 360,
                 height: 90,
                 colors: [
-                  ModernPalette.accent.withOpacity(0.3),
+                  CurrentTheme.accent.withOpacity(0.3),
                   Colors.transparent,
                 ],
               ),
@@ -77,7 +78,7 @@ class _OverviewPageState extends State<OverviewPage>
             top: -120,
             child: _GlowingOrb(
               size: 240,
-              color: ModernPalette.accentGlow.withOpacity(0.3),
+              color: CurrentTheme.accentGlow.withOpacity(0.3),
             ),
           ),
           Positioned(
@@ -85,7 +86,7 @@ class _OverviewPageState extends State<OverviewPage>
             bottom: 120,
             child: _GlowingOrb(
               size: 190,
-              color: ModernPalette.teal.withOpacity(0.2),
+              color: CurrentTheme.teal.withOpacity(0.2),
             ),
           ),
           Positioned(
@@ -93,7 +94,7 @@ class _OverviewPageState extends State<OverviewPage>
             bottom: -100,
             child: _GlowingOrb(
               size: 200,
-              color: ModernPalette.sun.withOpacity(0.25),
+              color: CurrentTheme.sun.withOpacity(0.25),
             ),
           ),
           SafeArea(
@@ -207,7 +208,7 @@ class _OverviewPageState extends State<OverviewPage>
       SnackBar(
         content: Text(message),
         behavior: SnackBarBehavior.floating,
-        backgroundColor: ModernPalette.ink,
+        backgroundColor: CurrentTheme.ink,
       ),
     );
   }
@@ -235,7 +236,7 @@ class _GridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = ModernPalette.grid.withOpacity(0.35)
+      ..color = CurrentTheme.grid.withOpacity(0.35)
       ..strokeWidth = 1;
 
     const step = 140.0;
@@ -327,8 +328,8 @@ class _TopNav extends StatelessWidget {
             onPressed: onSettings,
             icon: const Icon(Icons.settings_outlined),
             style: IconButton.styleFrom(
-              foregroundColor: ModernPalette.ink,
-              backgroundColor: ModernPalette.surfaceSoft,
+              foregroundColor: CurrentTheme.ink,
+              backgroundColor: CurrentTheme.surfaceSoft,
               padding: const EdgeInsets.all(12),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -340,8 +341,8 @@ class _TopNav extends StatelessWidget {
           OutlinedButton(
             onPressed: onDocumentation,
             style: OutlinedButton.styleFrom(
-              foregroundColor: ModernPalette.ink,
-              side: const BorderSide(color: ModernPalette.inkSoft),
+              foregroundColor: CurrentTheme.ink,
+              side: const BorderSide(color: CurrentTheme.inkSoft),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
@@ -353,7 +354,7 @@ class _TopNav extends StatelessWidget {
           ElevatedButton(
             onPressed: onStart,
             style: ElevatedButton.styleFrom(
-              backgroundColor: ModernPalette.accent,
+              backgroundColor: CurrentTheme.accent,
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
               shape: RoundedRectangleBorder(
@@ -388,7 +389,7 @@ class _BrandMark extends StatelessWidget {
             color: Colors.white.withOpacity(0.7),
             boxShadow: [
               BoxShadow(
-                color: ModernPalette.accent.withOpacity(0.2),
+                color: CurrentTheme.accent.withOpacity(0.2),
                 blurRadius: 18,
                 offset: const Offset(0, 8),
               ),
@@ -400,7 +401,7 @@ class _BrandMark extends StatelessWidget {
               'assets/pics/logo.png',
               fit: BoxFit.contain,
               errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.auto_awesome, color: ModernPalette.accent),
+                  const Icon(Icons.auto_awesome, color: CurrentTheme.accent),
             ),
           ),
         ),
@@ -413,14 +414,14 @@ class _BrandMark extends StatelessWidget {
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: ModernPalette.ink,
+                color: CurrentTheme.ink,
               ),
             ),
             Text(
               'Suite de bureau',
               style: GoogleFonts.spaceGrotesk(
                 fontSize: 12,
-                color: ModernPalette.inkMuted,
+                color: CurrentTheme.inkMuted,
               ),
             ),
           ],
@@ -451,13 +452,13 @@ class _HeroSection extends StatelessWidget {
             style: GoogleFonts.spaceGrotesk(
               fontSize: headlineSize,
               fontWeight: FontWeight.w700,
-              color: ModernPalette.ink,
+              color: CurrentTheme.ink,
               height: 1.1,
             ),
             children: const [
               TextSpan(
                 text: ' diagrammes \nUML ',
-                style: TextStyle(color: ModernPalette.accent),
+                style: TextStyle(color: CurrentTheme.accent),
               ),
               TextSpan(text: ' en un projet prêt à l\'emploi.'),
             ],
@@ -470,7 +471,7 @@ class _HeroSection extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               left: BorderSide(
-                color: ModernPalette.accent.withOpacity(0.5),
+                color: CurrentTheme.accent.withOpacity(0.5),
                 width: 3,
               ),
             ),
@@ -482,15 +483,15 @@ class _HeroSection extends StatelessWidget {
                 TextSpan(
                   style: GoogleFonts.spaceGrotesk(
                     fontSize: 18,
-                    color: ModernPalette.inkSoft,
+                    color: CurrentTheme.inkSoft,
                     height: 1.6,
                   ),
                   children: const [
-                    TextSpan(text: 'Importez', style: TextStyle(color: ModernPalette.ink, fontWeight: FontWeight.w700)),
+                    TextSpan(text: 'Importez', style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w700)),
                     TextSpan(text: ' vos diagrammes, '),
-                    TextSpan(text: 'mettez-les en ordre', style: TextStyle(color: ModernPalette.ink, fontWeight: FontWeight.w700)),
+                    TextSpan(text: 'mettez-les en ordre', style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w700)),
                     TextSpan(text: ' et obtenez une '),
-                    TextSpan(text: 'base de projet propre', style: TextStyle(color: ModernPalette.teal, fontWeight: FontWeight.w600)),
+                    TextSpan(text: 'base de projet propre', style: TextStyle(color: CurrentTheme.teal, fontWeight: FontWeight.w600)),
                     TextSpan(text: '.'),
                   ],
                 ),
@@ -502,16 +503,16 @@ class _HeroSection extends StatelessWidget {
                 children: [
                   const Padding(
                     padding: EdgeInsets.only(top: 4, right: 8),
-                    child: Icon(Icons.check_circle_outline, size: 16, color: ModernPalette.teal),
+                    child: Icon(Icons.check_circle_outline, size: 16, color: CurrentTheme.teal),
                   ),
 
                   Flexible(
                     child: Text.rich(
                       TextSpan(
-                        style: GoogleFonts.spaceGrotesk(fontSize: 16, color: ModernPalette.inkMuted, height: 1.5),
+                        style: GoogleFonts.spaceGrotesk(fontSize: 16, color: CurrentTheme.inkMuted, height: 1.5),
                         children: const [
                           TextSpan(text: 'Tout se fait '),
-                          TextSpan(text: 'sur votre ordinateur', style: TextStyle(color: ModernPalette.ink, fontWeight: FontWeight.w600)),
+                          TextSpan(text: 'sur votre ordinateur', style: TextStyle(color: CurrentTheme.ink, fontWeight: FontWeight.w600)),
                           TextSpan(text: ', avec une partie en ligne optionnelle.'),
                         ],
                       ),
@@ -546,9 +547,9 @@ class _MiniStat extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: ModernPalette.surface,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: ModernPalette.border),
+        border: Border.all(color: CurrentTheme.border),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -557,7 +558,7 @@ class _MiniStat extends StatelessWidget {
             label,
             style: GoogleFonts.spaceGrotesk(
               fontSize: 11,
-              color: ModernPalette.inkMuted,
+              color: CurrentTheme.inkMuted,
             ),
           ),
           const SizedBox(height: 4),
@@ -566,7 +567,7 @@ class _MiniStat extends StatelessWidget {
             style: GoogleFonts.spaceGrotesk(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: ModernPalette.ink,
+              color: CurrentTheme.ink,
             ),
           ),
         ],
@@ -589,7 +590,7 @@ class _ProgressMeter extends StatelessWidget {
           'Progression de génération',
           style: GoogleFonts.spaceGrotesk(
             fontSize: 12,
-            color: ModernPalette.inkMuted,
+            color: CurrentTheme.inkMuted,
           ),
         ),
         const SizedBox(height: 8),
@@ -597,7 +598,7 @@ class _ProgressMeter extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           child: Container(
             height: 10,
-            color: ModernPalette.surfaceSoft,
+            color: CurrentTheme.surfaceSoft,
             child: Align(
               alignment: Alignment.centerLeft,
               child: FractionallySizedBox(
@@ -606,8 +607,8 @@ class _ProgressMeter extends StatelessWidget {
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        ModernPalette.accent,
-                        ModernPalette.sun,
+                        CurrentTheme.accent,
+                        CurrentTheme.sun,
                       ],
                     ),
                   ),
@@ -653,8 +654,8 @@ class _HighlightsRow extends StatelessWidget {
                     OutlinedButton(
                       onPressed: onDocumentation,
                       style: OutlinedButton.styleFrom(
-                        foregroundColor: ModernPalette.ink,
-                        side: const BorderSide(color: ModernPalette.inkSoft),
+                        foregroundColor: CurrentTheme.ink,
+                        side: const BorderSide(color: CurrentTheme.inkSoft),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 20),
                         minimumSize: const Size(210, 60),
@@ -671,7 +672,7 @@ class _HighlightsRow extends StatelessWidget {
                     ElevatedButton(
                       onPressed: onStart,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: ModernPalette.accent,
+                        backgroundColor: CurrentTheme.accent,
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 32, vertical: 20),
@@ -752,12 +753,12 @@ class _HighlightCard extends StatelessWidget {
       width: width,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: ModernPalette.surface,
+        color: CurrentTheme.surface,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: ModernPalette.border),
+        border: Border.all(color: CurrentTheme.border),
         boxShadow: [
           BoxShadow(
-            color: ModernPalette.ink.withOpacity(0.08),
+            color: CurrentTheme.ink.withOpacity(0.08),
             blurRadius: 24,
             offset: const Offset(0, 12),
           ),
@@ -770,10 +771,10 @@ class _HighlightCard extends StatelessWidget {
             width: 52,
             height: 52,
             decoration: BoxDecoration(
-              color: ModernPalette.accent.withOpacity(0.12),
+              color: CurrentTheme.accent.withOpacity(0.12),
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Icon(icon, color: ModernPalette.accent, size: 26),
+            child: Icon(icon, color: CurrentTheme.accent, size: 26),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -785,7 +786,7 @@ class _HighlightCard extends StatelessWidget {
                   style: GoogleFonts.spaceGrotesk(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
-                    color: ModernPalette.ink,
+                    color: CurrentTheme.ink,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -793,7 +794,7 @@ class _HighlightCard extends StatelessWidget {
                   body,
                   style: GoogleFonts.spaceGrotesk(
                     fontSize: 15,
-                    color: ModernPalette.inkMuted,
+                    color: CurrentTheme.inkMuted,
                     height: 1.5,
                   ),
                 ),
@@ -816,7 +817,7 @@ class _Tag extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
       decoration: BoxDecoration(
-        color: ModernPalette.ink,
+        color: CurrentTheme.ink,
         borderRadius: BorderRadius.circular(22),
       ),
       child: Text(
@@ -844,10 +845,10 @@ class _MetricChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: ModernPalette.border),
+        border: Border.all(color: CurrentTheme.border),
         boxShadow: [
           BoxShadow(
-            color: ModernPalette.ink.withOpacity(0.06),
+            color: CurrentTheme.ink.withOpacity(0.06),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -858,7 +859,7 @@ class _MetricChip extends StatelessWidget {
         style: GoogleFonts.spaceGrotesk(
           fontSize: 15,
           fontWeight: FontWeight.w500,
-          color: ModernPalette.ink,
+          color: CurrentTheme.ink,
         ),
       ),
     );
@@ -949,10 +950,10 @@ class _StepCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: ModernPalette.border),
+        border: Border.all(color: CurrentTheme.border),
         boxShadow: [
           BoxShadow(
-            color: ModernPalette.ink.withOpacity(0.06),
+            color: CurrentTheme.ink.withOpacity(0.06),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -967,7 +968,7 @@ class _StepCard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
                 decoration: BoxDecoration(
-                  color: ModernPalette.surfaceSoft,
+                  color: CurrentTheme.surfaceSoft,
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Text(
@@ -975,12 +976,12 @@ class _StepCard extends StatelessWidget {
                   style: GoogleFonts.spaceGrotesk(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
-                    color: ModernPalette.ink,
+                    color: CurrentTheme.ink,
                   ),
                 ),
               ),
               const Spacer(),
-              Icon(icon, color: ModernPalette.accent, size: 28),
+              Icon(icon, color: CurrentTheme.accent, size: 28),
             ],
           ),
           const SizedBox(height: 20),
@@ -989,7 +990,7 @@ class _StepCard extends StatelessWidget {
             style: GoogleFonts.spaceGrotesk(
               fontWeight: FontWeight.w600,
               fontSize: 19,
-              color: ModernPalette.ink,
+              color: CurrentTheme.ink,
             ),
           ),
           const SizedBox(height: 10),
@@ -997,7 +998,7 @@ class _StepCard extends StatelessWidget {
             body,
             style: GoogleFonts.spaceGrotesk(
               fontSize: 15,
-              color: ModernPalette.inkMuted,
+              color: CurrentTheme.inkMuted,
               height: 1.5,
             ),
           ),
@@ -1282,10 +1283,10 @@ class _LanguageTile extends StatelessWidget {
           height: height,
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
-            color: ModernPalette.surface.withOpacity(isHovered ? 0.95 : 0.5),
+            color: CurrentTheme.surface.withOpacity(isHovered ? 0.95 : 0.5),
             borderRadius: BorderRadius.circular(28),
             border: Border.all(
-              color: isHovered ? item.color : ModernPalette.border.withOpacity(0.5),
+              color: isHovered ? item.color : CurrentTheme.border.withOpacity(0.5),
               width: isHovered ? 2.5 : 1,
             ),
             gradient: LinearGradient(
@@ -1296,7 +1297,7 @@ class _LanguageTile extends StatelessWidget {
                     ]
                   : [
                       Colors.white.withOpacity(0.4),
-                      ModernPalette.surfaceSoft.withOpacity(0.3),
+                      CurrentTheme.surfaceSoft.withOpacity(0.3),
                     ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -1305,7 +1306,7 @@ class _LanguageTile extends StatelessWidget {
               BoxShadow(
                 color: isHovered
                     ? item.color.withOpacity(0.3)
-                    : ModernPalette.ink.withOpacity(0.04),
+                    : CurrentTheme.ink.withOpacity(0.04),
                 blurRadius: isHovered ? 40 : 15,
                 offset: const Offset(0, 12),
               ),
@@ -1356,7 +1357,7 @@ class _LanguageTile extends StatelessWidget {
                   style: GoogleFonts.playfairDisplay(
                     fontSize: isHovered ? 18 : 24,
                     fontWeight: FontWeight.w700,
-                    color: isHovered ? item.color : ModernPalette.ink,
+                    color: isHovered ? item.color : CurrentTheme.ink,
                     letterSpacing: 0.5,
                   ),
                   child: Text(
@@ -1481,9 +1482,9 @@ class _LanguageAsset extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: ModernPalette.surfaceSoft,
+        color: CurrentTheme.surfaceSoft,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: ModernPalette.border.withOpacity(0.7)),
+        border: Border.all(color: CurrentTheme.border.withOpacity(0.7)),
       ),
       child: content,
     );
@@ -1513,7 +1514,7 @@ class _SectionHeader extends StatelessWidget {
           style: GoogleFonts.spaceGrotesk(
             fontSize: 32,
             fontWeight: FontWeight.w700,
-            color: ModernPalette.ink,
+            color: CurrentTheme.ink,
           ),
           textAlign: center ? TextAlign.center : TextAlign.start,
         ),
@@ -1522,7 +1523,7 @@ class _SectionHeader extends StatelessWidget {
           subtitle,
           style: GoogleFonts.spaceGrotesk(
             fontSize: 17,
-            color: ModernPalette.inkSoft,
+            color: CurrentTheme.inkSoft,
             height: 1.5,
           ),
           textAlign: center ? TextAlign.center : TextAlign.start,
@@ -1547,9 +1548,9 @@ class _GlassPanel extends StatelessWidget {
         child: Container(
           padding: padding ?? const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: ModernPalette.glass,
+            color: CurrentTheme.glass,
             borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: ModernPalette.border),
+            border: Border.all(color: CurrentTheme.border),
           ),
           child: child,
         ),

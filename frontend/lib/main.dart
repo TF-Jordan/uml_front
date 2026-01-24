@@ -42,19 +42,19 @@ class _UMLToCodeAppState extends State<UMLToCodeApp> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = AppThemes.getById(_settings.currentTheme);
-    final lightTheme = _buildTheme(AppThemes.light);
-    final darkTheme = _buildTheme(currentTheme.brightness == Brightness.dark
-        ? currentTheme
-        : AppThemes.dark);
+
+    // Clé unique basée sur le thème et la locale pour forcer la reconstruction
+    final appKey = ValueKey('${_settings.currentTheme}_${_settings.currentLocale}');
 
     return MaterialApp(
+      key: appKey,
       title: 'UML to Code Generator',
       debugShowCheckedModeBanner: false,
 
       // Theme configuration
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: _getThemeMode(),
+      theme: _buildTheme(currentTheme),
+      darkTheme: _buildTheme(currentTheme),
+      themeMode: ThemeMode.light, // On utilise toujours le theme construit
 
       // Localization configuration
       locale: _settings.locale,
@@ -68,14 +68,6 @@ class _UMLToCodeAppState extends State<UMLToCodeApp> {
 
       home: const OverviewPage(),
     );
-  }
-
-  ThemeMode _getThemeMode() {
-    final themeId = _settings.currentTheme;
-    if (themeId == 'light') return ThemeMode.light;
-    if (themeId == 'system') return ThemeMode.system;
-    // For dark, ocean, nebula - all are dark themes
-    return ThemeMode.dark;
   }
 
   ThemeData _buildTheme(AppThemeData appTheme) {
